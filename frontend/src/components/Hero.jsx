@@ -1,0 +1,326 @@
+// import React from 'react';
+// import { Calendar, MapPin } from 'lucide-react';
+
+// const Hero = () => {
+//   return (
+//     <section className="pt-20 pb-16 bg-gradient-to-br from-sky-50 to-white min-h-screen flex items-center">
+//       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+//         <div className="grid lg:grid-cols-2 gap-12 items-center">
+//           {/* Left Content */}
+//           <div className="text-center lg:text-left">
+//             <div className="mb-8">
+//               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4">
+//                 Unity Sports Club
+//               </h1>
+//               <div className="flex items-center justify-center lg:justify-start text-sky-600 mb-6">
+//                 <Calendar className="w-5 h-5 mr-2" />
+//                 <span className="text-lg font-semibold">Established 1985</span>
+//               </div>
+//               <p className="text-xl text-gray-600 leading-relaxed max-w-2xl">
+//                 Building champions, fostering community spirit, and creating lifelong friendships through sports excellence and social responsibility.
+//               </p>
+//             </div>
+//           </div>
+
+//           {/* Right Content - Executive Cards */}
+//           <div className="space-y-6 perspective-[1000px]">
+//             {/* President Card */}
+//             <div className="bg-gradient-to-br from-white to-sky-50 rounded-2xl border border-gray-100 shadow-[0_10px_20px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_35px_rgba(0,0,0,0.2)] transform hover:-translate-y-2 hover:rotate-x-3 hover:rotate-y-1 transition-all duration-500 p-6">
+//               <div className="flex items-center space-x-4">
+//                 <img 
+//                   src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop"
+//                   alt="President"
+//                   className="w-16 h-16 rounded-full object-cover border-4 border-sky-100"
+//                 />
+//                 <div className="flex-1">
+//                   <h3 className="text-xl font-bold text-gray-900">Michael Johnson</h3>
+//                   <p className="text-sky-600 font-semibold">President</p>
+//                   <div className="flex items-center text-gray-500 text-sm mt-1">
+//                     <MapPin className="w-4 h-4 mr-1" />
+//                     <span>10+ years leadership</span>
+//                   </div>
+//                 </div>
+//               </div>
+//               <p className="text-gray-600 text-sm mt-4">
+//                 Leading the club with passion and dedication to excellence in sports and community service.
+//               </p>
+//             </div>
+
+//             {/* Vice President Card */}
+//             <div className="bg-gradient-to-br from-white to-sky-50 rounded-2xl border border-gray-100 shadow-[0_10px_20px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_35px_rgba(0,0,0,0.2)] transform hover:-translate-y-2 hover:rotate-x-3 hover:rotate-y-1 transition-all duration-500 p-6">
+//               <div className="flex items-center space-x-4">
+//                 <img 
+//                   src="https://images.pexels.com/photos/3785077/pexels-photo-3785077.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop"
+//                   alt="Vice President"
+//                   className="w-16 h-16 rounded-full object-cover border-4 border-sky-100"
+//                 />
+//                 <div className="flex-1">
+//                   <h3 className="text-xl font-bold text-gray-900">Sarah Williams</h3>
+//                   <p className="text-sky-600 font-semibold">Vice President</p>
+//                   <div className="flex items-center text-gray-500 text-sm mt-1">
+//                     <MapPin className="w-4 h-4 mr-1" />
+//                     <span>Sports coordinator</span>
+//                   </div>
+//                 </div>
+//               </div>
+//               <p className="text-gray-600 text-sm mt-4">
+//                 Coordinating sports activities and member engagement with innovative programs.
+//               </p>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// };
+
+// export default Hero;
+
+
+
+
+import React, { useEffect, useRef } from 'react';
+import { Calendar, MapPin } from 'lucide-react';
+
+const Hero = () => {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    
+    // Set canvas size
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Floating elements animation
+    const floatingElements = [];
+    const numElements = 12;
+
+    // Create floating sports elements
+    for (let i = 0; i < numElements; i++) {
+      floatingElements.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 30 + 20,
+        speedX: (Math.random() - 0.5) * 0.5,
+        speedY: (Math.random() - 0.5) * 0.5,
+        rotation: Math.random() * Math.PI * 2,
+        rotationSpeed: (Math.random() - 0.5) * 0.02,
+        opacity: Math.random() * 0.3 + 0.1,
+        type: Math.floor(Math.random() * 4) // Different sports icons
+      });
+    }
+
+    // Draw sports icons
+    const drawSportsIcon = (ctx, x, y, size, rotation, type) => {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(rotation);
+      ctx.strokeStyle = `rgba(14, 165, 233, 0.3)`;
+      ctx.lineWidth = 3;
+      
+      switch(type) {
+        case 0: // Football
+          ctx.beginPath();
+          ctx.ellipse(0, 0, size/2, size/2.5, 0, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(-size/3, -size/4);
+          ctx.lineTo(size/3, size/4);
+          ctx.moveTo(-size/3, size/4);
+          ctx.lineTo(size/3, -size/4);
+          ctx.stroke();
+          break;
+        case 1: // Basketball
+          ctx.beginPath();
+          ctx.arc(0, 0, size/2, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(-size/2, 0);
+          ctx.lineTo(size/2, 0);
+          ctx.moveTo(0, -size/2);
+          ctx.lineTo(0, size/2);
+          ctx.stroke();
+          break;
+        case 2: // Tennis racket
+          ctx.beginPath();
+          ctx.ellipse(0, -size/4, size/3, size/2.5, 0, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(0, size/4);
+          ctx.lineTo(0, size/2);
+          ctx.stroke();
+          break;
+        case 3: // Trophy
+          ctx.beginPath();
+          ctx.moveTo(-size/3, -size/3);
+          ctx.lineTo(-size/3, -size/6);
+          ctx.lineTo(size/3, -size/6);
+          ctx.lineTo(size/3, -size/3);
+          ctx.lineTo(-size/3, -size/3);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(-size/4, -size/6);
+          ctx.lineTo(size/4, -size/6);
+          ctx.lineTo(size/6, size/3);
+          ctx.lineTo(-size/6, size/3);
+          ctx.closePath();
+          ctx.stroke();
+          break;
+      }
+      ctx.restore();
+    };
+
+    // Animation loop
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Create gradient background overlay
+      const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+      gradient.addColorStop(0, 'rgba(240, 249, 255, 0.8)');
+      gradient.addColorStop(1, 'rgba(255, 255, 255, 0.9)');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw and update floating elements
+      floatingElements.forEach(element => {
+        // Update position
+        element.x += element.speedX;
+        element.y += element.speedY;
+        element.rotation += element.rotationSpeed;
+
+        // Wrap around screen
+        if (element.x > canvas.width + 50) element.x = -50;
+        if (element.x < -50) element.x = canvas.width + 50;
+        if (element.y > canvas.height + 50) element.y = -50;
+        if (element.y < -50) element.y = canvas.height + 50;
+
+        // Draw sports icon
+        ctx.globalAlpha = element.opacity;
+        drawSportsIcon(ctx, element.x, element.y, element.size, element.rotation, element.type);
+        ctx.globalAlpha = 1;
+      });
+
+      requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+    };
+  }, []);
+
+  return (
+    <section className="relative pt-20 pb-16 min-h-screen flex items-center overflow-hidden">
+      {/* Animated 3D Background Canvas */}
+      <canvas 
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full"
+        style={{ zIndex: 1 }}
+      />
+      
+      {/* 3D Geometric Shapes Background */}
+      <div className="absolute inset-0" style={{ zIndex: 2 }}>
+        <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-sky-200/30 to-blue-300/20 rounded-3xl transform rotate-12 animate-pulse shadow-2xl"></div>
+        <div className="absolute top-40 right-20 w-24 h-24 bg-gradient-to-br from-cyan-200/40 to-sky-300/30 rounded-full transform -rotate-6 animate-bounce shadow-xl"></div>
+        <div className="absolute bottom-32 left-20 w-20 h-20 bg-gradient-to-br from-blue-200/35 to-indigo-300/25 transform rotate-45 animate-spin shadow-lg" style={{ animationDuration: '20s' }}></div>
+        <div className="absolute bottom-20 right-32 w-28 h-28 bg-gradient-to-br from-sky-300/25 to-cyan-400/20 rounded-2xl transform -rotate-12 animate-pulse shadow-xl"></div>
+        <div className="absolute top-1/3 right-10 w-16 h-16 bg-gradient-to-br from-blue-300/30 to-sky-400/25 rounded-full transform rotate-6 animate-bounce shadow-lg" style={{ animationDelay: '1s' }}></div>
+      </div>
+
+      {/* Main Content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left Content */}
+          <div className="text-center lg:text-left">
+            <div className="mb-8 relative">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black bg-gradient-to-r from-sky-600 via-blue-700 to-indigo-800 bg-clip-text text-transparent mb-6 drop-shadow-2xl leading-tight tracking-tight">
+                Unity Sports Club
+              </h1>
+              <div className="flex items-center justify-center lg:justify-start text-sky-600 mb-8">
+                <div className="bg-sky-100/50 rounded-full p-3 mr-4 shadow-lg">
+                  <Calendar className="w-6 h-6 drop-shadow-md" />
+                </div>
+                <span className="text-xl font-bold">Established 1985</span>
+              </div>
+              <p className="text-2xl text-gray-700 leading-relaxed max-w-3xl font-semibold tracking-wide">
+                Building champions, fostering community spirit, and creating lifelong friendships through sports excellence and social responsibility.
+              </p>
+            </div>
+          </div>
+
+          {/* Right Content - Enhanced Executive Cards */}
+          <div className="space-y-8 perspective-[1000px] relative">
+            {/* Floating glow effects */}
+            <div className="absolute -inset-4 bg-gradient-to-r from-sky-400/20 to-blue-500/20 rounded-3xl blur-2xl animate-pulse"></div>
+            
+            {/* President Card */}
+            <div className="relative bg-gradient-to-br from-white/95 to-sky-50/95 backdrop-blur-lg rounded-3xl border border-white/80 shadow-[0_25px_50px_rgba(14,165,233,0.25)] hover:shadow-[0_35px_60px_rgba(14,165,233,0.4)] transform hover:-translate-y-4 hover:scale-105 hover:rotate-x-6 hover:rotate-y-2 transition-all duration-700 p-8 group">
+              <div className="absolute inset-0 bg-gradient-to-br from-sky-400/10 to-blue-500/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              
+              <div className="relative flex items-center space-x-6">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-sky-400 rounded-full blur-lg opacity-50 group-hover:opacity-75 transition-opacity duration-500"></div>
+                  <img 
+                    src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop"
+                    alt="President"
+                    className="relative w-20 h-20 rounded-full object-cover border-4 border-sky-200 shadow-xl group-hover:scale-110 transition-transform duration-500"
+                  />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-900 bg-clip-text text-transparent">Michael Johnson</h3>
+                  <p className="text-sky-600 font-bold text-lg">President</p>
+                  <div className="flex items-center text-gray-600 text-sm mt-2">
+                    <MapPin className="w-4 h-4 mr-2 text-sky-500" />
+                    <span className="font-semibold">10+ years leadership</span>
+                  </div>
+                </div>
+              </div>
+              <p className="text-gray-700 text-base mt-6 leading-relaxed font-medium">
+                Leading the club with passion and dedication to excellence in sports and community service.
+              </p>
+            </div>
+
+            {/* Vice President Card */}
+            <div className="relative bg-gradient-to-br from-white/95 to-sky-50/95 backdrop-blur-lg rounded-3xl border border-white/80 shadow-[0_25px_50px_rgba(14,165,233,0.25)] hover:shadow-[0_35px_60px_rgba(14,165,233,0.4)] transform hover:-translate-y-4 hover:scale-105 hover:rotate-x-6 hover:rotate-y-2 transition-all duration-700 p-8 group">
+              <div className="absolute inset-0 bg-gradient-to-br from-sky-400/10 to-blue-500/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              
+              <div className="relative flex items-center space-x-6">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-sky-400 rounded-full blur-lg opacity-50 group-hover:opacity-75 transition-opacity duration-500"></div>
+                  <img 
+                    src="https://images.pexels.com/photos/3785077/pexels-photo-3785077.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop"
+                    alt="Vice President"
+                    className="relative w-20 h-20 rounded-full object-cover border-4 border-sky-200 shadow-xl group-hover:scale-110 transition-transform duration-500"
+                  />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-900 bg-clip-text text-transparent">Sarah Williams</h3>
+                  <p className="text-sky-600 font-bold text-lg">Vice President</p>
+                  <div className="flex items-center text-gray-600 text-sm mt-2">
+                    <MapPin className="w-4 h-4 mr-2 text-sky-500" />
+                    <span className="font-semibold">Sports coordinator</span>
+                  </div>
+                </div>
+              </div>
+              <p className="text-gray-700 text-base mt-6 leading-relaxed font-medium">
+                Coordinating sports activities and member engagement with innovative programs.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom gradient overlay */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white via-white/80 to-transparent" style={{ zIndex: 3 }}></div>
+    </section>
+  );
+};
+
+export default Hero;
