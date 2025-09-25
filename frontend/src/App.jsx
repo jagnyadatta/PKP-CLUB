@@ -1,25 +1,18 @@
-import React from 'react';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Members from './components/Members';
-import Festivals from './components/Festivals';
-import Sports from './components/Sports';
-import ServiceWork from './components/ServiceWork';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
+import React from "react";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Home from "./components/Home/Home";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
   return (
-    <div className="min-h-screen bg-white">
+    <>
       <Navbar />
-      <Hero />
-      <Members />
-      <Festivals />
-      <Sports />
-      <ServiceWork />
-      <Contact />
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
       <Footer />
-    </div>
+    </>
   );
 }
 
