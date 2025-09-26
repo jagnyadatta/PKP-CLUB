@@ -10,27 +10,29 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-gradient-to-br from-gray-900 via-sky-900 to-gray-800 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid md:grid-cols-3 gap-8">
           {/* Club Info */}
           <div>
-            <h3 className="text-2xl font-bold mb-4">Unity Sports Club</h3>
-            <p className="text-gray-300 mb-6">
-              Building champions, fostering community spirit, and creating lifelong friendships since 1985.
+            <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-sky-400 to-white bg-clip-text text-transparent">
+              ପଞ୍ଚୁଦୋଳ ଯୁବକ ସଂଘ
+            </h3>
+            <p className="text-gray-300 mb-6 leading-relaxed">
+              ୧୯୮୫ ମସିହାରୁ ଆମେ ଗ୍ରାମର ଯୁବସମାଜକୁ ଏକତ୍ରିତ କରି ସାମାଜିକ ଓ ସାଂସ୍କୃତିକ କାର୍ଯ୍ୟକ୍ରମରେ ଅଗ୍ରଣୀ ଭୂମିକା ଗ୍ରହଣ କରୁଛୁ।
             </p>
-            <div className="space-y-2 text-gray-300">
-              <div className="flex items-center">
-                <MapPin className="w-4 h-4 mr-2" />
-                <span className="text-sm">123 Sports Avenue, City Center</span>
+            <div className="space-y-3 text-gray-300">
+              <div className="flex items-start">
+                <MapPin className="w-4 h-4 mr-2 mt-1 flex-shrink-0" />
+                <span className="text-sm">ପାଇକରାପୁର, କୃଷ୍ଣପ୍ରସାଦ, ପୁରୀ, ଓଡିଶା - ୭୫୨୦୩୨</span>
               </div>
               <div className="flex items-center">
-                <Phone className="w-4 h-4 mr-2" />
-                <span className="text-sm">+1 (555) 123-4567</span>
+                <Phone className="w-4 h-4 mr-2 flex-shrink-0" />
+                <span className="text-sm">+91 7606976736</span>
               </div>
-              <div className="flex items-center">
-                <Mail className="w-4 h-4 mr-2" />
-                <span className="text-sm">info@unitysportsclub.com</span>
+              <div className="flex items-start">
+                <Mail className="w-4 h-4 mr-2 mt-1 flex-shrink-0" />
+                <span className="text-sm break-all">gopabandhupathagarapkp@gmail.com</span>
               </div>
             </div>
           </div>
@@ -73,10 +75,10 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-800 mt-12 pt-8">
+        <div className="border-t border-gray-700 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left space-y-4 md:space-y-0">
             <p className="text-gray-400 text-sm">
-              © 2024 Unity Sports Club. All rights reserved.
+              © ୨୦୨୪ ଗୋପବନ୍ଧୁ ପଠାଗାର ଯୁବକ ସଂଘ। ସମସ୍ତ ଅଧିକାର ସଂରକ୍ଷିତ।
             </p>
 
             {/* Created by Instockly */}

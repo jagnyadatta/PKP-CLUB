@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { Calendar, MapPin } from "lucide-react";
 import { FaPhone, FaWhatsapp, FaFacebook, FaEnvelope } from "react-icons/fa";
 import { PiSuitcaseSimpleBold } from "react-icons/pi";
+import "../font.css";
 
 const Hero = () => {
   const canvasRef = useRef(null);
@@ -179,7 +180,7 @@ const Hero = () => {
           {/* Left Content - Headings and Paragraphs */}
           <div className="text-center lg:text-left order-1 lg:order-1">
             <div className="mb-4 lg:mb-8 relative">
-              <h1 className="text-2xl sm:text-5xl md:text-6xl lg:text-7xl font-black bg-gradient-to-r from-sky-600 via-blue-700 to-indigo-800 bg-clip-text text-transparent mb-4 lg:mb-6 drop-shadow-2xl leading-tight tracking-tight p-3">
+              <h1 className="heading-font text-xl sm:text-5xl md:text-6xl lg:text-6xl font-black bg-gradient-to-r from-sky-600 via-blue-700 to-indigo-800 bg-clip-text text-transparent mb-4 lg:mb-6 drop-shadow-2xl leading-tight tracking-tight p-3">
                 ଗୋପବନ୍ଧୁ ପଠାଗାର <span className="sm:hidden">ପାଇକରାପୁର</span>
                 <p className="hidden sm:block w-full text-right lg:text-2xl mr-6 mt-2 text-gray-500">
                   ପାଇକରାପୁର

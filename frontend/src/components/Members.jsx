@@ -84,7 +84,7 @@ const Members = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-2xl md:text-5xl font-bold bg-gradient-to-r from-sky-600 via-sky-700 to-sky-800 bg-clip-text text-transparent mb-6">
-            Our Committee Members
+            କମିଟି ମେମ୍ବର
           </h2>
           <p className="text-sm sm:text-xl text-gray-600 max-w-2xl mx-auto">
             ଆମର କ୍ଲବ୍‌କୁ ଏକ ସୁସଂଗଠିତ ସମୁଦାୟରେ ପରିଣତ କରୁଥିବା ସମର୍ପିତ କମିଟି ସଦସ୍ୟମାନଙ୍କ ସହ ପରିଚୟ କରନ୍ତୁ।
@@ -107,7 +107,7 @@ const Members = () => {
                     <img 
                       src={member.image}
                       alt={member.name}
-                      className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-lg sm:rounded-xl object-cover border-2 sm:border-3 border-sky-200 shadow-md sm:shadow-lg group-hover:scale-105 transition-transform duration-300"
+                      className="relative w-16 h-16 sm:w-28 sm:h-28 rounded-lg sm:rounded-xl object-cover border-2 sm:border-3 border-sky-200 shadow-md sm:shadow-lg group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
                   
@@ -181,7 +181,7 @@ const Members = () => {
         {/* View All Button */}
         <div className="text-center">
           <button className="bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white px-3 py-2 sm:px-6 sm:py-3 lg:px-8 lg:py-4 rounded-full transition-all duration-200 inline-flex items-center space-x-2 text-base text-md sm:text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-            <span>View All Members</span>
+            <span>ସମସ୍ତ କମିଟି ମେମ୍ବର</span>
             <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
