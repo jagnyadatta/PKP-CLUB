@@ -1,27 +1,29 @@
 import React from "react";
 import { ChevronRight, Calendar, Users, MapPin } from "lucide-react";
+import { useNavigate } from 'react-router-dom';
 
 const Sports = () => {
+  const navigate = useNavigate();
   const cricketMatches = [
     {
       id: 1,
       name: "Annual Cricket Tournament 2024",
       image: "https://images.pexels.com/photos/1661950/pexels-photo-1661950.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop",
       year: "2024",
-      teams: "ପଞ୍ଚୁଦୋଳ vs ଗଜଲକ୍ଷ୍ମୀ",
-      venue: "ମୁଖ୍ୟ ମୈଦାନ",
+      teams: "ପାଇକରାପୁର vs ବ୍ରାହ୍ମଣଦେଓ",
+      venue: "ମା ବରୁଣାଇ ମୈଦାନ",
       date: "ମାର୍ଚ୍ଚ ୧୫, ୨୦୨୪",
-      result: "ପଞ୍ଚୁଦୋଳ ବିଜୟୀ"
+      result: "ପାଇକରାପୁର ବିଜୟୀ"
     },
     {
       id: 2,
       name: "Cricket Championship 2023",
       image: "https://images.pexels.com/photos/2485471/pexels-photo-2485471.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop",
       year: "2023",
-      teams: "ଦଣ୍ଡନାଚ vs ପୁରସ୍କାର",
-      venue: "ସହର ଷ୍ଟାଡିୟମ",
+      teams: "ଡିଆକୁଦା vs ସୁବଳୟା",
+      venue: "ମା ବରୁଣାଇ ମୈଦାନ",
       date: "ଡିସେମ୍ବର ୫, ୨୦୨୩",
-      result: "ଦଣ୍ଡନାଚ ବିଜୟୀ"
+      result: "ସୁବଳୟା ବିଜୟୀ"
     }
   ];
 
@@ -31,10 +33,10 @@ const Sports = () => {
       name: "Volleyball Premier League 2024",
       image: "https://images.pexels.com/photos/345092/pexels-photo-345092.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop",
       year: "2024",
-      teams: "ନୂଆବର୍ଷ vs ପଞ୍ଚୁଦୋଳ",
+      teams: "ପାଇକରାପୁର-A vs ପାଇକରାପୁର-B",
       venue: "ଇନଡୋର ଷ୍ଟାଡିୟମ",
       date: "ଫେବୃଆରୀ ୨୮, ୨୦୨୪",
-      result: "ନୂଆବର୍ଷ ବିଜୟୀ"
+      result: "ପାଇକରାପୁର-A ବିଜୟୀ"
     }
   ];
 
@@ -141,7 +143,7 @@ const Sports = () => {
 
         {/* View All Button */}
         <div className="text-center">
-          <button className="group bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white px-8 py-4 rounded-xl transition-all duration-300 inline-flex items-center space-x-2 text-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+          <button onClick={() => navigate('/all-sports')} className="group bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white px-8 py-4 rounded-xl transition-all duration-300 inline-flex items-center space-x-2 text-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
             <span>ସମସ୍ତ ମ୍ୟାଚ ଦେଖନ୍ତୁ</span>
             <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
           </button>

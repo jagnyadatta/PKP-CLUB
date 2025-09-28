@@ -1,14 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ChevronRight, Calendar, Star, Sparkles } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Festivals = () => {
+  const navigate = useNavigate();
   const festivals = [
     {
       id: 1,
       name: "ପଞ୍ଚୁଦୋଳ ଯାତ୍ରା",
       image: "https://images.pexels.com/photos/2834917/pexels-photo-2834917.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop",
       date: "ମାର୍ଚ୍ଚ ୨୦୨୪",
-      description: "ପାରମ୍ପାରିକ ରଥଯାତ୍ରା ଉତ୍ସବ ଓ ଭକ୍ତିଭାବପୂର୍ଣ୍ଣ ଆୟୋଜନ"
+      description: "ପାରମ୍ପାରିକ ପଞ୍ଚୁଦୋଳ ଯାତ୍ରା ଉତ୍ସବ ଓ ଭକ୍ତିଭାବପୂର୍ଣ୍ଣ ଆୟୋଜନ"
     },
     {
       id: 2,
@@ -252,7 +254,7 @@ const Festivals = () => {
 
         {/* Enhanced View All Button */}
         <div className="text-center">
-          <button className="group bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 
+          <button onClick={() => navigate('/all-festivals')} className="group bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 
                            text-white px-6 py-3 sm:px-10 sm:py-5 rounded-xl sm:rounded-2xl transition-all duration-300 
                            inline-flex items-center space-x-2 text-base sm:text-lg font-semibold
                            shadow-[0_8px_25px_rgba(14,165,233,0.3)] hover:shadow-[0_12px_35px_rgba(14,165,233,0.4)]

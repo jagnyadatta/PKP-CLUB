@@ -2,8 +2,10 @@ import React from 'react';
 import { ChevronRight, Crown, Coins, BookOpen, UserPlus, Trophy, Music } from 'lucide-react';
 import { FaPhone, FaWhatsapp, FaFacebook, FaEnvelope } from 'react-icons/fa';
 import { PiSuitcaseSimpleBold } from 'react-icons/pi';
+import { useNavigate } from 'react-router-dom';
 
 const Members = () => {
+  const navigate = useNavigate();
   const members = [
     {
       id: 1,
@@ -107,7 +109,7 @@ const Members = () => {
                     <img 
                       src={member.image}
                       alt={member.name}
-                      className="relative w-16 h-16 sm:w-28 sm:h-28 rounded-lg sm:rounded-xl object-cover border-2 sm:border-3 border-sky-200 shadow-md sm:shadow-lg group-hover:scale-105 transition-transform duration-300"
+                      className="relative w-18 h-20 sm:w-28 sm:h-28 rounded-lg sm:rounded-xl object-cover border-2 sm:border-3 border-sky-200 shadow-md sm:shadow-lg group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
                   
@@ -180,7 +182,7 @@ const Members = () => {
 
         {/* View All Button */}
         <div className="text-center">
-          <button className="bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white px-3 py-2 sm:px-6 sm:py-3 lg:px-8 lg:py-4 rounded-full transition-all duration-200 inline-flex items-center space-x-2 text-base text-md sm:text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+          <button onClick={() => navigate('/all-members')} className="bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white px-3 py-2 sm:px-6 sm:py-3 lg:px-8 lg:py-4 rounded-full transition-all duration-200 inline-flex items-center space-x-2 text-base text-md sm:text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1">
             <span>ସମସ୍ତ କମିଟି ମେମ୍ବର</span>
             <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>

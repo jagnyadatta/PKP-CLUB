@@ -18,9 +18,9 @@ const Navbar = () => {
   // Navigation items data
   const navItems = [
     { to: "/", label: "Home", icon: Home },
-    { to: "/members", label: "Members", icon: Users },
-    { to: "/culture", label: "Our Culture", icon: Heart },
-    { to: "/sports", label: "Sports", icon: Trophy },
+    { to: "/all-members", label: "Members", icon: Users },
+    { to: "/all-festivals", label: "Our Culture", icon: Heart },
+    { to: "/all-sports", label: "Sports", icon: Trophy },
     { to: "/about", label: "About Us", icon: Info }
   ];
 

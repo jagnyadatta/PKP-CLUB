@@ -220,7 +220,7 @@ const Hero = () => {
                   <img
                     src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop"
                     alt="President"
-                    className="relative w-full h-24 lg:h-40 rounded-xl lg:rounded-2xl object-cover border-3 lg:border-4 border-sky-200 shadow-lg group-hover:scale-105 transition-transform duration-500"
+                    className="relative w-full h-28 lg:h-40 rounded-xl lg:rounded-2xl object-cover border-3 lg:border-4 border-sky-200 shadow-lg group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
 
@@ -294,7 +294,7 @@ const Hero = () => {
                   <img
                     src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop"
                     alt="President"
-                    className="relative w-full h-24 lg:h-40 rounded-xl lg:rounded-2xl object-cover border-3 lg:border-4 border-sky-200 shadow-lg group-hover:scale-105 transition-transform duration-500"
+                    className="relative w-full h-28 lg:h-40 rounded-xl lg:rounded-2xl object-cover border-3 lg:border-4 border-sky-200 shadow-lg group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
 

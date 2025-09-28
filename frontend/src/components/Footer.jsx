@@ -1,5 +1,6 @@
 import React from 'react';
 import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin, Link as LinkIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const socialLinks = [
@@ -16,7 +17,7 @@ const Footer = () => {
           {/* Club Info */}
           <div>
             <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-sky-400 to-white bg-clip-text text-transparent">
-              ପଞ୍ଚୁଦୋଳ ଯୁବକ ସଂଘ
+              ଗୋପବନ୍ଧୁ ପଠାଗାର ଯୁବକ ସଂଘ
             </h3>
             <p className="text-gray-300 mb-6 leading-relaxed">
               ୧୯୮୫ ମସିହାରୁ ଆମେ ଗ୍ରାମର ଯୁବସମାଜକୁ ଏକତ୍ରିତ କରି ସାମାଜିକ ଓ ସାଂସ୍କୃତିକ କାର୍ଯ୍ୟକ୍ରମରେ ଅଗ୍ରଣୀ ଭୂମିକା ଗ୍ରହଣ କରୁଛୁ।
@@ -41,12 +42,12 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2 text-gray-300">
-              <li><a href="#" className="hover:text-sky-400 transition-colors duration-200">About Us</a></li>
-              <li><a href="#" className="hover:text-sky-400 transition-colors duration-200">Our Members</a></li>
-              <li><a href="#" className="hover:text-sky-400 transition-colors duration-200">Sports</a></li>
-              <li><a href="#" className="hover:text-sky-400 transition-colors duration-200">Festivals</a></li>
-              <li><a href="#" className="hover:text-sky-400 transition-colors duration-200">Service Work</a></li>
-              <li><a href="#" className="hover:text-sky-400 transition-colors duration-200">Contact</a></li>
+              <li><Link to="/" className="hover:text-sky-400 transition-colors duration-200">About Us</Link></li>
+              <li><Link to="/all-members" className="hover:text-sky-400 transition-colors duration-200">Our Members</Link></li>
+              <li><Link to="/all-sports" className="hover:text-sky-400 transition-colors duration-200">Sports</Link></li>
+              <li><Link to="/all-festivals" className="hover:text-sky-400 transition-colors duration-200">Festivals</Link></li>
+              <li><Link to="/" className="hover:text-sky-400 transition-colors duration-200">Service Work</Link></li>
+              <li><Link to="/" className="hover:text-sky-400 transition-colors duration-200">Contact</Link></li>
             </ul>
           </div>
 
