@@ -1,3 +1,14 @@
+/* Add this to your main CSS file (e.g., index.css) */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .bg-200\% {
+    background-size: 200% 200%;
+  }
+  
+  .bg-400\% {
+    background-size: 400% 400%;
+  }
+}
