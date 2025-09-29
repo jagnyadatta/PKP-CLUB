@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Users, Settings, LogOut, Menu, X, Home } from 'lucide-react';
 import AddMemberForm from './AddMemberForm';
+import ManageMembers from './ManageMembers';
 
 const AdminLayout = () => {
   const [activeTab, setActiveTab] = useState('add-member');
@@ -18,7 +19,7 @@ const AdminLayout = () => {
       case 'add-member':
         return <AddMemberForm />;
       case 'manage-members':
-        return <div className="text-center py-12">Manage Members - Coming Soon</div>;
+        return <ManageMembers/>;
       case 'settings':
         return <div className="text-center py-12">Settings - Coming Soon</div>;
       default:
