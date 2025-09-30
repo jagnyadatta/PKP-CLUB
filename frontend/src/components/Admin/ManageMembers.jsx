@@ -13,16 +13,14 @@ const ManageMembers = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
 
-  // Mock data - Replace with actual API call
+  // Fetch members from backend
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        // Simulate API call
-          const response = await fetch(`${BASE_URL}/api/members/all`);
-          const result = await response.json();
-        //   console.log(result.data);
-          setMembers(result?.data);
-          setLoading(false);
+        const response = await fetch(`${BASE_URL}/api/members/all`);
+        const result = await response.json();
+        setMembers(result?.data || []);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching members:', error);
         setLoading(false);
@@ -44,12 +42,23 @@ const ManageMembers = () => {
 
   const handleDelete = async (memberId) => {
     try {
-      // Simulate API call
-      setMembers(prev => prev.filter(member => member._id !== memberId));
-      setShowDeleteModal(false);
-      setSelectedMember(null);
+      const response = await fetch(`${BASE_URL}/api/members/delete/${memberId}`, {
+        method: 'DELETE',
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        setMembers(prev => prev.filter(member => member._id !== memberId));
+        setShowDeleteModal(false);
+        setSelectedMember(null);
+      } else {
+        console.error('Error deleting member:', result.message);
+        alert('Failed to delete member: ' + result.message);
+      }
     } catch (error) {
       console.error('Error deleting member:', error);
+      alert('Failed to delete member. Please try again.');
     }
   };
 
@@ -63,12 +72,32 @@ const ManageMembers = () => {
     setShowViewModal(true);
   };
 
-  const handleUpdateMember = (updatedMember) => {
-    setMembers(prev => prev.map(member => 
-      member._id === updatedMember._id ? updatedMember : member
-    ));
-    setShowEditModal(false);
-    setSelectedMember(null);
+  const handleUpdateMember = async (updatedMember) => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/members/update/${updatedMember._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedMember),
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        setMembers(prev => prev.map(member => 
+          member._id === updatedMember._id ? result.data : member
+        ));
+        setShowEditModal(false);
+        setSelectedMember(null);
+      } else {
+        console.error('Error updating member:', result.message);
+        alert('Failed to update member: ' + result.message);
+      }
+    } catch (error) {
+      console.error('Error updating member:', error);
+      alert('Failed to update member. Please try again.');
+    }
   };
 
   if (loading) {
@@ -171,20 +200,39 @@ const ManageMembers = () => {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredMembers.map((member) => (
-              <MemberCard 
-                key={member._id} 
-                member={member} 
-                onEdit={handleEdit}
-                onDelete={(member) => {
-                  setSelectedMember(member);
-                  setShowDeleteModal(true);
-                }}
-                onView={handleView}
-              />
-            ))}
-          </div>
+          <>
+            {/* Desktop Grid View */}
+            <div className="hidden md:grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+              {filteredMembers.map((member) => (
+                <MemberCard 
+                  key={member._id} 
+                  member={member} 
+                  onEdit={handleEdit}
+                  onDelete={(member) => {
+                    setSelectedMember(member);
+                    setShowDeleteModal(true);
+                  }}
+                  onView={handleView}
+                />
+              ))}
+            </div>
+
+            {/* Mobile List View */}
+            <div className="md:hidden space-y-4">
+              {filteredMembers.map((member) => (
+                <MemberListCard 
+                  key={member._id} 
+                  member={member} 
+                  onEdit={handleEdit}
+                  onDelete={(member) => {
+                    setSelectedMember(member);
+                    setShowDeleteModal(true);
+                  }}
+                  onView={handleView}
+                />
+              ))}
+            </div>
+          </>
         )}
 
         {/* Delete Confirmation Modal */}
@@ -226,7 +274,7 @@ const ManageMembers = () => {
   );
 };
 
-// Member Card Component
+// Member Card Component for Desktop
 const MemberCard = ({ member, onEdit, onDelete, onView }) => {
   const [showMenu, setShowMenu] = useState(false);
 
@@ -331,6 +379,60 @@ const MemberCard = ({ member, onEdit, onDelete, onView }) => {
   );
 };
 
+// Member List Card Component for Mobile
+const MemberListCard = ({ member, onEdit, onDelete, onView }) => {
+  return (
+    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-4">
+      <div className="flex items-center space-x-4">
+        {/* Profile Image */}
+        <div className="flex-shrink-0">
+          <img
+            src={member.image}
+            alt={member.name}
+            className="w-16 h-16 rounded-xl object-cover border-2 border-sky-100"
+          />
+        </div>
+
+        {/* Member Details */}
+        <div className="flex-1 min-w-0">
+          <h3 className="font-semibold text-gray-900 text-base mb-1 truncate">{member.name}</h3>
+          <p className="text-sky-600 text-sm font-medium mb-1">{member.role}</p>
+          <p className="text-gray-500 text-xs truncate">{member.experience}</p>
+          <div className="flex items-center text-gray-500 text-xs mt-1">
+            <Phone className="w-3 h-3 mr-1" />
+            <span>{member.phone}</span>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-col space-y-2">
+          <button
+            onClick={() => onView(member)}
+            className="bg-sky-500 text-white p-2 rounded-lg hover:bg-sky-600 transition-colors duration-200 flex items-center justify-center"
+            title="View"
+          >
+            <Eye className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => onEdit(member)}
+            className="bg-gray-500 text-white p-2 rounded-lg hover:bg-gray-600 transition-colors duration-200 flex items-center justify-center"
+            title="Edit"
+          >
+            <Edit className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => onDelete(member)}
+            className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition-colors duration-200 flex items-center justify-center"
+            title="Delete"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // Delete Confirmation Modal
 const DeleteModal = ({ member, onConfirm, onCancel }) => (
   <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -363,24 +465,54 @@ const DeleteModal = ({ member, onConfirm, onCancel }) => (
 
 // Edit Modal Component
 const EditModal = ({ member, onSave, onCancel }) => {
-  const [formData, setFormData] = useState(member);
+  const [formData, setFormData] = useState({
+    name: member.name,
+    role: member.role,
+    experience: member.experience,
+    phone: member.phone,
+    whatsapp: member.whatsapp,
+    facebook: member.facebook,
+    email: member.email,
+    category: member.category
+  });
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      onSave(formData);
-      setLoading(false);
-    }, 1000);
+    const updatedMember = {
+      ...member,
+      ...formData
+    };
+    
+    await onSave(updatedMember);
+    setLoading(false);
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
+
+  const categories = [
+    { value: 'president', label: 'President' },
+    { value: 'secretary', label: 'Secretary' },
+    { value: 'committee', label: 'Committee Member' },
+    { value: 'member', label: 'General Member' }
+  ];
+
+  const roles = [
+    'President',
+    'Vice-President',
+    'Secretary',
+    'Treasurer',
+    'Puja Secretary',
+    'Assistant Secretary',
+    'Sport Secretary',
+    'Cultural Secretary',
+    'Member'
+  ];
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -390,7 +522,7 @@ const EditModal = ({ member, onSave, onCancel }) => {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Name</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Name *</label>
               <input
                 type="text"
                 name="name"
@@ -402,22 +534,23 @@ const EditModal = ({ member, onSave, onCancel }) => {
             </div>
             
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Role</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Role *</label>
               <select
                 name="role"
                 value={formData.role}
                 onChange={handleInputChange}
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                required
               >
-                <option value="President">President</option>
-                <option value="Secretary">Secretary</option>
-                <option value="Vice-President">Vice-President</option>
-                <option value="Member">Member</option>
+                <option value="">Select Role</option>
+                {roles.map(role => (
+                  <option key={role} value={role}>{role}</option>
+                ))}
               </select>
             </div>
             
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Phone</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Phone *</label>
               <input
                 type="tel"
                 name="phone"
@@ -429,6 +562,18 @@ const EditModal = ({ member, onSave, onCancel }) => {
             </div>
             
             <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">WhatsApp</label>
+              <input
+                type="tel"
+                name="whatsapp"
+                value={formData.whatsapp}
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                placeholder="If different from phone"
+              />
+            </div>
+
+            <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Email</label>
               <input
                 type="email"
@@ -438,6 +583,34 @@ const EditModal = ({ member, onSave, onCancel }) => {
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:border-transparent"
               />
             </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Category</label>
+              <select
+                name="category"
+                value={formData.category}
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+              >
+                {categories.map(cat => (
+                  <option key={cat.value} value={cat.value}>
+                    {cat.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Facebook Profile</label>
+            <input
+              type="text"
+              name="facebook"
+              value={formData.facebook}
+              onChange={handleInputChange}
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+              placeholder="Facebook username or profile URL"
+            />
           </div>
           
           <div>
@@ -505,10 +678,27 @@ const ViewModal = ({ member, onClose }) => (
               <span>{member.email}</span>
             </div>
           )}
+
+          {member.facebook && (
+            <div className="flex items-center text-gray-600">
+              <User className="w-5 h-5 mr-3 text-blue-500" />
+              <span>Facebook: {member.facebook}</span>
+            </div>
+          )}
           
           <div className="flex items-center text-gray-600">
             <User className="w-5 h-5 mr-3 text-purple-500" />
-            <span>{member.experience}</span>
+            <span>Experience: {member.experience}</span>
+          </div>
+
+          <div className="flex items-center text-gray-600">
+            <User className="w-5 h-5 mr-3 text-orange-500" />
+            <span>Category: {member.category}</span>
+          </div>
+
+          <div className="flex items-center text-gray-600">
+            <User className="w-5 h-5 mr-3 text-gray-500" />
+            <span>Joined: {new Date(member.joinDate).toLocaleDateString()}</span>
           </div>
         </div>
         
