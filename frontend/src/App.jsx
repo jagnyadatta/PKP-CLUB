@@ -9,6 +9,7 @@ import AllSportsPage from "./components/Pages/AllSportsPage";
 import AboutUsPage from "./components/Pages/AboutUsPage";
 import Loader from "./components/Loader";
 import AdminLayout from "./components/Admin/AdminLayout";
+import MemberRegistrationPage from "./components/Pages/MemberRegistrationPage";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -38,6 +39,7 @@ function App() {
               <Route path="/all-festivals" element={<AllFestivalsPage />} />
               <Route path="/all-sports" element={<AllSportsPage />} />
               <Route path="/about" element={<AboutUsPage />} />
+              <Route path="/register" element={<MemberRegistrationPage />} />
             </Routes>
             <Footer />
           </>

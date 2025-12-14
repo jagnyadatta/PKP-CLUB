@@ -129,6 +129,23 @@ const updateMember = async (req, res) => {
       });
     }
 
+    // Handle image upload if file exists
+    if (req.file) {
+      // First find the existing member to delete old image
+      const existingMember = await Member.findById(id);
+      if (existingMember && existingMember.image) {
+        // Delete old image from Cloudinary
+        const urlParts = existingMember.image.split('/');
+        const fileName = urlParts[urlParts.length - 1];
+        const publicId = `pkpclub_members/${fileName.split('.')[0]}`;
+        await cloudinary.uploader.destroy(publicId);
+      }
+      
+      // Upload new image
+      const uploadResult = await uploadStream(req.file.buffer);
+      updateData.image = uploadResult.secure_url;
+    }
+
     // Remove immutable fields
     delete updateData._id;
     delete updateData.createdAt;
@@ -183,19 +200,38 @@ const deleteMember = async (req, res) => {
       });
     }
 
+    // First find the member to get the image URL
+    const member = await Member.findById(id);
+    
+    if (!member) {
+      return res.status(404).json({
+        success: false,
+        message: "Member not found",
+      });
+    }
+
+    // Delete image from Cloudinary if exists
+    if (member.image) {
+      try {
+        // Extract public_id from Cloudinary URL
+        const urlParts = member.image.split('/');
+        const fileName = urlParts[urlParts.length - 1];
+        const publicId = `pkpclub_members/${fileName.split('.')[0]}`;
+        
+        await cloudinary.uploader.destroy(publicId);
+        console.log(`Deleted image from Cloudinary: ${publicId}`);
+      } catch (cloudinaryError) {
+        console.error("Error deleting image from Cloudinary:", cloudinaryError);
+        // Continue with member deletion even if image deletion fails
+      }
+    }
+
     // Soft delete by setting isActive to false
     const deletedMember = await Member.findByIdAndUpdate(
       id,
       { isActive: false },
       { new: true }
     );
-
-    if (!deletedMember) {
-      return res.status(404).json({
-        success: false,
-        message: "Member not found",
-      });
-    }
 
     return res.status(200).json({
       success: true,

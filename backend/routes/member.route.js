@@ -5,8 +5,9 @@ import { addMember, deleteMember, getAllMembers, getMemberById, updateMember } f
 const router = express.Router();
 
 router.route("/all").get(getAllMembers);
-router.route("/new").post(upload.single("image"),addMember);
-router.route("/:id").get(getMemberById).put(updateMember);
+router.route("/new").post(upload.single("image"), addMember);
+router.route("/:id").get(getMemberById);
+router.route("/:id").put(upload.single("image"), updateMember);
 router.route("/:id").delete(deleteMember)
 
 export default router;

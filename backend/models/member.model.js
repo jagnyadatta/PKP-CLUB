@@ -9,6 +9,17 @@ const memberSchema = new mongoose.Schema({
     role: {
         type: String,
         required: true,
+        enum: [
+            'President',
+            'Vice-President',
+            'Secretary',
+            'Treasurer',
+            'Puja Secretary',
+            'Assistant Secretary',
+            'Sport Secretary',
+            'Cultural Secretary',
+            'Member'
+        ],
         trim: true
     },
     image: {
@@ -55,6 +66,10 @@ const memberSchema = new mongoose.Schema({
     joinDate: {
         type: Date,
         default: Date.now
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
     }
 }, { timestamps: true });
 
