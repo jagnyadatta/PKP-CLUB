@@ -1,13 +1,15 @@
-// components/AllFestivalsPage.jsx
 import React, { useState } from 'react';
-import { ArrowLeft, Calendar, Star, Sparkles, MapPin, Users, Clock } from 'lucide-react';
+import { ArrowLeft, Calendar, Star, Sparkles, MapPin, Users, Clock, ChevronRight, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { StickerBadge, JhotiCorner, DiyaIcon } from '../Cartoon/CartoonDoodles';
+import MarigoldGarland from '../Cartoon/MarigoldGarland';
 
 const AllFestivalsPage = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [activeModal, setActiveModal] = useState(null);
 
-  // Extended festival data with more details
+  // All 8 festivals with exact Odia details
   const allFestivals = [
     {
       id: 1,
@@ -20,11 +22,6 @@ const AllFestivalsPage = () => {
       participants: "୫୦୦+",
       category: "religious",
       highlights: ["ରଥଯାତ୍ରା", "ଭକ୍ତିଗୀତ", "ପ୍ରସାଦ ବିତରଣ", "ସାଂସ୍କୃତିକ କାର୍ଯ୍ୟକ୍ରମ"],
-      gallery: [
-        "https://images.pexels.com/photos/2834917/pexels-photo-2834917.jpeg",
-        "https://images.pexels.com/photos/1576937/pexels-photo-1576937.jpeg",
-        "https://images.pexels.com/photos/1576938/pexels-photo-1576938.jpeg"
-      ]
     },
     {
       id: 2,
@@ -37,10 +34,6 @@ const AllFestivalsPage = () => {
       participants: "୩୦୦+",
       category: "religious",
       highlights: ["ବିଶେଷ ପୂଜା", "ସାମୁଦାୟିକ ଭୋଜି", "ଆରତୀ", "ପ୍ରସାଦ"],
-      gallery: [
-        "https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg",
-        "https://images.pexels.com/photos/1576939/pexels-photo-1576939.jpeg"
-      ]
     },
     {
       id: 3,
@@ -53,10 +46,6 @@ const AllFestivalsPage = () => {
       participants: "୪୦୦+",
       category: "cultural",
       highlights: ["ଦଣ୍ଡନାଚ", "ପାରମ୍ପାରିକ ନୃତ୍ୟ", "ସଙ୍ଗୀତ", "ପ୍ରଦର୍ଶନୀ"],
-      gallery: [
-        "https://images.pexels.com/photos/2263436/pexels-photo-2263436.jpeg",
-        "https://images.pexels.com/photos/3171837/pexels-photo-3171837.jpeg"
-      ]
     },
     {
       id: 4,
@@ -69,10 +58,6 @@ const AllFestivalsPage = () => {
       participants: "୨୦୦+",
       category: "award",
       highlights: ["ପୁରସ୍କାର ବିତରଣ", "ସାଂସ୍କୃତିକ କାର୍ଯ୍ୟକ୍ରମ", "ଭୋଜି"],
-      gallery: [
-        "https://images.pexels.com/photos/3184287/pexels-photo-3184287.jpeg",
-        "https://images.pexels.com/photos/3182812/pexels-photo-3182812.jpeg"
-      ]
     },
     {
       id: 5,
@@ -85,10 +70,6 @@ const AllFestivalsPage = () => {
       participants: "୬୦୦+",
       category: "celebration",
       highlights: ["ସାଂସ୍କୃତିକ କାର୍ଯ୍ୟକ୍ରମ", "ଖେଳ", "ଭୋଜି", "ଆତସବାଜୀ"],
-      gallery: [
-        "https://images.pexels.com/photos/2306281/pexels-photo-2306281.jpeg",
-        "https://images.pexels.com/photos/1878293/pexels-photo-1878293.jpeg"
-      ]
     },
     {
       id: 6,
@@ -101,9 +82,6 @@ const AllFestivalsPage = () => {
       participants: "୧୦୦୦+",
       category: "religious",
       highlights: ["ରଥ ଟାଣା", "ଭକ୍ତିଗୀତ", "ପ୍ରସାଦ"],
-      gallery: [
-        "https://images.pexels.com/photos/1576937/pexels-photo-1576937.jpeg"
-      ]
     },
     {
       id: 7,
@@ -116,28 +94,22 @@ const AllFestivalsPage = () => {
       participants: "୩୫୦+",
       category: "cultural",
       highlights: ["ନୃତ୍ୟ", "ସଙ୍ଗୀତ", "ନାଟକ", "କବିତା"],
-      gallery: [
-        "https://images.pexels.com/photos/3171837/pexels-photo-3171837.jpeg"
-      ]
     },
     {
       id: 8,
       name: "ଖେଳ ପ୍ରତିଯୋଗିତା",
       image: "https://images.pexels.com/photos/2485478/pexels-photo-2485478.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
       date: "ନଭେମ୍ବର ୧୨-୧୫, ୨୦୨୪",
-      description:"ବାର୍ଷିକ ଖେଳ ପ୍ରତିଯୋଗିତା",
+      description: "ବାର୍ଷିକ ଖେଳ ପ୍ରତିଯୋଗିତା",
       location: "ସ୍ଥାନୀୟ ମୈଦାନ",
       duration: "୪ ଦିନ",
       participants: "୫୦୦+",
       category: "sports",
       highlights: ["କ୍ରିକେଟ", "ଫୁଟବଲ", "ଖୋ-ଖୋ", "ଦୌଡ଼"],
-      gallery: [
-        "https://images.pexels.com/photos/2485478/pexels-photo-2485478.jpeg"
-      ]
     }
   ];
 
-//   Category filter
+  // Preserved Category filter tabs
   const categories = [
     { id: 'all', name: 'ସମସ୍ତ ପର୍ବ', count: allFestivals.length },
     { id: 'religious', name: 'ଧାର୍ମିକ', count: allFestivals.filter(f => f.category === 'religious').length },
@@ -147,137 +119,144 @@ const AllFestivalsPage = () => {
     { id: 'award', name: 'ପୁରସ୍କାର', count: allFestivals.filter(f => f.category === 'award').length }
   ];
 
-  const filteredFestivals = allFestivals;
+  const filteredFestivals = selectedCategory === 'all' 
+    ? allFestivals 
+    : allFestivals.filter(f => f.category === selectedCategory);
 
   const FestivalCard = ({ festival }) => (
-    <div className="bg-gradient-to-br from-white via-sky-25 to-sky-50 rounded-2xl border border-sky-100 shadow-[0_10px_30px_rgba(14,165,233,0.1)] hover:shadow-[0_20px_40px_rgba(14,165,233,0.25)] transform hover:-translate-y-2 transition-all duration-500 overflow-hidden group">
-      <div className="relative h-48 sm:h-56 overflow-hidden rounded-t-2xl">
+    <div className="card-cartoon bg-white overflow-hidden group hover:-translate-y-2 hover:shadow-cartoon-lg transition-all duration-300 flex flex-col justify-between">
+      
+      {/* Photo Frame in Cartoon Border */}
+      <div className="relative h-48 sm:h-56 overflow-hidden border-b-2.5 border-[#2B231D] bg-amber-100">
         <img 
           src={festival.image}
           alt={festival.name}
-          className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700"
+          className="w-full h-full object-cover group-hover:scale-108 transition-all duration-500"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
         
         {/* Date badge */}
-        <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-md rounded-xl px-3 py-1.5 shadow-lg">
-          <div className="flex items-center text-sky-600 text-sm font-bold">
-            <Calendar className="w-4 h-4 mr-2" />
+        <div className="absolute top-3 right-3 bg-white/95 rounded-xl px-3 py-1 border-2 border-[#2B231D] shadow-cartoon-sm">
+          <div className="flex items-center text-stone-900 text-xs sm:text-sm font-bold">
+            <Calendar className="w-3.5 h-3.5 mr-1.5 text-amber-600" />
             {festival.date}
           </div>
         </div>
 
         {/* Category badge */}
-        <div className="absolute top-4 left-4 bg-sky-500/90 text-white rounded-xl px-3 py-1.5 text-sm font-semibold backdrop-blur-sm">
+        <div className="absolute top-3 left-3 bg-amber-400 text-stone-900 rounded-xl px-2.5 py-0.5 text-xs font-bold border-2 border-[#2B231D] shadow-cartoon-sm">
           {categories.find(cat => cat.id === festival.category)?.name}
         </div>
       </div>
       
-      <div className="p-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-sky-700 transition-colors duration-300">
-          {festival.name}
-        </h3>
-        <p className="text-gray-600 mb-4 leading-relaxed">
-          {festival.description}
-        </p>
-        
-        {/* Festival details */}
-        <div className="grid grid-cols-2 gap-3 mb-4">
-          <div className="flex items-center text-sm text-gray-600">
-            <MapPin className="w-4 h-4 mr-2 text-sky-500" />
-            <span>{festival.location}</span>
+      {/* Details */}
+      <div className="p-5 flex-1 flex flex-col justify-between">
+        <div>
+          <h3 className="heading-font text-xl sm:text-2xl font-black text-[#2B231D] mb-2 group-hover:text-amber-800 transition-colors">
+            {festival.name}
+          </h3>
+          <p className="font-cartoon text-sm text-stone-700 leading-relaxed font-semibold mb-4">
+            {festival.description}
+          </p>
+          
+          {/* Metadata Grid */}
+          <div className="grid grid-cols-2 gap-2 text-xs font-bold text-stone-700 mb-4 bg-amber-50 p-3 rounded-xl border border-[#2B231D]">
+            <div className="flex items-center">
+              <MapPin className="w-3.5 h-3.5 mr-1.5 text-[#E06D53]" />
+              <span className="truncate">{festival.location}</span>
+            </div>
+            <div className="flex items-center">
+              <Clock className="w-3.5 h-3.5 mr-1.5 text-amber-700" />
+              <span>{festival.duration}</span>
+            </div>
+            <div className="flex items-center col-span-2">
+              <Users className="w-3.5 h-3.5 mr-1.5 text-emerald-700" />
+              <span>ଅଂଶଗ୍ରହଣକାରୀ: {festival.participants}</span>
+            </div>
           </div>
-          <div className="flex items-center text-sm text-gray-600">
-            <Clock className="w-4 h-4 mr-2 text-sky-500" />
-            <span>{festival.duration}</span>
-          </div>
-          <div className="flex items-center text-sm text-gray-600">
-            <Users className="w-4 h-4 mr-2 text-sky-500" />
-            <span>{festival.participants}</span>
-          </div>
-        </div>
 
-        {/* Highlights */}
-        <div className="mb-4">
-          <h4 className="text-sm font-semibold text-gray-700 mb-2">ମୁଖ୍ୟ ଆକର୍ଷଣ:</h4>
-          <div className="flex flex-wrap gap-2">
-            {festival.highlights.slice(0, 3).map((highlight, index) => (
-              <span key={index} className="bg-sky-100 text-sky-700 text-xs px-2 py-1 rounded-full">
-                {highlight}
-              </span>
-            ))}
-            {festival.highlights.length > 3 && (
-              <span className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">
-                +{festival.highlights.length - 3} more
-              </span>
-            )}
+          {/* Highlights */}
+          <div className="mb-4">
+            <h4 className="font-odia text-xs font-bold text-stone-800 mb-2">ମୁଖ୍ୟ ଆକର୍ଷଣ:</h4>
+            <div className="flex flex-wrap gap-1.5">
+              {festival.highlights.map((highlight, index) => (
+                <span key={index} className="bg-white text-stone-800 text-[11px] font-bold px-2 py-0.5 rounded-md border border-[#2B231D] shadow-xs">
+                  ★ {highlight}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
 
         {/* View Details Button */}
-        <button className="w-full bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white py-2 rounded-lg transition-all duration-300 font-semibold group-hover:shadow-lg">
-          ଅଧିକ ଜାଣନ୍ତୁ
+        <button 
+          onClick={() => setActiveModal(festival)}
+          className="w-full btn-cartoon-amber text-xs sm:text-sm font-bold py-2.5 cursor-pointer"
+        >
+          ଅଧିକ ଜାଣନ୍ତୁ (View Details)
         </button>
       </div>
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-sky-100 py-8 mt-12 sm:mt-14">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+    <div className="min-h-screen bg-[#FAF7F0] pt-20 sm:pt-24 pb-16">
+      
+      {/* Top Garland */}
+      <MarigoldGarland />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+        
+        {/* Navigation & Header */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
           <button 
             onClick={() => navigate(-1)}
-            className="flex items-center space-x-2 text-sky-600 hover:text-sky-700 transition-colors duration-200 bg-white px-4 py-2 rounded-lg shadow-sm hover:shadow-md"
+            className="btn-cartoon-white text-xs sm:text-sm py-2 px-4"
           >
-            <ArrowLeft className="w-5 h-5" />
-            <span className="font-semibold">Back</span>
+            <ArrowLeft className="w-4 h-4 mr-1" />
+            <span>ପଛକୁ ଫେରନ୍ତୁ (Back)</span>
           </button>
           
-          {/* <div className="text-center flex-1 mx-4">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-sky-600 via-sky-700 to-sky-800 bg-clip-text text-transparent">
+          <div className="text-center">
+            <h1 className="heading-font text-3xl sm:text-5xl font-black text-[#2B231D]">
               ସମସ୍ତ ପର୍ବପର୍ବାଣି
             </h1>
-            <p className="text-gray-600 text-sm sm:text-base mt-2">
+            <p className="font-cartoon text-stone-700 text-sm sm:text-base font-bold mt-1">
               ଆମ ସମୁଦାୟର ସମସ୍ତ ଉତ୍ସବ ଓ କାର୍ଯ୍ୟକ୍ରମ
             </p>
-          </div> */}
-          
-          <div className="w-20"></div> {/* Spacer for balance */}
+          </div>
+
+          <div className="w-28 hidden sm:block"></div>
         </div>
 
-        {/* Category Filter */}
-        {/* <div className="mb-8">
-          <div className="flex flex-wrap gap-2 justify-center">
+        {/* Category Filter Pills */}
+        <div className="card-cartoon bg-white p-4 sm:p-5 mb-8 shadow-cartoon">
+          <div className="flex flex-wrap gap-2.5 justify-center">
             {categories.map((category) => (
               <button
                 key={category.id}
                 onClick={() => setSelectedCategory(category.id)}
-                className={`px-4 py-2 rounded-full transition-all duration-300 font-semibold ${
+                className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold border-2 transition-all cursor-pointer ${
                   selectedCategory === category.id
-                    ? 'bg-sky-500 text-white shadow-lg'
-                    : 'bg-white text-gray-600 hover:bg-sky-50 hover:text-sky-600 shadow-sm'
+                    ? 'bg-amber-400 text-stone-900 border-[#2B231D] shadow-cartoon-sm'
+                    : 'bg-[#FAF7F0] text-stone-700 border-[#2B231D]/30 hover:border-[#2B231D]'
                 }`}
               >
                 {category.name} ({category.count})
               </button>
             ))}
           </div>
-        </div> */}
+        </div>
 
-        {/* Festival Count */}
-        {/* <div className="text-center mb-8">
-          <div className="inline-flex items-center space-x-2 bg-white rounded-full px-6 py-2 shadow-lg">
-            <Sparkles className="w-5 h-5 text-sky-500" />
-            <span className="font-semibold text-gray-700">
-              ମୋଟ {filteredFestivals.length} ଟି ପର୍ବ ମିଳିଲା
-            </span>
-          </div>
-        </div> */}
+        {/* Results Count Banner */}
+        <div className="text-center mb-8">
+          <span className="inline-flex items-center gap-2 bg-white px-4 py-1.5 rounded-full border-2 border-[#2B231D] shadow-cartoon-sm text-xs sm:text-sm font-bold text-stone-800">
+            <Sparkles className="w-4 h-4 text-amber-500" />
+            <span>ମୋଟ {filteredFestivals.length} ଟି ପର୍ବ ମିଳିଲା</span>
+          </span>
+        </div>
 
         {/* Festivals Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12">
           {filteredFestivals.map((festival) => (
             <FestivalCard key={festival.id} festival={festival} />
           ))}
@@ -285,22 +264,75 @@ const AllFestivalsPage = () => {
 
         {/* No Results Message */}
         {filteredFestivals.length === 0 && (
-          <div className="text-center py-12">
-            <div className="bg-white rounded-2xl p-8 shadow-lg max-w-md mx-auto">
-              <Star className="w-16 h-16 text-sky-300 mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-gray-700 mb-2">କୌଣସି ପର୍ବ ମିଳିଲା ନାହିଁ</h3>
-              <p className="text-gray-600">ବର୍ତ୍ତମାନ ଏହି ବର୍ଗରେ କୌଣସି ପର୍ବ ନାହିଁ।</p>
-            </div>
+          <div className="text-center py-12 card-cartoon bg-white max-w-md mx-auto p-8 shadow-cartoon">
+            <Star className="w-14 h-14 text-amber-400 mx-auto mb-3" />
+            <h3 className="heading-font text-2xl font-bold text-stone-900 mb-2">କୌଣସି ପର୍ବ ମିଳିଲା ନାହିଁ</h3>
+            <p className="font-cartoon text-stone-600 text-sm">ବର୍ତ୍ତମାନ ଏହି ବର୍ଗରେ କୌଣସି ପର୍ବ ନାହିଁ।</p>
           </div>
         )}
 
-        {/* Total Festivals Summary */}
-        <div className="text-center mt-12 bg-white rounded-xl p-6 shadow-lg max-w-md mx-auto">
-          <div className="text-3xl font-bold text-sky-600 mb-2">{allFestivals.length}</div>
-          <div className="text-gray-600 font-semibold">ମୋଟ ପର୍ବ ସଂଖ୍ୟା</div>
-          <p className="text-sm text-gray-500 mt-2">ବର୍ଷସାରା ଆୟୋଜିତ ହୁଏ</p>
+        {/* Total Festivals Summary Banner */}
+        <div className="text-center card-cartoon bg-white p-6 max-w-md mx-auto shadow-cartoon">
+          <div className="font-odia text-4xl sm:text-5xl font-black text-amber-700 mb-1">
+            {allFestivals.length}
+          </div>
+          <div className="font-cartoon text-stone-800 font-bold text-base">
+            ମୋଟ ପର୍ବ ସଂଖ୍ୟା
+          </div>
+          <p className="font-cartoon text-xs text-stone-600 font-semibold mt-1">
+            ବର୍ଷସାରା ଆୟୋଜିତ ହୁଏ
+          </p>
         </div>
+
       </div>
+
+      {/* Festival Detail Modal */}
+      {activeModal && (
+        <div className="fixed inset-0 bg-[#2B231D]/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fadeIn">
+          <div className="bg-[#FFFDF7] border-3 sm:border-4 border-[#2B231D] rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-[8px_8px_0px_#2B231D] relative">
+            <button
+              onClick={() => setActiveModal(null)}
+              className="absolute top-4 right-4 bg-amber-200 hover:bg-amber-300 border-2 border-[#2B231D] rounded-full p-1.5 transition-colors shadow-cartoon-sm"
+            >
+              <X className="w-4 h-4 text-stone-900" />
+            </button>
+
+            <div className="rounded-2xl border-2 border-[#2B231D] overflow-hidden mb-4 h-48 bg-amber-100">
+              <img src={activeModal.image} alt={activeModal.name} className="w-full h-full object-cover" />
+            </div>
+
+            <h3 className="heading-font text-2xl sm:text-3xl font-black text-[#2B231D] mb-1">
+              {activeModal.name}
+            </h3>
+            <p className="font-cartoon text-xs font-bold text-amber-800 mb-3">
+              {activeModal.date} • {activeModal.location}
+            </p>
+
+            <p className="font-cartoon text-stone-700 text-sm leading-relaxed mb-4">
+              {activeModal.description}
+            </p>
+
+            <div className="bg-amber-100 rounded-xl p-3 border border-[#2B231D] mb-5">
+              <h4 className="font-odia text-xs font-bold text-stone-900 mb-2">ମୁଖ୍ୟ ଆକର୍ଷଣ:</h4>
+              <div className="flex flex-wrap gap-1.5">
+                {activeModal.highlights.map((h, i) => (
+                  <span key={i} className="bg-white text-stone-800 text-xs font-bold px-2 py-0.5 rounded border border-[#2B231D]">
+                    ★ {h}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <button
+              onClick={() => setActiveModal(null)}
+              className="w-full btn-cartoon-amber text-sm font-bold"
+            >
+              ବନ୍ଦ କରନ୍ତୁ (Close)
+            </button>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

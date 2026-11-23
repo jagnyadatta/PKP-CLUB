@@ -3,39 +3,102 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        odia: ['"Prabhakar"', 'sans-serif'],
+        cartoon: ['"Baloo 2"', '"Fredoka"', 'cursive', 'sans-serif'],
+        sans: ['"Baloo 2"', 'system-ui', 'sans-serif'],
+      },
+      colors: {
+        ink: '#2B231D',
+        parchment: '#FAF7F0',
+        cream: '#FFFDF9',
+        clay: {
+          50: '#FDF6F0',
+          100: '#FAEBE0',
+          200: '#F5D3C1',
+          500: '#E06D53',
+          600: '#C85A32',
+          700: '#B04A26',
+          800: '#8C381B',
+        },
+        marigold: {
+          50: '#FFFBEB',
+          100: '#FEF3C7',
+          200: '#FDE68A',
+          300: '#FCD34D',
+          400: '#FBBF24',
+          500: '#F59E0B',
+          600: '#D97706',
+          700: '#B45309',
+        },
+        chilika: {
+          50: '#F0F9FF',
+          100: '#E0F2FE',
+          200: '#BAE6FD',
+          400: '#38BDF8',
+          500: '#0EA5E9',
+          600: '#0284C7',
+          700: '#0369A1',
+        },
+        village: {
+          50: '#F0FDF4',
+          100: '#DCFCE7',
+          200: '#BBF7D0',
+          400: '#4ADE80',
+          500: '#22C55E',
+          600: '#16A34A',
+          700: '#15803D',
+        },
+      },
+      boxShadow: {
+        'cartoon-sm': '2px 2px 0px #2B231D',
+        'cartoon': '4px 4px 0px #2B231D',
+        'cartoon-md': '6px 6px 0px #2B231D',
+        'cartoon-lg': '8px 8px 0px #2B231D',
+        'cartoon-amber': '5px 5px 0px #B45309',
+        'cartoon-green': '5px 5px 0px #15803D',
+        'cartoon-clay': '5px 5px 0px #B04A26',
+        'cartoon-sky': '5px 5px 0px #0369A1',
+        'cartoon-white': '4px 4px 0px #FFFDF9',
+      },
+      borderWidth: {
+        DEFAULT: '1px',
+        '0': '0',
+        '2': '2px',
+        '2.5': '2.5px',
+        '3': '3px',
+        '4': '4px',
+        '6': '6px',
+        '8': '8px',
+      },
+      borderRadius: {
+        'cartoon': '24px',
+        'cartoon-lg': '32px',
+        'cartoon-wobbly': '255px 15px 225px 15px/15px 225px 15px 255px',
+      },
       animation: {
-        'gradient-x': 'gradient-x 3s ease infinite',
-        'gradient-y': 'gradient-y 3s ease infinite',
-        'spin-slow': 'spin-slow 8s linear infinite',
+        'float-slow': 'float 5s ease-in-out infinite',
+        'float-reverse': 'float-reverse 6s ease-in-out infinite',
+        'wiggle': 'wiggle 2s ease-in-out infinite',
+        'bounce-gentle': 'bounce-gentle 3s ease-in-out infinite',
+        'spin-slow': 'spin 18s linear infinite',
       },
       keyframes: {
-        'gradient-x': {
-          '0%, 100%': {
-            'background-size': '200% 200%',
-            'background-position': 'left center'
-          },
-          '50%': {
-            'background-size': '200% 200%',
-            'background-position': 'right center'
-          },
+        float: {
+          '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+          '50%': { transform: 'translateY(-10px) rotate(1.5deg)' },
         },
-        'gradient-y': {
-          '0%, 100%': {
-            'background-size': '400% 400%',
-            'background-position': 'center top'
-          },
-          '50%': {
-            'background-size': '400% 400%',
-            'background-position': 'center bottom'
-          },
+        'float-reverse': {
+          '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+          '50%': { transform: 'translateY(10px) rotate(-1.5deg)' },
         },
-        'spin-slow': {
-          from: {
-            transform: 'rotate(0deg)'
-          },
-          to: {
-            transform: 'rotate(360deg)'
-          },
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(-2deg)' },
+          '50%': { transform: 'rotate(2deg)' },
+        },
+        'bounce-gentle': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-6px)' },
         },
       },
     },

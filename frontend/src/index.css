@@ -1,14 +1,96 @@
-/* Add this to your main CSS file (e.g., index.css) */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-  .bg-200\% {
-    background-size: 200% 200%;
+@layer base {
+  body {
+    background-color: #FAF7F0;
+    color: #2B231D;
+    font-family: 'Baloo 2', system-ui, sans-serif;
   }
-  
-  .bg-400\% {
-    background-size: 400% 400%;
+}
+
+/* 2D Cartoon Handcrafted Component Helpers */
+@layer components {
+  /* Cartoon Border Button */
+  .btn-cartoon-amber {
+    @apply bg-amber-400 text-stone-900 font-bold border-2 sm:border-2 border-[#2B231D] rounded-xl sm:rounded-2xl px-5 py-2.5 sm:px-6 sm:py-3 shadow-cartoon hover:shadow-cartoon-lg hover:-translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-cartoon-sm transition-all duration-150 inline-flex items-center justify-center gap-2;
   }
+
+  .btn-cartoon-clay {
+    @apply bg-[#E06D53] text-white font-bold border-2 sm:border-2 border-[#2B231D] rounded-xl sm:rounded-2xl px-5 py-2.5 sm:px-6 sm:py-3 shadow-cartoon hover:shadow-cartoon-lg hover:-translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-cartoon-sm transition-all duration-150 inline-flex items-center justify-center gap-2;
+  }
+
+  .btn-cartoon-sky {
+    @apply bg-sky-500 text-white font-bold border-2 sm:border-2 border-[#2B231D] rounded-xl sm:rounded-2xl px-5 py-2.5 sm:px-6 sm:py-3 shadow-cartoon hover:shadow-cartoon-lg hover:-translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-cartoon-sm transition-all duration-150 inline-flex items-center justify-center gap-2;
+  }
+
+  .btn-cartoon-white {
+    @apply bg-white text-stone-800 font-bold border-2 sm:border-2 border-[#2B231D] rounded-xl sm:rounded-2xl px-5 py-2.5 sm:px-6 sm:py-3 shadow-cartoon hover:shadow-cartoon-lg hover:-translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-cartoon-sm transition-all duration-150 inline-flex items-center justify-center gap-2;
+  }
+
+  /* Cartoon Card Shell */
+  .card-cartoon {
+    @apply bg-white border-2 sm:border-2 border-[#2B231D] rounded-2xl sm:rounded-3xl shadow-cartoon hover:shadow-cartoon-lg transition-all duration-200 relative;
+  }
+
+  /* Paper note with cartoon push pin style */
+  .paper-note {
+    @apply bg-[#FFFDF7] border-2 border-[#2B231D] rounded-2xl shadow-cartoon p-5 relative;
+  }
+
+  /* Speech bubble tail */
+  .speech-tail-bottom {
+    position: relative;
+  }
+  .speech-tail-bottom::after {
+    content: '';
+    position: absolute;
+    bottom: -14px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 14px solid #2B231D;
+  }
+  .speech-tail-bottom::before {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 38px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 12px solid #FFFDF7;
+    z-index: 1;
+  }
+}
+
+/* Wobbly Hand-drawn borders */
+.border-handdrawn {
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+}
+
+/* Halftone / comic dots pattern */
+.comic-dots {
+  background-image: radial-gradient(#2B231D 12%, transparent 12%);
+  background-size: 16px 16px;
+  opacity: 0.08;
+}
+
+.comic-dots-amber {
+  background-image: radial-gradient(#D97706 18%, transparent 18%);
+  background-size: 14px 14px;
+  opacity: 0.15;
+}
+
+/* Hide scrollbar for carousels while keeping scrollable */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

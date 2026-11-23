@@ -3,16 +3,20 @@ import { ChevronRight, Crown, Coins, BookOpen, UserPlus, Trophy, Music } from 'l
 import { FaPhone, FaWhatsapp, FaFacebook, FaEnvelope } from 'react-icons/fa';
 import { PiSuitcaseSimpleBold } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
+import { StickerBadge, JhotiCorner } from './Cartoon/CartoonDoodles';
 
 const Members = () => {
   const navigate = useNavigate();
+  
   const members = [
     {
       id: 1,
       name: "ଶ୍ରୀ. ରୂପକ ଦଳେଇ",
       role: "Vice-President",
+      roleOdia: "ଉପ-ସଭାପତି",
       image: "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
       icon: Crown,
+      badgeColor: "bg-amber-400 text-stone-900",
       experience: "5+ years leadership",
       phone: "+919876543210",
       whatsapp: "+919876543210",
@@ -23,8 +27,10 @@ const Members = () => {
       id: 2,
       name: "ଶ୍ରୀ. କାହ୍ନା ଦଳେଇ",
       role: "Treasurer",
+      roleOdia: "କୋଷାଧ୍ୟକ୍ଷ",
       image: "https://images.pexels.com/photos/3756679/pexels-photo-3756679.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
       icon: Coins,
+      badgeColor: "bg-emerald-400 text-stone-900",
       experience: "8+ years financial management",
       phone: "+919876543211",
       whatsapp: "+919876543211",
@@ -35,8 +41,10 @@ const Members = () => {
       id: 3,
       name: "ଶ୍ରୀ. ରୀତିକ ଦଳେଇ",
       role: "Puja Secretary",
+      roleOdia: "ପୂଜା ସମ୍ପାଦକ",
       image: "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
       icon: BookOpen,
+      badgeColor: "bg-rose-400 text-white",
       experience: "6+ years cultural activities",
       phone: "+919876543212",
       whatsapp: "+919876543212",
@@ -47,8 +55,10 @@ const Members = () => {
       id: 4,
       name: "ଶ୍ରୀ. ବାପି ସାହୁ",
       role: "Assistant Secretary",
+      roleOdia: "ସହ-ସମ୍ପାଦକ",
       image: "https://images.pexels.com/photos/3785079/pexels-photo-3785079.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
       icon: UserPlus,
+      badgeColor: "bg-sky-400 text-stone-900",
       experience: "4+ years administration",
       phone: "+919876543213",
       whatsapp: "+919876543213",
@@ -59,8 +69,10 @@ const Members = () => {
       id: 5,
       name: "ଶ୍ରୀ. ଟିଲୁ ବେହେରା",
       role: "Sport Secretary",
+      roleOdia: "କ୍ରୀଡ଼ା ସମ୍ପାଦକ",
       image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
       icon: Trophy,
+      badgeColor: "bg-amber-400 text-stone-900",
       experience: "7+ years sports coordination",
       phone: "+919876543214",
       whatsapp: "+919876543214",
@@ -71,8 +83,10 @@ const Members = () => {
       id: 6,
       name: "ଶ୍ରୀ. ପ୍ରକାଶ ଦଳେଇ",
       role: "Cultural Secretary",
+      roleOdia: "ସାଂସ୍କୃତିକ ସମ୍ପାଦକ",
       image: "https://images.pexels.com/photos/3756681/pexels-photo-3756681.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
       icon: Music,
+      badgeColor: "bg-purple-400 text-white",
       experience: "5+ years cultural events",
       phone: "+919876543215",
       whatsapp: "+919876543215",
@@ -82,97 +96,115 @@ const Members = () => {
   ];
 
   return (
-    <section className="py-16 bg-gradient-to-br from-sky-50 via-white to-blue-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-2xl md:text-5xl font-bold bg-gradient-to-r from-sky-600 via-sky-700 to-sky-800 bg-clip-text text-transparent mb-6">
+    <section className="py-16 sm:py-24 bg-[#FAF7F0] border-b-3 sm:border-b-4 border-[#2B231D] relative overflow-hidden">
+      
+      {/* Decorative Traditional Corner */}
+      <div className="absolute top-4 left-4 opacity-30 hidden sm:block">
+        <JhotiCorner position="top-left" />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        {/* Section Header */}
+        <div className="text-center mb-12 sm:mb-16">
+          <div className="inline-block mb-3">
+            <StickerBadge text="କର୍ମଠ ସଦସ୍ୟଗଣ" color="amber" rotate="-rotate-2" />
+          </div>
+
+          <h2 className="heading-font text-3xl sm:text-5xl md:text-6xl font-black text-[#2B231D] mb-4">
             କମିଟି ମେମ୍ବର
           </h2>
-          <p className="text-sm sm:text-xl text-gray-600 max-w-2xl mx-auto">
+
+          <div className="w-24 sm:w-32 h-2.5 bg-amber-400 rounded-full border-2 border-[#2B231D] mx-auto mb-5 shadow-cartoon-sm"></div>
+
+          <p className="font-cartoon text-base sm:text-xl text-stone-700 max-w-2xl mx-auto leading-relaxed">
             ଆମର କ୍ଲବ୍‌କୁ ଏକ ସୁସଂଗଠିତ ସମୁଦାୟରେ ପରିଣତ କରୁଥିବା ସମର୍ପିତ କମିଟି ସଦସ୍ୟମାନଙ୍କ ସହ ପରିଚୟ କରନ୍ତୁ।
           </p>
         </div>
 
-        {/* Responsive Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-8">
+        {/* Responsive Grid with Handcrafted 2D Cartoon Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12">
           {members.map((member) => {
             const IconComponent = member.icon;
             return (
               <div 
                 key={member.id}
-                className="relative bg-gradient-to-br from-white to-sky-50 rounded-xl sm:rounded-2xl border border-gray-100 shadow-[0_10px_30px_rgba(14,165,233,0.1)] sm:shadow-[0_25px_50px_rgba(14,165,233,0.15)] hover:shadow-[0_20px_40px_rgba(14,165,233,0.25)] transform hover:-translate-y-1 sm:hover:-translate-y-2 transition-all duration-500 p-4 sm:p-6 group overflow-hidden"
+                className="card-cartoon bg-white p-5 sm:p-6 hover:-translate-y-1.5 hover:shadow-cartoon-lg transition-all duration-300 relative group overflow-hidden"
               >
-                <div className="flex items-start space-x-3 sm:space-x-4">
-                  {/* Profile Image */}
+                {/* Role Icon Stamp top right */}
+                <div className="absolute top-4 right-4 w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-amber-300 border-2 border-[#2B231D] shadow-cartoon-sm flex items-center justify-center transform group-hover:rotate-12 transition-transform">
+                  <IconComponent className="w-5 h-5 text-stone-900" />
+                </div>
+
+                <div className="flex items-start space-x-4">
+                  {/* Profile Image with 2D Cartoon Border Frame */}
                   <div className="relative flex-shrink-0">
-                    <div className="absolute inset-0 bg-sky-400 rounded-lg sm:rounded-xl blur-md sm:blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
-                    <img 
-                      src={member.image}
-                      alt={member.name}
-                      className="relative w-18 h-20 sm:w-28 sm:h-28 rounded-lg sm:rounded-xl object-cover border-2 sm:border-3 border-sky-200 shadow-md sm:shadow-lg group-hover:scale-105 transition-transform duration-300"
-                    />
+                    <div className="w-20 h-24 sm:w-24 sm:h-28 rounded-2xl border-2.5 border-[#2B231D] overflow-hidden bg-amber-50 shadow-cartoon-sm group-hover:scale-102 transition-transform">
+                      <img 
+                        src={member.image}
+                        alt={member.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                   </div>
                   
                   {/* Member Details */}
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-sm sm:text-lg font-bold bg-gradient-to-r from-gray-800 to-gray-900 bg-clip-text text-transparent truncate leading-tight sm:leading-normal">
+                  <div className="flex-1 min-w-0 pr-6">
+                    <h3 className="heading-font text-base sm:text-xl font-bold text-[#2B231D] truncate leading-tight">
                       {member.name}
                     </h3>
-                    <p className="text-sky-600 font-bold text-xs sm:text-sm mt-1">
-                      {member.role}
-                    </p>
-                    <div className="flex items-center text-gray-600 text-xs mt-1">
-                      <PiSuitcaseSimpleBold className="w-3 h-3 mr-1 text-sky-500 flex-shrink-0" />
-                      <span className="font-semibold truncate">{member.experience}</span>
+
+                    {/* Role Stamp */}
+                    <div className="inline-block mt-1">
+                      <span className={`text-[11px] sm:text-xs font-bold px-2 py-0.5 rounded-md border border-[#2B231D] shadow-xs ${member.badgeColor}`}>
+                        {member.role} ({member.roleOdia})
+                      </span>
                     </div>
 
-                    {/* Social Media Links */}
-                    <div className="flex items-center space-x-1 sm:space-x-2 mt-2 sm:mt-3">
-                      {/* Phone */}
+                    <div className="flex items-center text-stone-600 text-xs font-bold mt-2">
+                      <PiSuitcaseSimpleBold className="w-3.5 h-3.5 mr-1 text-amber-700 flex-shrink-0" />
+                      <span className="truncate">{member.experience}</span>
+                    </div>
+
+                    {/* Social Media & Contact Buttons */}
+                    <div className="flex items-center space-x-1.5 sm:space-x-2 mt-3 pt-1">
                       <a
                         href={`tel:${member.phone}`}
-                        className="bg-green-100 text-green-600 p-1 sm:p-1.5 rounded-md sm:rounded-lg hover:bg-green-200 transition-colors duration-200 group/social"
+                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-100 text-emerald-800 border-1.5 border-[#2B231D] shadow-cartoon-sm flex items-center justify-center hover:bg-emerald-200 transition-colors"
                         title="Call"
                       >
-                        <FaPhone className="w-2.5 h-2.5 sm:w-3 sm:h-3 group-hover/social:scale-110 transition-transform" />
+                        <FaPhone className="w-3 h-3" />
                       </a>
 
-                      {/* WhatsApp */}
                       <a
-                        href={`https://wa.me/${member.whatsapp}`}
+                        href={`https://wa.me/${member.whatsapp.replace(/\D/g, '')}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-green-100 text-green-600 p-1 sm:p-1.5 rounded-md sm:rounded-lg hover:bg-green-200 transition-colors duration-200 group/social"
+                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-100 text-emerald-800 border-1.5 border-[#2B231D] shadow-cartoon-sm flex items-center justify-center hover:bg-emerald-200 transition-colors"
                         title="WhatsApp"
                       >
-                        <FaWhatsapp className="w-2.5 h-2.5 sm:w-3 sm:h-3 group-hover/social:scale-110 transition-transform" />
+                        <FaWhatsapp className="w-3.5 h-3.5" />
                       </a>
 
-                      {/* Facebook */}
                       <a
                         href={`https://facebook.com/${member.facebook}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-blue-100 text-blue-600 p-1 sm:p-1.5 rounded-md sm:rounded-lg hover:bg-blue-200 transition-colors duration-200 group/social"
+                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-sky-100 text-sky-800 border-1.5 border-[#2B231D] shadow-cartoon-sm flex items-center justify-center hover:bg-sky-200 transition-colors"
                         title="Facebook"
                       >
-                        <FaFacebook className="w-2.5 h-2.5 sm:w-3 sm:h-3 group-hover/social:scale-110 transition-transform" />
+                        <FaFacebook className="w-3.5 h-3.5" />
                       </a>
 
-                      {/* Email */}
                       <a
                         href={`mailto:${member.email}`}
-                        className="bg-red-100 text-red-600 p-1 sm:p-1.5 rounded-md sm:rounded-lg hover:bg-red-200 transition-colors duration-200 group/social"
+                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-rose-100 text-rose-800 border-1.5 border-[#2B231D] shadow-cartoon-sm flex items-center justify-center hover:bg-rose-200 transition-colors"
                         title="Email"
                       >
-                        <FaEnvelope className="w-2.5 h-2.5 sm:w-3 sm:h-3 group-hover/social:scale-110 transition-transform" />
+                        <FaEnvelope className="w-3.5 h-3.5" />
                       </a>
                     </div>
-                  </div>
 
-                  {/* Role Icon */}
-                  <div className="bg-sky-100 text-sky-600 rounded-full p-1.5 sm:p-2 shadow-md sm:shadow-lg flex-shrink-0">
-                    <IconComponent className="w-3 h-3 sm:w-5 sm:h-5" />
                   </div>
                 </div>
               </div>
@@ -182,11 +214,15 @@ const Members = () => {
 
         {/* View All Button */}
         <div className="text-center">
-          <button onClick={() => navigate('/all-members')} className="bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white px-3 py-2 sm:px-6 sm:py-3 lg:px-8 lg:py-4 rounded-full transition-all duration-200 inline-flex items-center space-x-2 text-base text-md sm:text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+          <button 
+            onClick={() => navigate('/all-members')} 
+            className="btn-cartoon-amber text-base sm:text-lg"
+          >
             <span>ସମସ୍ତ କମିଟି ମେମ୍ବର</span>
-            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+            <ChevronRight className="w-5 h-5" />
           </button>
         </div>
+
       </div>
     </section>
   );

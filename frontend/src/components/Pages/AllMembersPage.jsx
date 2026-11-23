@@ -1,20 +1,24 @@
-// components/AllMembersPage.jsx
-import React from 'react';
-import { Crown, Coins, BookOpen, UserPlus, Trophy, Music, ArrowLeft } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Crown, Coins, BookOpen, UserPlus, Trophy, Music, ArrowLeft, Search, Filter, Phone, Mail } from 'lucide-react';
 import { FaPhone, FaWhatsapp, FaFacebook, FaEnvelope } from 'react-icons/fa';
 import { PiSuitcaseSimpleBold } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../../utils/constant';
+import { StickerBadge, JhotiCorner, DiyaIcon } from '../Cartoon/CartoonDoodles';
+import MarigoldGarland from '../Cartoon/MarigoldGarland';
 
 const AllMembersPage = () => {
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
-  // Extended dummy data with president, secretary, and regular members
-  const allMembers = [
-    // President
+  // Initial local members data
+  const defaultMembers = [
     {
       id: 0,
       name: "ଶ୍ରୀ. ଅଜୟ ଦଳେଇ",
       role: "President",
+      roleOdia: "ସଭାପତି",
       image: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
       icon: Crown,
       experience: "10+ years leadership",
@@ -24,11 +28,11 @@ const AllMembersPage = () => {
       email: "ajay.dalei@example.com",
       category: "president"
     },
-    // Secretary
     {
       id: -1,
       name: "ଶ୍ରୀ. ସଞ୍ଜୟ ସାହୁ",
       role: "Secretary",
+      roleOdia: "ସମ୍ପାଦକ",
       image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
       icon: BookOpen,
       experience: "8+ years administration",
@@ -38,11 +42,11 @@ const AllMembersPage = () => {
       email: "sanjay.sahu@example.com",
       category: "secretary"
     },
-    // Committee Members (existing ones)
     {
       id: 1,
       name: "ଶ୍ରୀ. ରୂପକ ଦଳେଇ",
       role: "Vice-President",
+      roleOdia: "ଉପ-ସଭାପତି",
       image: "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
       icon: Crown,
       experience: "5+ years leadership",
@@ -56,6 +60,7 @@ const AllMembersPage = () => {
       id: 2,
       name: "ଶ୍ରୀ. କାହ୍ନା ଦଳେଇ",
       role: "Treasurer",
+      roleOdia: "କୋଷାଧ୍ୟକ୍ଷ",
       image: "https://images.pexels.com/photos/3756679/pexels-photo-3756679.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
       icon: Coins,
       experience: "8+ years financial management",
@@ -69,6 +74,7 @@ const AllMembersPage = () => {
       id: 3,
       name: "ଶ୍ରୀ. ରୀତିକ ଦଳେଇ",
       role: "Puja Secretary",
+      roleOdia: "ପୂଜା ସମ୍ପାଦକ",
       image: "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
       icon: BookOpen,
       experience: "6+ years cultural activities",
@@ -82,6 +88,7 @@ const AllMembersPage = () => {
       id: 4,
       name: "ଶ୍ରୀ. ବାପି ସାହୁ",
       role: "Assistant Secretary",
+      roleOdia: "ସହ-ସମ୍ପାଦକ",
       image: "https://images.pexels.com/photos/3785079/pexels-photo-3785079.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
       icon: UserPlus,
       experience: "4+ years administration",
@@ -95,6 +102,7 @@ const AllMembersPage = () => {
       id: 5,
       name: "ଶ୍ରୀ. ଟିଲୁ ବେହେରା",
       role: "Sport Secretary",
+      roleOdia: "କ୍ରୀଡ଼ା ସମ୍ପାଦକ",
       image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
       icon: Trophy,
       experience: "7+ years sports coordination",
@@ -108,6 +116,7 @@ const AllMembersPage = () => {
       id: 6,
       name: "ଶ୍ରୀ. ପ୍ରକାଶ ଦଳେଇ",
       role: "Cultural Secretary",
+      roleOdia: "ସାଂସ୍କୃତିକ ସମ୍ପାଦକ",
       image: "https://images.pexels.com/photos/3756681/pexels-photo-3756681.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
       icon: Music,
       experience: "5+ years cultural events",
@@ -117,11 +126,11 @@ const AllMembersPage = () => {
       email: "prakash.dalei@example.com",
       category: "committee"
     },
-    // Additional regular members
     {
       id: 7,
       name: "ଶ୍ରୀ. ରାଜେଶ ମହାପାତ୍ର",
       role: "Member",
+      roleOdia: "ସଦସ୍ୟ",
       image: "https://images.pexels.com/photos/3786525/pexels-photo-3786525.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
       icon: UserPlus,
       experience: "3+ years community service",
@@ -135,6 +144,7 @@ const AllMembersPage = () => {
       id: 8,
       name: "ଶ୍ରୀ. ସୁରେଶ ପ୍ରଧାନ",
       role: "Member",
+      roleOdia: "ସଦସ୍ୟ",
       image: "https://images.pexels.com/photos/3785077/pexels-photo-3785077.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
       icon: UserPlus,
       experience: "2+ years volunteering",
@@ -148,6 +158,7 @@ const AllMembersPage = () => {
       id: 9,
       name: "ଶ୍ରୀ. ଅନିଲ ପଟ୍ଟନାୟକ",
       role: "Member",
+      roleOdia: "ସଦସ୍ୟ",
       image: "https://images.pexels.com/photos/3785090/pexels-photo-3785090.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
       icon: UserPlus,
       experience: "4+ years event management",
@@ -159,72 +170,136 @@ const AllMembersPage = () => {
     }
   ];
 
-  // Filter members by category
-  const president = allMembers.find(member => member.category === 'president');
-  const secretary = allMembers.find(member => member.category === 'secretary');
-  const committeeMembers = allMembers.filter(member => member.category === 'committee');
-  const regularMembers = allMembers.filter(member => member.category === 'member');
+  const [members, setMembers] = useState(defaultMembers);
+
+  // Fetch live members from backend if available
+  useEffect(() => {
+    fetch(`${BASE_URL}/api/members/all`)
+      .then(res => res.json())
+      .then(result => {
+        if (result?.data && result.data.length > 0) {
+          // Merge unique phone
+          const backendList = result.data.map(m => ({
+            ...m,
+            icon: m.role.toLowerCase().includes('president') ? Crown :
+                  m.role.toLowerCase().includes('secretary') ? BookOpen :
+                  m.role.toLowerCase().includes('treasurer') ? Coins :
+                  m.role.toLowerCase().includes('sport') ? Trophy : UserPlus
+          }));
+          setMembers(backendList);
+        }
+      })
+      .catch(err => console.log('Using default member list'));
+  }, []);
+
+  // Filter members by search and category
+  const filtered = members.filter(member => {
+    const matchesSearch = member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          member.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          member.phone.includes(searchTerm);
+    const matchesCat = selectedCategory === 'all' || member.category === selectedCategory;
+    return matchesSearch && matchesCat;
+  });
+
+  const president = filtered.find(m => m.category === 'president');
+  const secretary = filtered.find(m => m.category === 'secretary');
+  const committeeMembers = filtered.filter(m => m.category === 'committee');
+  const regularMembers = filtered.filter(m => m.category === 'member');
 
   const MemberCard = ({ member, size = "medium" }) => {
-    const IconComponent = member.icon;
+    const IconComponent = member.icon || UserPlus;
     const isLarge = size === "large";
-    
+
     return (
-      <div className={`bg-gradient-to-br from-white to-sky-50 rounded-xl border border-gray-100 shadow-[0_10px_30px_rgba(14,165,233,0.1)] hover:shadow-[0_20px_40px_rgba(14,165,233,0.25)] transform hover:-translate-y-1 transition-all duration-500 p-4 sm:p-6 group overflow-hidden ${
-        isLarge ? 'sm:rounded-2xl' : ''
+      <div className={`card-cartoon bg-white p-5 sm:p-6 hover:-translate-y-1 hover:shadow-cartoon-lg transition-all duration-300 relative group overflow-hidden ${
+        isLarge ? "border-3 sm:border-4" : ""
       }`}>
-        <div className={`flex items-start space-x-3 ${isLarge ? 'sm:space-x-4' : ''}`}>
-          {/* Profile Image */}
+        <div className="flex items-start space-x-4">
+          {/* Profile Image with 2D Cartoon Border */}
           <div className="relative flex-shrink-0">
-            <div className="absolute inset-0 bg-sky-400 rounded-lg blur-md opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
-            <img 
-              src={member.image}
-              alt={member.name}
-              className={`relative rounded-lg object-cover border-2 border-sky-200 shadow-md group-hover:scale-105 transition-transform duration-300 ${
-                isLarge ? 'w-20 h-24 sm:w-28 sm:h-32' : 'w-16 h-20 sm:w-20 sm:h-24'
-              }`}
-            />
+            <div className={`rounded-2xl border-2.5 border-[#2B231D] overflow-hidden bg-amber-50 shadow-cartoon-sm ${
+              isLarge ? "w-24 h-28 sm:w-32 sm:h-36" : "w-20 h-24 sm:w-24 sm:h-28"
+            }`}>
+              <img
+                src={member.image || "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop"}
+                alt={member.name}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+              />
+            </div>
+            
+            {/* Stamp on corner */}
+            <div className="absolute -bottom-2 -left-1">
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-md border border-[#2B231D] bg-amber-300 shadow-xs">
+                {member.roleOdia || member.role}
+              </span>
+            </div>
           </div>
-          
+
           {/* Member Details */}
-          <div className="flex-1 min-w-0">
-            <h3 className={`font-bold bg-gradient-to-r from-gray-800 to-gray-900 bg-clip-text text-transparent truncate leading-tight ${
-              isLarge ? 'text-lg sm:text-xl' : 'text-sm sm:text-base'
+          <div className="flex-1 min-w-0 pr-6">
+            <h3 className={`heading-font font-black text-[#2B231D] truncate leading-tight ${
+              isLarge ? "text-xl sm:text-2xl" : "text-base sm:text-xl"
             }`}>
               {member.name}
             </h3>
-            <p className={`text-sky-600 font-bold mt-1 ${
-              isLarge ? 'text-sm sm:text-base' : 'text-xs sm:text-sm'
-            }`}>
+
+            <p className="font-cartoon text-amber-800 font-extrabold text-xs sm:text-sm mt-1">
               {member.role}
             </p>
-            <div className="flex items-center text-gray-600 mt-1">
-              <PiSuitcaseSimpleBold className="w-3 h-3 mr-1 text-sky-500 flex-shrink-0" />
-              <span className={`font-semibold truncate ${isLarge ? 'text-sm' : 'text-xs'}`}>
-                {member.experience}
-              </span>
+
+            <div className="flex items-center text-stone-600 text-xs font-bold mt-1.5">
+              <PiSuitcaseSimpleBold className="w-3.5 h-3.5 mr-1 text-amber-700 flex-shrink-0" />
+              <span className="truncate">{member.experience}</span>
             </div>
 
-            {/* Social Media Links */}
-            <div className={`flex items-center space-x-1 mt-2 ${isLarge ? 'sm:space-x-2 sm:mt-3' : ''}`}>
-              <a href={`tel:${member.phone}`} className="bg-green-100 text-green-600 p-1 rounded-md hover:bg-green-200 transition-colors duration-200 group/social" title="Call">
-                <FaPhone className="w-3 h-3 group-hover/social:scale-110 transition-transform" />
+            {/* Contact Buttons */}
+            <div className="flex items-center space-x-1.5 sm:space-x-2 mt-3 pt-1">
+              <a
+                href={`tel:${member.phone}`}
+                className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-100 text-emerald-800 border-1.5 border-[#2B231D] shadow-cartoon-sm flex items-center justify-center hover:bg-emerald-200 transition-colors"
+                title="Call"
+              >
+                <FaPhone className="w-3 h-3" />
               </a>
-              <a href={`https://wa.me/${member.whatsapp}`} target="_blank" rel="noopener noreferrer" className="bg-green-100 text-green-600 p-1 rounded-md hover:bg-green-200 transition-colors duration-200 group/social" title="WhatsApp">
-                <FaWhatsapp className="w-3 h-3 group-hover/social:scale-110 transition-transform" />
+
+              <a
+                href={`https://wa.me/${(member.whatsapp || member.phone).replace(/\D/g, '')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-100 text-emerald-800 border-1.5 border-[#2B231D] shadow-cartoon-sm flex items-center justify-center hover:bg-emerald-200 transition-colors"
+                title="WhatsApp"
+              >
+                <FaWhatsapp className="w-3.5 h-3.5" />
               </a>
-              <a href={`https://facebook.com/${member.facebook}`} target="_blank" rel="noopener noreferrer" className="bg-blue-100 text-blue-600 p-1 rounded-md hover:bg-blue-200 transition-colors duration-200 group/social" title="Facebook">
-                <FaFacebook className="w-3 h-3 group-hover/social:scale-110 transition-transform" />
-              </a>
-              <a href={`mailto:${member.email}`} className="bg-red-100 text-red-600 p-1 rounded-md hover:bg-red-200 transition-colors duration-200 group/social" title="Email">
-                <FaEnvelope className="w-3 h-3 group-hover/social:scale-110 transition-transform" />
-              </a>
+
+              {member.facebook && (
+                <a
+                  href={`https://facebook.com/${member.facebook}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-sky-100 text-sky-800 border-1.5 border-[#2B231D] shadow-cartoon-sm flex items-center justify-center hover:bg-sky-200 transition-colors"
+                  title="Facebook"
+                >
+                  <FaFacebook className="w-3.5 h-3.5" />
+                </a>
+              )}
+
+              {member.email && (
+                <a
+                  href={`mailto:${member.email}`}
+                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-rose-100 text-rose-800 border-1.5 border-[#2B231D] shadow-cartoon-sm flex items-center justify-center hover:bg-rose-200 transition-colors"
+                  title="Email"
+                >
+                  <FaEnvelope className="w-3.5 h-3.5" />
+                </a>
+              )}
             </div>
+
           </div>
 
           {/* Role Icon */}
-          <div className="bg-sky-100 text-sky-600 rounded-full p-1.5 shadow-md flex-shrink-0">
-            <IconComponent className="w-3 h-3 sm:w-4 sm:h-4" />
+          <div className="w-9 h-9 rounded-xl bg-amber-200 border-2 border-[#2B231D] flex items-center justify-center flex-shrink-0 shadow-cartoon-sm">
+            <IconComponent className="w-4 h-4 text-stone-900" />
           </div>
         </div>
       </div>
@@ -233,81 +308,139 @@ const AllMembersPage = () => {
 
   const SectionTitle = ({ title, subtitle }) => (
     <div className="text-center mb-8">
-      <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-sky-700 mb-2">{title}</h3>
-      {subtitle && <p className="text-gray-600 text-sm sm:text-base">{subtitle}</p>}
+      <h3 className="heading-font text-2xl sm:text-3xl font-black text-[#2B231D] mb-2">{title}</h3>
+      {subtitle && <p className="font-cartoon text-stone-700 text-sm sm:text-base font-semibold">{subtitle}</p>}
+      <div className="w-16 h-1.5 bg-amber-400 rounded-full border border-[#2B231D] mx-auto mt-2"></div>
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-blue-50 py-8 mt-12 sm:mt-14">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="flex items-center justify-between">
+    <div className="min-h-screen bg-[#FAF7F0] pt-20 sm:pt-24 pb-16">
+      
+      {/* Top Garland */}
+      <MarigoldGarland />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+        
+        {/* Navigation & Header */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
           <button 
             onClick={() => navigate(-1)}
-            className="flex items-center space-x-2 text-sky-600 hover:text-sky-700 transition-colors duration-200 bg-white px-4 py-2 rounded-lg shadow-sm hover:shadow-md"
+            className="btn-cartoon-white text-xs sm:text-sm py-2 px-4"
           >
-            <ArrowLeft className="w-5 h-5" />
-            <span className="font-semibold">Back</span>
+            <ArrowLeft className="w-4 h-4 mr-1" />
+            <span>ପଛକୁ ଫେରନ୍ତୁ (Back)</span>
           </button>
           
-          {/* <div className="text-center flex-1 mx-4">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-sky-600 via-sky-700 to-sky-800 bg-clip-text text-transparent">
+          <div className="text-center">
+            <h1 className="heading-font text-3xl sm:text-5xl font-black text-[#2B231D]">
               ସମସ୍ତ କମିଟି ମେମ୍ବର
             </h1>
-            <p className="text-gray-600 text-sm sm:text-base mt-2">
+            <p className="font-cartoon text-stone-700 text-sm sm:text-base font-bold mt-1">
               ଆମ ସମୁଦାୟର ସମସ୍ତ ସଦସ୍ୟମାନଙ୍କ ସହିତ ପରିଚିତ ହନ୍ତୁ
             </p>
-          </div> */}
-          
-          {/* <div className="w-20"></div> Spacer for balance */}
+          </div>
+
+          {/* Spacer */}
+          <div className="w-28 hidden sm:block"></div>
+        </div>
+
+        {/* Search & Category Filter Bar */}
+        <div className="card-cartoon bg-white p-5 mb-10 shadow-cartoon">
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
+            
+            {/* Search Input */}
+            <div className="relative w-full sm:max-w-md">
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" />
+              <input
+                type="text"
+                placeholder="ଖୋଜନ୍ତୁ (Search by name, role, phone)..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-9 pr-4 py-2.5 border-2 border-[#2B231D] rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 bg-[#FAF7F0]"
+              />
+            </div>
+
+            {/* Category Filter Pills */}
+            <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+              {[
+                { id: 'all', label: 'ସମସ୍ତ (All)' },
+                { id: 'president', label: 'ସଭାପତି' },
+                { id: 'secretary', label: 'ସମ୍ପାଦକ' },
+                { id: 'committee', label: 'କମିଟି' },
+                { id: 'member', label: 'ସାଧାରଣ ସଦସ୍ୟ' }
+              ].map(cat => (
+                <button
+                  key={cat.id}
+                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold border-2 transition-all cursor-pointer ${
+                    selectedCategory === cat.id
+                      ? "bg-amber-400 text-stone-900 border-[#2B231D] shadow-cartoon-sm"
+                      : "bg-white text-stone-700 border-[#2B231D]/30 hover:border-[#2B231D]"
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+
+          </div>
         </div>
 
         {/* President and Secretary Section */}
-        <section className="mb-12">
-          <SectionTitle 
-            title="ଅଧ୍ୟକ୍ଷ ଏବଂ ସମ୍ପାଦକ" 
-            subtitle="ଆମ ସଂଗଠନର ମୁଖ୍ୟ ପ୍ରତିନିଧିମାନେ"
-          />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto">
-            {president && <MemberCard member={president} size="large" />}
-            {secretary && <MemberCard member={secretary} size="large" />}
-          </div>
-        </section>
+        {(selectedCategory === 'all' || selectedCategory === 'president' || selectedCategory === 'secretary') && (
+          <section className="mb-14">
+            <SectionTitle 
+              title="ଅଧ୍ୟକ୍ଷ ଏବଂ ସମ୍ପାଦକ" 
+              subtitle="ଆମ ସଂଗଠନର ମୁଖ୍ୟ ପ୍ରତିନିଧିମାନେ"
+            />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto">
+              {president && <MemberCard member={president} size="large" />}
+              {secretary && <MemberCard member={secretary} size="large" />}
+            </div>
+          </section>
+        )}
 
         {/* Committee Members Section */}
-        <section className="mb-12">
-          <SectionTitle 
-            title="କମିଟି ସଦସ୍ୟ" 
-            subtitle="ବିଭିନ୍ନ ବିଭାଗର ଦାୟିତ୍ୱରେ ଥିବା ସଦସ୍ୟମାନେ"
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {committeeMembers.map((member) => (
-              <MemberCard key={member.id} member={member} size="medium" />
-            ))}
-          </div>
-        </section>
+        {(selectedCategory === 'all' || selectedCategory === 'committee') && committeeMembers.length > 0 && (
+          <section className="mb-14">
+            <SectionTitle 
+              title="କମିଟି ସଦସ୍ୟ" 
+              subtitle="ବିଭିନ୍ନ ବିଭାଗର ଦାୟିତ୍ୱରେ ଥିବା ସଦସ୍ୟମାନେ"
+            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {committeeMembers.map((member) => (
+                <MemberCard key={member.id || member._id} member={member} size="medium" />
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Regular Members Section */}
-        <section className="mb-12">
-          <SectionTitle 
-            title="ସାଧାରଣ ସଦସ୍ୟ" 
-            subtitle="ଆମ ସମୁଦାୟର ସକ୍ରିୟ ସଦସ୍ୟମାନେ"
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {regularMembers.map((member) => (
-              <MemberCard key={member.id} member={member} size="medium" />
-            ))}
-          </div>
-        </section>
+        {(selectedCategory === 'all' || selectedCategory === 'member') && regularMembers.length > 0 && (
+          <section className="mb-14">
+            <SectionTitle 
+              title="ସାଧାରଣ ସଦସ୍ୟ" 
+              subtitle="ଆମ ସମୁଦାୟର ସକ୍ରିୟ ସଦସ୍ୟମାନେ"
+            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {regularMembers.map((member) => (
+                <MemberCard key={member.id || member._id} member={member} size="medium" />
+              ))}
+            </div>
+          </section>
+        )}
 
-        {/* Total Count */}
-        <div className="text-center bg-white rounded-xl p-6 shadow-lg max-w-md mx-auto">
-          <div className="text-3xl sm:text-4xl font-bold text-sky-600 mb-2">
-            {allMembers.length}
+        {/* Total Count Badge */}
+        <div className="text-center card-cartoon bg-white p-6 max-w-md mx-auto shadow-cartoon">
+          <div className="font-odia text-4xl sm:text-5xl font-black text-amber-700 mb-1">
+            {filtered.length}
           </div>
-          <div className="text-gray-600 font-semibold">ମୋଟ ସଦସ୍ୟ ସଂଖ୍ୟା</div>
+          <div className="font-cartoon text-stone-700 font-bold text-base">
+            ମୋଟ ସଦସ୍ୟ ସଂଖ୍ୟା
+          </div>
         </div>
+
       </div>
     </div>
   );

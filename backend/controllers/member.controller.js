@@ -1,4 +1,5 @@
 import { Member } from "../models/member.model.js";
+import mongoose from "mongoose";
 import cloudinary from "../config/cloudinary.js";
 import streamifier from "streamifier";
 
