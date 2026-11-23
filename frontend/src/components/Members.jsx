@@ -1,99 +1,113 @@
 import React from 'react';
 import { ChevronRight, Crown, Coins, BookOpen, UserPlus, Trophy, Music } from 'lucide-react';
-import { FaPhone, FaWhatsapp, FaFacebook, FaEnvelope } from 'react-icons/fa';
+import { FaPhone, FaWhatsapp, FaFacebook, FaInstagram } from 'react-icons/fa';
 import { PiSuitcaseSimpleBold } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
 import { StickerBadge, JhotiCorner } from './Cartoon/CartoonDoodles';
+import { MemberPhotoPlaceholder } from './Cartoon/EmptyPhotoPlaceholder';
 
 const Members = () => {
   const navigate = useNavigate();
   
+  // Requirement 6: Updated members data with Instagram profile field and replaced email
   const members = [
     {
       id: 1,
       name: "ଶ୍ରୀ. ରୂପକ ଦଳେଇ",
       role: "Vice-President",
       roleOdia: "ଉପ-ସଭାପତି",
-      image: "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+      /* image: "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop", */
+      image: "",
       icon: Crown,
       badgeColor: "bg-amber-400 text-stone-900",
       experience: "5+ years leadership",
       phone: "+919876543210",
       whatsapp: "+919876543210",
       facebook: "rupa.dalei",
-      email: "rupa.dalei@example.com"
+      instagram: "rupa.dalei"
     },
     {
       id: 2,
       name: "ଶ୍ରୀ. କାହ୍ନା ଦଳେଇ",
       role: "Treasurer",
       roleOdia: "କୋଷାଧ୍ୟକ୍ଷ",
-      image: "https://images.pexels.com/photos/3756679/pexels-photo-3756679.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+      /* image: "https://images.pexels.com/photos/3756679/pexels-photo-3756679.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop", */
+      image: "",
       icon: Coins,
       badgeColor: "bg-emerald-400 text-stone-900",
       experience: "8+ years financial management",
       phone: "+919876543211",
       whatsapp: "+919876543211",
       facebook: "kahna.dalei",
-      email: "kahna.dalei@example.com"
+      instagram: "kahna.dalei"
     },
     {
       id: 3,
       name: "ଶ୍ରୀ. ରୀତିକ ଦଳେଇ",
       role: "Puja Secretary",
       roleOdia: "ପୂଜା ସମ୍ପାଦକ",
-      image: "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+      /* image: "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop", */
+      image: "",
       icon: BookOpen,
       badgeColor: "bg-rose-400 text-white",
       experience: "6+ years cultural activities",
       phone: "+919876543212",
       whatsapp: "+919876543212",
       facebook: "ritik.dalei",
-      email: "ritik.dalei@example.com"
+      instagram: "ritik.dalei"
     },
     {
       id: 4,
       name: "ଶ୍ରୀ. ବାପି ସାହୁ",
       role: "Assistant Secretary",
       roleOdia: "ସହ-ସମ୍ପାଦକ",
-      image: "https://images.pexels.com/photos/3785079/pexels-photo-3785079.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+      /* image: "https://images.pexels.com/photos/3785079/pexels-photo-3785079.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop", */
+      image: "",
       icon: UserPlus,
       badgeColor: "bg-sky-400 text-stone-900",
       experience: "4+ years administration",
       phone: "+919876543213",
       whatsapp: "+919876543213",
       facebook: "bapi.sahu",
-      email: "bapi.sahu@example.com"
+      instagram: "bapi.sahu"
     },
     {
       id: 5,
       name: "ଶ୍ରୀ. ଟିଲୁ ବେହେରା",
       role: "Sport Secretary",
       roleOdia: "କ୍ରୀଡ଼ା ସମ୍ପାଦକ",
-      image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+      /* image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop", */
+      image: "",
       icon: Trophy,
       badgeColor: "bg-amber-400 text-stone-900",
       experience: "7+ years sports coordination",
       phone: "+919876543214",
       whatsapp: "+919876543214",
       facebook: "tilu.behera",
-      email: "tilu.behera@example.com"
+      instagram: "tilu.behera"
     },
     {
       id: 6,
       name: "ଶ୍ରୀ. ପ୍ରକାଶ ଦଳେଇ",
       role: "Cultural Secretary",
       roleOdia: "ସାଂସ୍କୃତିକ ସମ୍ପାଦକ",
-      image: "https://images.pexels.com/photos/3756681/pexels-photo-3756681.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+      /* image: "https://images.pexels.com/photos/3756681/pexels-photo-3756681.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop", */
+      image: "",
       icon: Music,
       badgeColor: "bg-purple-400 text-white",
       experience: "5+ years cultural events",
       phone: "+919876543215",
       whatsapp: "+919876543215",
       facebook: "prakash.dalei",
-      email: "prakash.dalei@example.com"
+      instagram: "prakash.dalei"
     }
   ];
+
+  const formatInstagramUrl = (handle) => {
+    if (!handle) return '';
+    if (handle.startsWith('http://') || handle.startsWith('https://')) return handle;
+    return `https://instagram.com/${handle.replace('@', '').trim()}`;
+  };
 
   return (
     <section className="py-16 sm:py-24 bg-[#FAF7F0] border-b-3 sm:border-b-4 border-[#2B231D] relative overflow-hidden">
@@ -126,6 +140,7 @@ const Members = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12">
           {members.map((member) => {
             const IconComponent = member.icon;
+            const instaUrl = formatInstagramUrl(member.instagram);
             return (
               <div 
                 key={member.id}
@@ -137,14 +152,23 @@ const Members = () => {
                 </div>
 
                 <div className="flex items-start space-x-4">
-                  {/* Profile Image with 2D Cartoon Border Frame */}
+                  {/* Profile Image with 2D Cartoon Border Frame - Requirement 5: Empty Placeholder preserved */}
                   <div className="relative flex-shrink-0">
-                    <div className="w-20 h-24 sm:w-24 sm:h-28 rounded-2xl border-2.5 border-[#2B231D] overflow-hidden bg-amber-50 shadow-cartoon-sm group-hover:scale-102 transition-transform">
-                      <img 
+                    <div className="w-20 h-24 sm:w-24 sm:h-28 rounded-2xl border-2.5 border-[#2B231D] overflow-hidden bg-amber-50 shadow-cartoon-sm group-hover:scale-102 transition-transform flex items-center justify-center">
+                      {/* <img 
                         src={member.image}
                         alt={member.name}
                         className="w-full h-full object-cover"
-                      />
+                      /> */}
+                      {member.image && member.image.startsWith("http") && !member.image.includes("pexels.com") ? (
+                        <img 
+                          src={member.image}
+                          alt={member.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <MemberPhotoPlaceholder role={member.role} />
+                      )}
                     </div>
                   </div>
                   
@@ -166,7 +190,7 @@ const Members = () => {
                       <span className="truncate">{member.experience}</span>
                     </div>
 
-                    {/* Social Media & Contact Buttons */}
+                    {/* Requirement 6: Social Media Buttons with Instagram replacing Email */}
                     <div className="flex items-center space-x-1.5 sm:space-x-2 mt-3 pt-1">
                       <a
                         href={`tel:${member.phone}`}
@@ -186,23 +210,30 @@ const Members = () => {
                         <FaWhatsapp className="w-3.5 h-3.5" />
                       </a>
 
-                      <a
-                        href={`https://facebook.com/${member.facebook}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-sky-100 text-sky-800 border-1.5 border-[#2B231D] shadow-cartoon-sm flex items-center justify-center hover:bg-sky-200 transition-colors"
-                        title="Facebook"
-                      >
-                        <FaFacebook className="w-3.5 h-3.5" />
-                      </a>
+                      {member.facebook && (
+                        <a
+                          href={`https://facebook.com/${member.facebook}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-sky-100 text-sky-800 border-1.5 border-[#2B231D] shadow-cartoon-sm flex items-center justify-center hover:bg-sky-200 transition-colors"
+                          title="Facebook"
+                        >
+                          <FaFacebook className="w-3.5 h-3.5" />
+                        </a>
+                      )}
 
-                      <a
-                        href={`mailto:${member.email}`}
-                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-rose-100 text-rose-800 border-1.5 border-[#2B231D] shadow-cartoon-sm flex items-center justify-center hover:bg-rose-200 transition-colors"
-                        title="Email"
-                      >
-                        <FaEnvelope className="w-3.5 h-3.5" />
-                      </a>
+                      {/* Requirement 6: Instagram Profile link opening in new tab */}
+                      {instaUrl && (
+                        <a
+                          href={instaUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-pink-100 text-pink-700 border-1.5 border-[#2B231D] shadow-cartoon-sm flex items-center justify-center hover:bg-pink-200 transition-colors"
+                          title="Instagram Profile"
+                        >
+                          <FaInstagram className="w-3.5 h-3.5" />
+                        </a>
+                      )}
                     </div>
 
                   </div>
@@ -216,7 +247,7 @@ const Members = () => {
         <div className="text-center">
           <button 
             onClick={() => navigate('/all-members')} 
-            className="btn-cartoon-amber text-base sm:text-lg"
+            className="btn-cartoon-amber text-base sm:text-lg cursor-pointer"
           >
             <span>ସମସ୍ତ କମିଟି ମେମ୍ବର</span>
             <ChevronRight className="w-5 h-5" />

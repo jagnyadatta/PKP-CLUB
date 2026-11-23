@@ -1,10 +1,14 @@
 // components/Admin/ManageMembers.jsx
 import React, { useState, useEffect } from 'react';
-import { Edit, Trash2, Search, Filter, MoreVertical, Eye, User, Phone, Mail, CheckCircle } from 'lucide-react';
+import { Edit, Trash2, Search, Filter, Eye, User, Phone, CheckCircle, ExternalLink, X } from 'lucide-react';
+import { FaPhone, FaWhatsapp, FaFacebook, FaInstagram } from 'react-icons/fa';
 import { BASE_URL } from '../../utils/constant';
+import { useAuth } from '../../context/AuthContext';
 import { StickerBadge, DiyaIcon } from '../Cartoon/CartoonDoodles';
+import { MemberPhotoPlaceholder } from '../Cartoon/EmptyPhotoPlaceholder';
 
 const ManageMembers = () => {
+  const { token } = useAuth();
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -15,19 +19,20 @@ const ManageMembers = () => {
   const [showViewModal, setShowViewModal] = useState(false);
 
   // Fetch members from backend
-  useEffect(() => {
-    const fetchMembers = async () => {
-      try {
-        const response = await fetch(`${BASE_URL}/api/members/all`);
-        const result = await response.json();
-        setMembers(result?.data || []);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching members:', error);
-        setLoading(false);
-      }
-    };
+  const fetchMembers = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${BASE_URL}/api/members/all`);
+      const result = await response.json();
+      setMembers(result?.data || []);
+    } catch (error) {
+      console.error('Error fetching members:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchMembers();
   }, []);
 
@@ -57,6 +62,9 @@ const ManageMembers = () => {
     try {
       const response = await fetch(`${BASE_URL}/api/members/delete/${memberId}`, {
         method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
       
       const result = await response.json();
@@ -75,7 +83,7 @@ const ManageMembers = () => {
   };
 
   const handleEdit = (member) => {
-    setSelectedMember(member);
+    setSelectedMember({ ...member });
     setShowEditModal(true);
   };
 
@@ -90,6 +98,7 @@ const ManageMembers = () => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
         },
         body: JSON.stringify(updatedMember),
       });
@@ -111,17 +120,24 @@ const ManageMembers = () => {
     }
   };
 
+  const formatInstagramUrl = (handle) => {
+    if (!handle) return '';
+    if (handle.startsWith('http://') || handle.startsWith('https://')) return handle;
+    const clean = handle.replace('@', '').trim();
+    return `https://instagram.com/${clean}`;
+  };
+
   if (loading) {
     return (
-      <div className="py-16 text-center">
+      <div className="py-16 text-center font-cartoon">
         <div className="w-12 h-12 border-3 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
-        <p className="font-cartoon font-bold text-stone-700">Loading members...</p>
+        <p className="font-bold text-stone-700">Loading members...</p>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto font-cartoon">
       
       {/* Header */}
       <div className="text-center mb-8">
@@ -131,13 +147,13 @@ const ManageMembers = () => {
         <h1 className="heading-font text-3xl sm:text-4xl font-black text-[#2B231D] mb-2">
           Manage Members (ସଦସ୍ୟ ପରିଚାଳନା)
         </h1>
-        <p className="font-cartoon text-stone-600 max-w-xl mx-auto text-sm sm:text-base">
-          View, edit, and manage all club members. Search and filter to find specific members.
+        <p className="text-stone-600 max-w-xl mx-auto text-sm sm:text-base">
+          View, edit, and manage all club members. Search and filter by role or phone.
         </p>
       </div>
 
-      {/* Stats Cards in 2D Cartoon Style */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8 font-cartoon">
+      {/* Stats Cards */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <div className="card-cartoon bg-white p-4 shadow-cartoon-sm text-center">
           <div className="font-odia text-3xl font-black text-amber-700">{members.length}</div>
           <div className="text-xs sm:text-sm font-bold text-stone-600">Total Members</div>
@@ -199,7 +215,7 @@ const ManageMembers = () => {
         <div className="card-cartoon bg-white p-12 text-center shadow-cartoon max-w-md mx-auto">
           <User className="w-14 h-14 text-stone-400 mx-auto mb-3" />
           <h3 className="heading-font text-2xl font-bold text-stone-900 mb-1">No members found</h3>
-          <p className="font-cartoon text-stone-600 text-sm">
+          <p className="text-stone-600 text-sm">
             {searchTerm || filterRole !== 'all' 
               ? 'Try adjusting your search or filter criteria'
               : 'No members added yet'
@@ -214,15 +230,20 @@ const ManageMembers = () => {
               className="card-cartoon bg-white p-5 hover:-translate-y-1 hover:shadow-cartoon-lg transition-all duration-300"
             >
               <div className="flex items-start space-x-4 mb-4">
+                {/* Image or 2D Cartoon Placeholder */}
                 <div className="w-20 h-24 rounded-2xl border-2 border-[#2B231D] overflow-hidden bg-amber-50 shadow-cartoon-sm flex-shrink-0">
-                  <img
-                    src={member.image || "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop"}
-                    alt={member.name}
-                    className="w-full h-full object-cover"
-                  />
+                  {member.image && member.image.startsWith('http') && !member.image.includes('pexels.com') ? (
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <MemberPhotoPlaceholder />
+                  )}
                 </div>
 
-                <div className="flex-1 min-w-0 font-cartoon">
+                <div className="flex-1 min-w-0">
                   <h3 className="heading-font text-lg font-black text-stone-900 truncate">
                     {member.name}
                   </h3>
@@ -235,11 +256,32 @@ const ManageMembers = () => {
                   <p className="text-stone-700 text-xs font-semibold mt-1">
                     📞 {member.phone}
                   </p>
+
+                  {/* Social icons on card */}
+                  <div className="flex items-center gap-1.5 mt-2">
+                    {member.whatsapp && (
+                      <span className="text-emerald-700 text-xs" title="WhatsApp Active">💬</span>
+                    )}
+                    {member.facebook && (
+                      <span className="text-sky-700 text-xs" title="Facebook">📘</span>
+                    )}
+                    {member.instagram && (
+                      <a
+                        href={formatInstagramUrl(member.instagram)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-pink-600 hover:text-pink-700 transition-colors"
+                        title="Instagram Profile"
+                      >
+                        <FaInstagram className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
 
               {/* Action Buttons */}
-              <div className="grid grid-cols-3 gap-2 pt-3 border-t-2 border-stone-100 font-cartoon text-xs font-bold">
+              <div className="grid grid-cols-3 gap-2 pt-3 border-t-2 border-stone-100 text-xs font-bold">
                 <button
                   onClick={() => handleView(member)}
                   className="bg-sky-100 hover:bg-sky-200 text-sky-900 py-1.5 rounded-lg border border-[#2B231D] flex items-center justify-center gap-1 shadow-xs cursor-pointer"
@@ -277,7 +319,7 @@ const ManageMembers = () => {
             <Trash2 className="w-12 h-12 text-rose-600 mx-auto mb-3" />
             <h3 className="heading-font text-2xl font-black text-stone-900 mb-2">Delete Member</h3>
             <p className="text-stone-700 text-sm mb-6 font-semibold">
-              Are you sure you want to delete <strong>{selectedMember.name}</strong>? This action cannot be undone.
+              Are you sure you want to delete <strong>{selectedMember.name}</strong>?
             </p>
             <div className="flex space-x-3">
               <button
@@ -291,7 +333,7 @@ const ManageMembers = () => {
               </button>
               <button
                 onClick={() => handleDelete(selectedMember._id || selectedMember.id)}
-                className="flex-1 bg-rose-500 hover:bg-rose-600 text-white font-bold py-2.5 rounded-xl border-2 border-[#2B231D] shadow-cartoon-sm"
+                className="flex-1 bg-rose-500 hover:bg-rose-600 text-white font-bold py-2.5 rounded-xl border-2 border-[#2B231D] shadow-cartoon-sm cursor-pointer"
               >
                 Delete
               </button>
@@ -304,9 +346,20 @@ const ManageMembers = () => {
       {showEditModal && selectedMember && (
         <div className="fixed inset-0 bg-[#2B231D]/60 backdrop-blur-xs flex items-center justify-center z-50 p-4 animate-fadeIn">
           <div className="bg-[#FFFDF7] rounded-3xl border-3 border-[#2B231D] p-6 sm:p-8 max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-[8px_8px_0px_#2B231D]">
-            <h3 className="heading-font text-2xl sm:text-3xl font-black text-stone-900 mb-5">
-              Edit Member ({selectedMember.name})
-            </h3>
+            <div className="flex items-center justify-between pb-3 border-b-2 border-stone-200 mb-4">
+              <h3 className="heading-font text-2xl sm:text-3xl font-black text-stone-900">
+                Edit Member ({selectedMember.name})
+              </h3>
+              <button
+                onClick={() => {
+                  setShowEditModal(false);
+                  setSelectedMember(null);
+                }}
+                className="p-1 rounded-lg border border-[#2B231D] hover:bg-stone-200"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
             
             <form onSubmit={(e) => {
               e.preventDefault();
@@ -317,7 +370,7 @@ const ManageMembers = () => {
                 <label className="block text-xs font-bold text-stone-800 mb-1">Name</label>
                 <input
                   type="text"
-                  value={selectedMember.name}
+                  value={selectedMember.name || ''}
                   onChange={(e) => setSelectedMember({ ...selectedMember, name: e.target.value })}
                   className="w-full px-3 py-2 border-2 border-[#2B231D] rounded-xl text-sm font-semibold bg-white"
                   required
@@ -341,7 +394,7 @@ const ManageMembers = () => {
                   <label className="block text-xs font-bold text-stone-800 mb-1">Phone</label>
                   <input
                     type="text"
-                    value={selectedMember.phone}
+                    value={selectedMember.phone || ''}
                     onChange={(e) => setSelectedMember({ ...selectedMember, phone: e.target.value })}
                     className="w-full px-3 py-2 border-2 border-[#2B231D] rounded-xl text-sm font-semibold bg-white"
                     required
@@ -349,8 +402,59 @@ const ManageMembers = () => {
                 </div>
               </div>
 
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-bold text-stone-800 mb-1">WhatsApp</label>
+                  <input
+                    type="text"
+                    value={selectedMember.whatsapp || ''}
+                    onChange={(e) => setSelectedMember({ ...selectedMember, whatsapp: e.target.value })}
+                    className="w-full px-3 py-2 border-2 border-[#2B231D] rounded-xl text-sm font-semibold bg-white"
+                  />
+                </div>
+                {/* Requirement 6: Instagram Profile Field */}
+                <div>
+                  <label className="block text-xs font-bold text-stone-800 mb-1 flex items-center gap-1">
+                    <FaInstagram className="w-3.5 h-3.5 text-pink-600" />
+                    <span>Instagram Profile</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={selectedMember.instagram || ''}
+                    onChange={(e) => setSelectedMember({ ...selectedMember, instagram: e.target.value })}
+                    placeholder="username or URL"
+                    className="w-full px-3 py-2 border-2 border-[#2B231D] rounded-xl text-sm font-semibold bg-white"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-bold text-stone-800 mb-1">Facebook</label>
+                  <input
+                    type="text"
+                    value={selectedMember.facebook || ''}
+                    onChange={(e) => setSelectedMember({ ...selectedMember, facebook: e.target.value })}
+                    className="w-full px-3 py-2 border-2 border-[#2B231D] rounded-xl text-sm font-semibold bg-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-stone-800 mb-1">Category</label>
+                  <select
+                    value={selectedMember.category || 'member'}
+                    onChange={(e) => setSelectedMember({ ...selectedMember, category: e.target.value })}
+                    className="w-full px-3 py-2 border-2 border-[#2B231D] rounded-xl text-sm font-bold bg-white"
+                  >
+                    <option value="president">President</option>
+                    <option value="secretary">Secretary</option>
+                    <option value="committee">Committee</option>
+                    <option value="member">General Member</option>
+                  </select>
+                </div>
+              </div>
+
               <div>
-                <label className="block text-xs font-bold text-stone-800 mb-1">Experience</label>
+                <label className="block text-xs font-bold text-stone-800 mb-1">Experience / Responsibility</label>
                 <input
                   type="text"
                   value={selectedMember.experience || ''}
@@ -372,7 +476,7 @@ const ManageMembers = () => {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 btn-cartoon-amber text-xs sm:text-sm font-bold py-2.5"
+                  className="flex-1 btn-cartoon-amber text-xs sm:text-sm font-bold py-2.5 cursor-pointer"
                 >
                   Save Changes
                 </button>
@@ -388,11 +492,15 @@ const ManageMembers = () => {
         <div className="fixed inset-0 bg-[#2B231D]/60 backdrop-blur-xs flex items-center justify-center z-50 p-4 animate-fadeIn">
           <div className="bg-[#FFFDF7] rounded-3xl border-3 border-[#2B231D] p-6 max-w-md w-full shadow-[8px_8px_0px_#2B231D] text-center font-cartoon">
             <div className="w-28 h-32 rounded-2xl border-3 border-[#2B231D] overflow-hidden mx-auto mb-4 bg-amber-50 shadow-cartoon-sm">
-              <img
-                src={selectedMember.image || "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop"}
-                alt={selectedMember.name}
-                className="w-full h-full object-cover"
-              />
+              {selectedMember.image && selectedMember.image.startsWith('http') && !selectedMember.image.includes('pexels.com') ? (
+                <img
+                  src={selectedMember.image}
+                  alt={selectedMember.name}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <MemberPhotoPlaceholder />
+              )}
             </div>
             
             <h3 className="heading-font text-2xl font-black text-stone-900 mb-1">
@@ -405,7 +513,21 @@ const ManageMembers = () => {
             <div className="space-y-2 text-left bg-white p-4 rounded-xl border-2 border-[#2B231D] text-xs sm:text-sm font-bold text-stone-700 mb-6 shadow-xs">
               <p>📞 Phone: {selectedMember.phone}</p>
               {selectedMember.whatsapp && <p>💬 WhatsApp: {selectedMember.whatsapp}</p>}
-              {selectedMember.email && <p>✉️ Email: {selectedMember.email}</p>}
+              {selectedMember.instagram && (
+                <p className="flex items-center gap-1.5 text-pink-600">
+                  <FaInstagram className="w-4 h-4" />
+                  <span>Instagram: </span>
+                  <a
+                    href={formatInstagramUrl(selectedMember.instagram)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline hover:text-pink-800"
+                  >
+                    {selectedMember.instagram}
+                  </a>
+                </p>
+              )}
+              {selectedMember.facebook && <p>📘 Facebook: {selectedMember.facebook}</p>}
               {selectedMember.experience && <p>🏆 Experience: {selectedMember.experience}</p>}
               <p>🏷️ Category: {selectedMember.category}</p>
             </div>
@@ -415,7 +537,7 @@ const ManageMembers = () => {
                 setShowViewModal(false);
                 setSelectedMember(null);
               }}
-              className="w-full btn-cartoon-amber text-sm font-bold"
+              className="w-full btn-cartoon-amber text-sm font-bold cursor-pointer"
             >
               Close
             </button>

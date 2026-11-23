@@ -21,7 +21,7 @@ const uploadStream = (buffer) => {
 
 const addMember = async (req, res) => {
   try {
-    const { name, role, experience, phone, whatsapp, facebook, email, category } = req.body;
+    const { name, role, experience, phone, whatsapp, facebook, instagram, email, category } = req.body;
 
     if (!name || !role || !phone) {
       return res.status(400).json({ success: false, message: "Name, role, and phone are required fields" });
@@ -29,7 +29,7 @@ const addMember = async (req, res) => {
 
     let imageUrl = "";
     if (req.file) {
-      const uploadResult = await uploadStream(req.file.buffer); // use buffer
+      const uploadResult = await uploadStream(req.file.buffer);
       imageUrl = uploadResult.secure_url;
     }
 
@@ -47,6 +47,7 @@ const addMember = async (req, res) => {
       phone,
       whatsapp: whatsapp || phone,
       facebook: facebook || "",
+      instagram: instagram || "",
       email: email || "",
       category: category || "member",
     });
@@ -120,7 +121,7 @@ const getMemberById = async (req, res) => {
 const updateMember = async (req, res) => {
   try {
     const { id } = req.params;
-    const updateData = req.body;
+    const updateData = { ...req.body };
 
     // Validate MongoDB ID
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -134,12 +135,15 @@ const updateMember = async (req, res) => {
     if (req.file) {
       // First find the existing member to delete old image
       const existingMember = await Member.findById(id);
-      if (existingMember && existingMember.image) {
-        // Delete old image from Cloudinary
+      if (existingMember && existingMember.image && existingMember.image.includes("cloudinary.com")) {
         const urlParts = existingMember.image.split('/');
         const fileName = urlParts[urlParts.length - 1];
         const publicId = `pkpclub_members/${fileName.split('.')[0]}`;
-        await cloudinary.uploader.destroy(publicId);
+        try {
+          await cloudinary.uploader.destroy(publicId);
+        } catch (e) {
+          console.error("Cloudinary delete error:", e);
+        }
       }
       
       // Upload new image
@@ -201,7 +205,6 @@ const deleteMember = async (req, res) => {
       });
     }
 
-    // First find the member to get the image URL
     const member = await Member.findById(id);
     
     if (!member) {
@@ -212,22 +215,18 @@ const deleteMember = async (req, res) => {
     }
 
     // Delete image from Cloudinary if exists
-    if (member.image) {
+    if (member.image && member.image.includes("cloudinary.com")) {
       try {
-        // Extract public_id from Cloudinary URL
         const urlParts = member.image.split('/');
         const fileName = urlParts[urlParts.length - 1];
         const publicId = `pkpclub_members/${fileName.split('.')[0]}`;
-        
         await cloudinary.uploader.destroy(publicId);
-        console.log(`Deleted image from Cloudinary: ${publicId}`);
       } catch (cloudinaryError) {
         console.error("Error deleting image from Cloudinary:", cloudinaryError);
-        // Continue with member deletion even if image deletion fails
       }
     }
 
-    // Soft delete by setting isActive to false
+    // Soft delete or remove
     const deletedMember = await Member.findByIdAndUpdate(
       id,
       { isActive: false },

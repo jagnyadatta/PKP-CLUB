@@ -1,10 +1,14 @@
 // components/Admin/AddMemberForm.jsx
 import React, { useState } from 'react';
 import { Upload, X, UserPlus, Save, Loader } from 'lucide-react';
+import { FaInstagram } from 'react-icons/fa';
 import { BASE_URL } from "../../utils/constant.js";
+import { useAuth } from "../../context/AuthContext";
 import { StickerBadge, DiyaIcon } from '../Cartoon/CartoonDoodles';
+import { MemberPhotoPlaceholder } from '../Cartoon/EmptyPhotoPlaceholder';
 
 const AddMemberForm = () => {
+  const { token } = useAuth();
   const [formData, setFormData] = useState({
     name: '',
     role: '',
@@ -12,7 +16,7 @@ const AddMemberForm = () => {
     phone: '',
     whatsapp: '',
     facebook: '',
-    email: '',
+    instagram: '',
     category: 'member'
   });
   
@@ -83,11 +87,6 @@ const AddMemberForm = () => {
       return;
     }
 
-    if (!image) {
-      setMessage({ type: 'error', text: 'Please upload a profile photo' });
-      return;
-    }
-
     setLoading(true);
     setMessage({ type: '', text: '' });
 
@@ -96,10 +95,16 @@ const AddMemberForm = () => {
       Object.keys(formData).forEach(key => {
         submitData.append(key, formData[key]);
       });
-      submitData.append('image', image);
+      if (image) {
+        submitData.append('image', image);
+      }
 
+      // Requirement 3: Send Authorization header with Bearer token
       const response = await fetch(`${BASE_URL}/api/members/new`, {
         method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         body: submitData,
       });
 
@@ -114,7 +119,7 @@ const AddMemberForm = () => {
           phone: '',
           whatsapp: '',
           facebook: '',
-          email: '',
+          instagram: '',
           category: 'member'
         });
         setImage(null);
@@ -141,7 +146,7 @@ const AddMemberForm = () => {
           Add New Member (ନୂତନ ସଦସ୍ୟ ଯୋଗ କରନ୍ତୁ)
         </h1>
         <p className="font-cartoon text-stone-600 text-sm sm:text-base max-w-xl mx-auto">
-          Fill in the details below to add a new member to the club. All fields marked with * are required.
+          Fill in the details below to add a member. Images are optional; a clean 2D cartoon placeholder will be used until an image is uploaded.
         </p>
       </div>
 
@@ -174,7 +179,7 @@ const AddMemberForm = () => {
                 <div>
                   <label htmlFor="image-upload" className="cursor-pointer">
                     <span className="font-odia font-bold text-stone-900 hover:text-amber-700 text-base">
-                      ପ୍ରୋଫାଇଲ୍ ଫଟୋ ଅପଲୋଡ୍ କରନ୍ତୁ (Click to upload photo)
+                      ପ୍ରୋଫାଇଲ୍ ଫଟୋ ଅପଲୋଡ୍ କରନ୍ତୁ (Optional Profile Photo)
                     </span>
                     <input
                       id="image-upload"
@@ -185,7 +190,7 @@ const AddMemberForm = () => {
                     />
                   </label>
                   <p className="font-cartoon text-xs text-stone-600 mt-1 font-semibold">
-                    PNG, JPG, JPEG up to 5MB
+                    PNG, JPG, JPEG up to 5MB (Leave empty for clean placeholder)
                   </p>
                 </div>
               </div>
@@ -261,18 +266,34 @@ const AddMemberForm = () => {
               />
             </div>
 
-            {/* Email */}
+            {/* Requirement 6: Instagram Profile */}
             <div>
-              <label className="block text-sm font-bold text-stone-800 mb-1.5">
-                Email Address
+              <label className="block text-sm font-bold text-stone-800 mb-1.5 flex items-center gap-1.5">
+                <FaInstagram className="w-4 h-4 text-pink-600" />
+                <span>Instagram Profile (ଇନଷ୍ଟାଗ୍ରାମ)</span>
               </label>
               <input
-                type="email"
-                name="email"
-                value={formData.email}
+                type="text"
+                name="instagram"
+                value={formData.instagram}
                 onChange={handleInputChange}
                 className="w-full px-4 py-2.5 border-2 border-[#2B231D] rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 bg-[#FAF7F0] shadow-cartoon-sm"
-                placeholder="member@example.com"
+                placeholder="e.g. username or https://instagram.com/username"
+              />
+            </div>
+
+            {/* Facebook Profile */}
+            <div>
+              <label className="block text-sm font-bold text-stone-800 mb-1.5">
+                Facebook Profile
+              </label>
+              <input
+                type="text"
+                name="facebook"
+                value={formData.facebook}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2.5 border-2 border-[#2B231D] rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 bg-[#FAF7F0] shadow-cartoon-sm"
+                placeholder="e.g. username or profile link"
               />
             </div>
 
@@ -298,7 +319,7 @@ const AddMemberForm = () => {
             {/* Experience */}
             <div>
               <label className="block text-sm font-bold text-stone-800 mb-1.5">
-                Experience (ଅଭିଜ୍ଞତା)
+                Experience / Responsibility (ଅଭିଜ୍ଞତା)
               </label>
               <input
                 type="text"
@@ -307,21 +328,6 @@ const AddMemberForm = () => {
                 onChange={handleInputChange}
                 className="w-full px-4 py-2.5 border-2 border-[#2B231D] rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 bg-[#FAF7F0] shadow-cartoon-sm"
                 placeholder="e.g., 5+ years leadership"
-              />
-            </div>
-
-            {/* Facebook */}
-            <div>
-              <label className="block text-sm font-bold text-stone-800 mb-1.5">
-                Facebook Profile
-              </label>
-              <input
-                type="text"
-                name="facebook"
-                value={formData.facebook}
-                onChange={handleInputChange}
-                className="w-full px-4 py-2.5 border-2 border-[#2B231D] rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 bg-[#FAF7F0] shadow-cartoon-sm"
-                placeholder="username"
               />
             </div>
 
@@ -345,7 +351,7 @@ const AddMemberForm = () => {
             <button
               type="submit"
               disabled={loading}
-              className="btn-cartoon-amber text-base font-bold py-3 px-8 cursor-pointer disabled:opacity-60"
+              className="btn-cartoon-amber text-base font-bold py-3 px-8 cursor-pointer disabled:opacity-60 flex items-center gap-2"
             >
               {loading ? (
                 <>
@@ -361,20 +367,6 @@ const AddMemberForm = () => {
             </button>
           </div>
         </form>
-      </div>
-
-      {/* Guidelines Note */}
-      <div className="card-cartoon bg-amber-50 p-6 shadow-cartoon-sm font-cartoon">
-        <h3 className="text-base font-bold text-amber-900 mb-2.5">
-          📝 Form Guidelines
-        </h3>
-        <ul className="text-xs sm:text-sm text-stone-800 space-y-1.5 font-semibold">
-          <li>• All fields marked with * are mandatory</li>
-          <li>• Profile photo should be clear and professional</li>
-          <li>• Phone number will be used for unique identification</li>
-          <li>• WhatsApp number will default to phone number if not provided</li>
-          <li>• Category helps in organizing members on the website</li>
-        </ul>
       </div>
 
     </div>

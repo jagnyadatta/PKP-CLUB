@@ -18,7 +18,7 @@ export const VillageTraditions = () => {
       color: "border-amber-400 bg-amber-50",
       themeColor: "#F59E0B",
       tagline: "ଗ୍ରାମବାସୀଙ୍କ ମହାମିଳନ, ରଥ ପରିକ୍ରମା ଓ ହରିବୋଲ ଧ୍ୱନି",
-      image: "https://images.pexels.com/photos/2834917/pexels-photo-2834917.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+      image: "",
       schedule: "ଫାଲ୍ଗୁନ / ମାର୍ଚ୍ଚ ମାସରେ ୬ ଦିନ ବ୍ୟାପୀ",
       venue: "ପାଇକରାପୁର ମୁଖ୍ୟ ମେଳଣ ପଡ଼ିଆ",
       highlights: [
@@ -38,7 +38,7 @@ export const VillageTraditions = () => {
       color: "border-rose-400 bg-rose-50",
       themeColor: "#E11D48",
       tagline: "ସମୃଦ୍ଧି, ଶାନ୍ତି ଓ ଭକ୍ତିର ପବିତ୍ର ପୂଜାର୍ଚ୍ଚନା",
-      image: "https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+      image: "",
       schedule: "କୁମାର ପୂର୍ଣ୍ଣିମା / ଅକ୍ଟୋବର - ଜୁନ୍",
       venue: "ଗଜଲକ୍ଷ୍ମୀ ମନ୍ଦିର ପ୍ରାଙ୍ଗଣ",
       highlights: [
@@ -58,7 +58,7 @@ export const VillageTraditions = () => {
       color: "border-emerald-400 bg-emerald-50",
       themeColor: "#059669",
       tagline: "ଧୂଳି ଦଣ୍ଡ, ପାଣି ଦଣ୍ଡ ଓ ପାରମ୍ପାରିକ ନୃତ୍ୟ ପ୍ରଦର୍ଶନ",
-      image: "https://images.pexels.com/photos/2263436/pexels-photo-2263436.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+      image: "",
       schedule: "ଚୈତ୍ର / ବୈଶାଖ ପର୍ବ ସମୟରେ",
       venue: "ଗ୍ରାମ ଦାଣ୍ଡ ଓ କ୍ଲବ୍ ମଞ୍ଚ",
       highlights: [
@@ -77,7 +77,7 @@ export const VillageTraditions = () => {
   return (
     <section className="py-16 sm:py-24 bg-[#FAF7F0] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
         {/* Section Header */}
         <div className="text-center mb-12 sm:mb-16">
           <div className="inline-block mb-3">
@@ -103,11 +103,10 @@ export const VillageTraditions = () => {
               <button
                 key={t.id}
                 onClick={() => setActiveTab(index)}
-                className={`font-odia font-bold text-base sm:text-xl px-5 sm:px-7 py-3 rounded-2xl border-3 border-[#2B231D] transition-all duration-200 cursor-pointer ${
-                  isActive
-                    ? "bg-amber-400 text-stone-900 shadow-cartoon -translate-y-1 scale-102"
-                    : "bg-white text-stone-700 hover:bg-amber-100 shadow-cartoon-sm"
-                }`}
+                className={`font-odia font-bold text-base sm:text-xl px-5 sm:px-7 py-3 rounded-2xl border-3 border-[#2B231D] transition-all duration-200 cursor-pointer ${isActive
+                  ? "bg-amber-400 text-stone-900 shadow-cartoon -translate-y-1 scale-102"
+                  : "bg-white text-stone-700 hover:bg-amber-100 shadow-cartoon-sm"
+                  }`}
               >
                 ★ {t.title}
               </button>
@@ -118,7 +117,7 @@ export const VillageTraditions = () => {
         {/* Featured Tradition Showcase Card */}
         <div className="card-cartoon p-6 sm:p-10 bg-white">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            
+
             {/* Image Column with 2D Cartoon Frame */}
             <div className="lg:col-span-5">
               <div className="relative">

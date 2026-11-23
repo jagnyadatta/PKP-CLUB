@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronRight, Calendar, Users, MapPin, Trophy, Award } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../utils/constant';
 import { CricketIcon, StickerBadge, JhotiCorner } from './Cartoon/CartoonDoodles';
+import { SportsPhotoPlaceholder } from './Cartoon/EmptyPhotoPlaceholder';
 
 const Sports = () => {
   const navigate = useNavigate();
 
-  const cricketMatches = [
+  const defaultCricketMatches = [
     {
       id: 1,
       name: "Annual Cricket Tournament 2024",
-      image: "https://images.pexels.com/photos/1661950/pexels-photo-1661950.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+      /* image: "https://images.pexels.com/photos/1661950/pexels-photo-1661950.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop", */
+      image: "",
       year: "2024",
       teams: "ପାଇକରାପୁର vs ବ୍ରାହ୍ମଣଦେଓ",
       venue: "ମା ବରୁଣାଇ ମୈଦାନ",
@@ -20,7 +23,8 @@ const Sports = () => {
     {
       id: 2,
       name: "Cricket Championship 2023",
-      image: "https://images.pexels.com/photos/2485471/pexels-photo-2485471.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+      /* image: "https://images.pexels.com/photos/2485471/pexels-photo-2485471.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop", */
+      image: "",
       year: "2023",
       teams: "ଡିଆକୁଦା vs ସୁବଳୟା",
       venue: "ମା ବରୁଣାଇ ମୈଦାନ",
@@ -29,11 +33,12 @@ const Sports = () => {
     }
   ];
 
-  const volleyballMatches = [
+  const defaultVolleyballMatches = [
     {
       id: 1,
       name: "Volleyball Premier League 2024",
-      image: "https://images.pexels.com/photos/345092/pexels-photo-345092.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+      /* image: "https://images.pexels.com/photos/345092/pexels-photo-345092.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop", */
+      image: "",
       year: "2024",
       teams: "ପାଇକରାପୁର-A vs ପାଇକରାପୁର-B",
       venue: "ଇନଡୋର ଷ୍ଟାଡିୟମ",
@@ -42,16 +47,43 @@ const Sports = () => {
     }
   ];
 
+  const [cricketMatches, setCricketMatches] = useState(defaultCricketMatches);
+  const [volleyballMatches, setVolleyballMatches] = useState(defaultVolleyballMatches);
+
+  // Requirement 4: Fetch live sports matches from backend
+  useEffect(() => {
+    fetch(`${BASE_URL}/api/programs?type=sport`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.data && data.data.length > 0) {
+          const cricket = data.data.filter(s => s.category?.toLowerCase() === 'cricket');
+          const volleyball = data.data.filter(s => s.category?.toLowerCase() === 'volleyball');
+          if (cricket.length > 0) setCricketMatches(cricket);
+          if (volleyball.length > 0) setVolleyballMatches(volleyball);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   const SportsCard = ({ match, sportType }) => (
     <div className="card-cartoon bg-white overflow-hidden group hover:-translate-y-2 hover:shadow-cartoon-lg transition-all duration-300">
       
-      {/* Match Cover Image with 2D Cartoon Border */}
-      <div className="relative h-48 sm:h-52 overflow-hidden border-b-2.5 border-[#2B231D]">
-        <img
+      {/* Match Photo Frame in 2D Cartoon Style - Requirement 5: Placeholder frame, comments preserved */}
+      <div className="relative h-48 sm:h-52 overflow-hidden border-b-2.5 border-[#2B231D] bg-emerald-50 flex items-center justify-center">
+        {/* <img
           src={match.image}
           alt={match.name}
           className="w-full h-full object-cover group-hover:scale-108 transition-all duration-500"
-        />
+        /> */}
+        {match.image && match.image.startsWith("http") && !match.image.includes("pexels.com") ? (
+          <img
+            src={match.image}
+            alt={match.name}
+            className="w-full h-full object-cover group-hover:scale-108 transition-all duration-500"
+          />
+        ) : (
+          <SportsPhotoPlaceholder sport={sportType} />
+        )}
         
         {/* Sport Type Badge */}
         <div className="absolute top-3 left-3 bg-amber-400 text-stone-900 px-3 py-1 rounded-xl text-xs sm:text-sm font-bold border-2 border-[#2B231D] shadow-cartoon-sm">
@@ -65,7 +97,7 @@ const Sports = () => {
       </div>
       
       {/* Details */}
-      <div className="p-5 sm:p-6">
+      <div className="p-5 sm:p-6 font-cartoon">
         <h3 className="heading-font text-xl sm:text-2xl font-black text-[#2B231D] mb-3 group-hover:text-amber-800 transition-colors">
           {match.name}
         </h3>
@@ -78,7 +110,7 @@ const Sports = () => {
           
           <div className="flex items-center">
             <MapPin className="w-4 h-4 mr-2 text-[#E06D53] flex-shrink-0" />
-            <span>{match.venue}</span>
+            <span>{match.venue || match.location}</span>
           </div>
           
           <div className="flex items-center">
@@ -87,7 +119,7 @@ const Sports = () => {
           </div>
         </div>
         
-        {/* Match Result Banner with Cartoon Stamp Style */}
+        {/* Match Result Banner */}
         <div className="bg-amber-100 rounded-xl p-3 border-2 border-[#2B231D] shadow-cartoon-sm flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Trophy className="w-4 h-4 text-amber-700" />
@@ -141,7 +173,7 @@ const Sports = () => {
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
             {cricketMatches.map((match) => (
-              <SportsCard key={match.id} match={match} sportType="କ୍ରିକେଟ୍" />
+              <SportsCard key={match._id || match.id} match={match} sportType="କ୍ରିକେଟ୍" />
             ))}
           </div>
         </div>
@@ -149,15 +181,15 @@ const Sports = () => {
         {/* Volleyball Section */}
         <div className="mb-12">
           <div className="flex items-center justify-center gap-2 mb-8">
-            <Trophy className="w-6 h-6 text-emerald-600" />
+            <Trophy className="w-6 h-6 text-amber-700" />
             <h3 className="heading-font text-2xl sm:text-3xl font-black text-[#2B231D]">
               ଭଲିବଲ୍ ମ୍ୟାଚସବୁ
             </h3>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
             {volleyballMatches.map((match) => (
-              <SportsCard key={match.id} match={match} sportType="ଭଲିବଲ୍" />
+              <SportsCard key={match._id || match.id} match={match} sportType="ଭଲିବଲ୍" />
             ))}
           </div>
         </div>
@@ -166,9 +198,9 @@ const Sports = () => {
         <div className="text-center">
           <button 
             onClick={() => navigate('/all-sports')} 
-            className="btn-cartoon-amber text-base sm:text-lg"
+            className="btn-cartoon-amber text-base sm:text-lg cursor-pointer"
           >
-            <span>ସମସ୍ତ ମ୍ୟାଚ ଦେଖନ୍ତୁ</span>
+            <span>ସମସ୍ତ ଖେଳ ଇଭେଣ୍ଟସ୍ ଦେଖନ୍ତୁ</span>
             <ChevronRight className="w-5 h-5" />
           </button>
         </div>

@@ -25,7 +25,7 @@ const memberSchema = new mongoose.Schema({
     image: {
         type: String,
         required: false,
-        default: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+        default: "",
         trim: true
     },
     experience: {
@@ -44,6 +44,12 @@ const memberSchema = new mongoose.Schema({
         trim: true
     },
     facebook: {
+        type: String,
+        required: false,
+        trim: true
+    },
+    // Requirement 6: Instagram field for member card social icon
+    instagram: {
         type: String,
         required: false,
         trim: true

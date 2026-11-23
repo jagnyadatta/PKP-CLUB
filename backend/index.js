@@ -4,6 +4,8 @@ import cors from "cors";
 import connectDB from "./config/db.js";
 import memberRoute from "./routes/member.route.js";
 import memberRegistrationRoute from "./routes/member.registration.route.js";
+import authRoute from "./routes/auth.route.js";
+import programRoute from "./routes/program.route.js";
 import https from "https";
 import { setServers } from "node:dns";
 
@@ -14,7 +16,6 @@ const PORT = process.env.PORT || 8080;
 const NODE_ENV = process.env.NODE_ENV || "development";
 
 // Local development DNS workaround
-// Production will continue using its default DNS configuration.
 if (NODE_ENV === "development") {
   setServers(["8.8.8.8", "8.8.4.4"]);
   console.log("Development DNS configured:", ["8.8.8.8", "8.8.4.4"]);
@@ -30,13 +31,24 @@ app.use(express.urlencoded({ extended: true, limit: "20mb" }));
 
 // Health check
 app.get("/api/health", (req, res) => {
-  res.status(200).json({ status: "ok", name: "Gopabandhu Pathagara API", timestamp: new Date().toISOString() });
+  res.status(200).json({ 
+    status: "ok", 
+    name: "Gopabandhu Pathagara API", 
+    registrationEnabled: process.env.REGISTRATION_ENABLED === "true",
+    timestamp: new Date().toISOString() 
+  });
 });
+
+// Authentication routes (Admin login, me, logout)
+app.use("/api/auth", authRoute);
+
+// Programs & Activities (Culture, Festivals, Sports)
+app.use("/api/programs", programRoute);
 
 // Admin & public member routes
 app.use("/api/members", memberRoute);
 
-// Member self-registration routes
+// Member self-registration routes (temporarily disabled via REGISTRATION_ENABLED)
 app.use("/api/register", memberRegistrationRoute);
 
 app.get("/", (req, res) => {

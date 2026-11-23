@@ -1,16 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ChevronRight, ChevronLeft, Calendar, Star, Sparkles, MapPin } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../utils/constant';
 import { StickerBadge, JhotiCorner } from './Cartoon/CartoonDoodles';
+import { FestivalPhotoPlaceholder } from './Cartoon/EmptyPhotoPlaceholder';
 
 const Festivals = () => {
   const navigate = useNavigate();
 
-  const festivals = [
+  const defaultFestivals = [
     {
       id: 1,
       name: "ପଞ୍ଚୁଦୋଳ ଯାତ୍ରା",
-      image: "https://images.pexels.com/photos/2834917/pexels-photo-2834917.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+      /* image: "https://images.pexels.com/photos/2834917/pexels-photo-2834917.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop", */
+      image: "",
       date: "ମାର୍ଚ୍ଚ ୨୦୨୪",
       tag: "ମହାମେଳଣ",
       badgeColor: "bg-amber-400 text-stone-900",
@@ -19,7 +22,8 @@ const Festivals = () => {
     {
       id: 2,
       name: "ମା' ଗଜଲକ୍ଷ୍ମୀ ପୂଜା",
-      image: "https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+      /* image: "https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop", */
+      image: "",
       date: "ଜୁନ ୨୦୨୪",
       tag: "ଧାର୍ମିକ ପୂଜା",
       badgeColor: "bg-rose-400 text-white",
@@ -28,7 +32,8 @@ const Festivals = () => {
     {
       id: 3,
       name: "ଦଣ୍ଡନାଚ ପର୍ବ",
-      image: "https://images.pexels.com/photos/2263436/pexels-photo-2263436.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+      /* image: "https://images.pexels.com/photos/2263436/pexels-photo-2263436.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop", */
+      image: "",
       date: "ସେପ୍ଟେମ୍ବର ୨୦୨୪",
       tag: "ଲୋକନୃତ୍ୟ",
       badgeColor: "bg-emerald-400 text-stone-900",
@@ -37,7 +42,8 @@ const Festivals = () => {
     {
       id: 4,
       name: "ବାର୍ଷିକ ପୁରସ୍କାର ସମାରୋହ",
-      image: "https://images.pexels.com/photos/3184287/pexels-photo-3184287.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+      /* image: "https://images.pexels.com/photos/3184287/pexels-photo-3184287.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop", */
+      image: "",
       date: "ଡିସେମ୍ବର ୨୦୨୪",
       tag: "ସମ୍ମାନ ସମାରୋହ",
       badgeColor: "bg-purple-400 text-white",
@@ -46,7 +52,8 @@ const Festivals = () => {
     {
       id: 5,
       name: "ନୂଆବର୍ଷ ଉତ୍ସବ",
-      image: "https://images.pexels.com/photos/2306281/pexels-photo-2306281.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+      /* image: "https://images.pexels.com/photos/2306281/pexels-photo-2306281.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop", */
+      image: "",
       date: "ଜାନୁଆରୀ ୨୦୨୫",
       tag: "ନୂତନ ଆଗମନ",
       badgeColor: "bg-sky-400 text-stone-900",
@@ -54,8 +61,20 @@ const Festivals = () => {
     }
   ];
 
+  const [festivals, setFestivals] = useState(defaultFestivals);
   const scrollContainerRef = useRef(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Requirement 4: Fetch live programs dynamically from backend
+  useEffect(() => {
+    fetch(`${BASE_URL}/api/programs?type=festival`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.data && data.data.length > 0) {
+          setFestivals(data.data);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const scroll = (direction) => {
     if (!scrollContainerRef.current) return;
@@ -69,15 +88,24 @@ const Festivals = () => {
   const FestivalCard = ({ festival }) => (
     <div className="card-cartoon bg-white overflow-hidden group hover:-translate-y-2 hover:shadow-cartoon-lg transition-all duration-300 h-full flex flex-col justify-between">
       
-      {/* Image with 2D Cartoon Border & Badge */}
-      <div className="relative h-48 sm:h-52 overflow-hidden border-b-2.5 border-[#2B231D] bg-amber-100">
-        <img 
+      {/* Photo Frame in 2D Cartoon Style - Requirement 5: Clean placeholder, comments preserved */}
+      <div className="relative h-48 sm:h-52 overflow-hidden border-b-2.5 border-[#2B231D] bg-amber-100 flex items-center justify-center">
+        {/* <img 
           src={festival.image}
           alt={festival.name}
           className="w-full h-full object-cover group-hover:scale-108 transition-all duration-500"
-        />
+        /> */}
+        {festival.image && festival.image.startsWith("http") && !festival.image.includes("pexels.com") ? (
+          <img 
+            src={festival.image}
+            alt={festival.name}
+            className="w-full h-full object-cover group-hover:scale-108 transition-all duration-500"
+          />
+        ) : (
+          <FestivalPhotoPlaceholder name={festival.name} />
+        )}
         
-        {/* Date badge with cartoon stamp style */}
+        {/* Date badge */}
         <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-xs rounded-xl px-3 py-1 border-2 border-[#2B231D] shadow-cartoon-sm">
           <div className="flex items-center text-stone-900 text-xs sm:text-sm font-bold">
             <Calendar className="w-3.5 h-3.5 mr-1.5 text-amber-600" />
@@ -86,11 +114,13 @@ const Festivals = () => {
         </div>
 
         {/* Festival Tag */}
-        <div className="absolute top-3 left-3">
-          <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-lg border-1.5 border-[#2B231D] shadow-cartoon-sm ${festival.badgeColor}`}>
-            ★ {festival.tag}
-          </span>
-        </div>
+        {festival.tag && (
+          <div className="absolute top-3 left-3">
+            <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-lg border-1.5 border-[#2B231D] shadow-cartoon-sm ${festival.badgeColor || "bg-amber-400 text-stone-900"}`}>
+              ★ {festival.tag}
+            </span>
+          </div>
+        )}
       </div>
       
       {/* Content */}
@@ -109,9 +139,12 @@ const Festivals = () => {
             <Sparkles className="w-3.5 h-3.5" />
             ପାଇକରାପୁର ପରମ୍ପରା
           </span>
-          <span className="text-stone-900 font-bold text-xs group-hover:translate-x-1 transition-transform inline-flex items-center">
+          <button 
+            onClick={() => navigate('/all-festivals')}
+            className="text-stone-900 font-bold text-xs group-hover:translate-x-1 transition-transform inline-flex items-center cursor-pointer"
+          >
             ଦେଖନ୍ତୁ →
-          </span>
+          </button>
         </div>
       </div>
     </div>
@@ -148,42 +181,39 @@ const Festivals = () => {
         <div className="flex justify-end space-x-2 mb-4">
           <button
             onClick={() => scroll('left')}
-            className="w-10 h-10 rounded-xl bg-white border-2 border-[#2B231D] shadow-cartoon-sm hover:bg-amber-100 flex items-center justify-center transition-all cursor-pointer"
-            aria-label="Previous Festival"
+            className="p-2.5 rounded-xl border-2 border-[#2B231D] bg-white hover:bg-amber-300 shadow-cartoon-sm cursor-pointer transition-colors"
+            aria-label="Previous"
           >
             <ChevronLeft className="w-5 h-5 text-stone-900" />
           </button>
           <button
             onClick={() => scroll('right')}
-            className="w-10 h-10 rounded-xl bg-amber-400 border-2 border-[#2B231D] shadow-cartoon-sm hover:bg-amber-300 flex items-center justify-center transition-all cursor-pointer"
-            aria-label="Next Festival"
+            className="p-2.5 rounded-xl border-2 border-[#2B231D] bg-white hover:bg-amber-300 shadow-cartoon-sm cursor-pointer transition-colors"
+            aria-label="Next"
           >
             <ChevronRight className="w-5 h-5 text-stone-900" />
           </button>
         </div>
 
-        {/* Horizontal Scrollable Carousel Container */}
+        {/* Scrollable Container */}
         <div 
           ref={scrollContainerRef}
-          className="flex space-x-6 overflow-x-auto scrollbar-hide pb-6 pt-2 px-1 cursor-grab active:cursor-grabbing snap-x"
+          className="flex space-x-6 overflow-x-auto pb-6 scrollbar-hide snap-x"
         >
-          {festivals.map((festival) => (
-            <div 
-              key={festival.id} 
-              className="flex-shrink-0 w-80 sm:w-96 snap-start"
-            >
+          {festivals.map(festival => (
+            <div key={festival._id || festival.id} className="min-w-[280px] sm:min-w-[340px] max-w-[360px] snap-center">
               <FestivalCard festival={festival} />
             </div>
           ))}
         </div>
 
-        {/* View All Button */}
+        {/* Bottom CTA Button */}
         <div className="text-center mt-10">
-          <button 
-            onClick={() => navigate('/all-festivals')} 
-            className="btn-cartoon-amber text-base sm:text-lg"
+          <button
+            onClick={() => navigate('/all-festivals')}
+            className="btn-cartoon-amber text-base sm:text-lg cursor-pointer"
           >
-            <span>ସମସ୍ତ ପର୍ବ ଦେଖନ୍ତୁ</span>
+            <span>ସମସ୍ତ ପର୍ବପର୍ବାଣି ଦେଖନ୍ତୁ</span>
             <ChevronRight className="w-5 h-5" />
           </button>
         </div>

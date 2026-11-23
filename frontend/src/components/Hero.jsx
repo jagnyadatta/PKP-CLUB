@@ -1,11 +1,13 @@
 import React from "react";
-import { Calendar, MapPin, Sparkles, UserPlus, Heart, ChevronRight } from "lucide-react";
-import { FaPhone, FaWhatsapp, FaFacebook, FaEnvelope } from "react-icons/fa";
+import { Calendar, MapPin, Sparkles, UserPlus, Heart, Users, ChevronRight } from "lucide-react";
+import { FaPhone, FaWhatsapp, FaFacebook, FaInstagram } from "react-icons/fa";
 import { PiSuitcaseSimpleBold } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import "../font.css";
 import MarigoldGarland from "./Cartoon/MarigoldGarland";
 import { DiyaIcon, StickerBadge, JhotiCorner } from "./Cartoon/CartoonDoodles";
+import { MemberPhotoPlaceholder } from "./Cartoon/EmptyPhotoPlaceholder";
+import { REGISTRATION_ENABLED } from "../utils/constant";
 
 const Hero = () => {
   return (
@@ -112,9 +114,16 @@ const Hero = () => {
 
             {/* Handcrafted 2D Cartoon Action Buttons */}
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 mb-6">
-              <Link to="/register" className="btn-cartoon-amber text-sm sm:text-base">
-                <UserPlus className="w-5 h-5" />
-                <span>ସଦସ୍ୟତା ଗ୍ରହଣ କରନ୍ତୁ</span>
+              {/* Requirement 1: Only show registration button when REGISTRATION_ENABLED is true */}
+              {REGISTRATION_ENABLED && (
+                <Link to="/register" className="btn-cartoon-amber text-sm sm:text-base">
+                  <UserPlus className="w-5 h-5" />
+                  <span>ସଦସ୍ୟତା ଗ୍ରହଣ କରନ୍ତୁ</span>
+                </Link>
+              )}
+              <Link to="/all-members" className="btn-cartoon-amber text-sm sm:text-base">
+                <Users className="w-5 h-5" />
+                <span>ସଦସ୍ୟ ତାଲିକା (Our Members)</span>
               </Link>
               <Link to="/all-festivals" className="btn-cartoon-white text-sm sm:text-base">
                 <Heart className="w-5 h-5 text-rose-500" />
@@ -149,17 +158,19 @@ const Hero = () => {
               </span>
             </div>
 
-            {/* President Card - Preserving text: ଶ୍ରୀ. କାଳିଆ ନାୟକ, President, 5+ years leadership */}
+            {/* President Card - Preserving text: ଶ୍ରୀ. ମିଥୁନ ଦଳେଇ, President, 5+ years leadership */}
             <div className="card-cartoon bg-[#FFFDF7] p-4 sm:p-5 hover:-translate-y-1 hover:shadow-cartoon-lg transition-all">
               <div className="flex items-center space-x-4 sm:space-x-5">
-                {/* 2D Cartoon Photo Frame on Left */}
+                {/* 2D Cartoon Photo Frame on Left - Requirement 5: Keep comments intact, show clean empty placeholder */}
                 <div className="relative flex-shrink-0 w-24 h-28 sm:w-28 sm:h-32">
-                  <div className="w-full h-full rounded-2xl border-2.5 border-[#2B231D] overflow-hidden bg-amber-100 shadow-cartoon-sm">
+                  <div className="w-full h-full rounded-2xl border-2.5 border-[#2B231D] overflow-hidden bg-amber-100 shadow-cartoon-sm flex items-center justify-center">
                     {/* <img
                       src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop"
                       alt="President"
                       className="w-full h-full object-cover"
                     /> */}
+                    {/* Clean 2D cartoon empty photo placeholder for President */}
+                    <MemberPhotoPlaceholder role="President" />
                   </div>
                   {/* President Ribbon */}
                   <span className="absolute -bottom-2 -left-1 bg-amber-400 text-stone-900 text-[10px] sm:text-xs font-black px-2 py-0.5 rounded-md border-2 border-[#2B231D] shadow-cartoon-sm rotate-2">
@@ -181,7 +192,7 @@ const Hero = () => {
                     <span className="font-bold">5+ years leadership</span>
                   </div>
 
-                  {/* Social & Contact Buttons */}
+                  {/* Requirement 6: Replace email with Instagram icon */}
                   <div className="flex items-center space-x-2 mt-3">
                     <a
                       href="tel:+919876543210"
@@ -200,7 +211,7 @@ const Hero = () => {
                       <FaWhatsapp className="w-3.5 h-3.5" />
                     </a>
                     <a
-                      href="https://facebook.com/kalia.nayak"
+                      href="https://facebook.com"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-8 h-8 rounded-xl bg-sky-100 text-sky-800 border-2 border-[#2B231D] flex items-center justify-center hover:bg-sky-200 transition-colors shadow-cartoon-sm"
@@ -208,29 +219,34 @@ const Hero = () => {
                     >
                       <FaFacebook className="w-3.5 h-3.5" />
                     </a>
-                    {/* <a
-                      href="mailto:kalia.nayak@example.com"
-                      className="w-8 h-8 rounded-xl bg-rose-100 text-rose-800 border-2 border-[#2B231D] flex items-center justify-center hover:bg-rose-200 transition-colors shadow-cartoon-sm"
-                      title="Email"
+                    {/* Requirement 6: Instagram profile link replacing email icon */}
+                    <a
+                      href="https://instagram.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-8 h-8 rounded-xl bg-pink-100 text-pink-700 border-2 border-[#2B231D] flex items-center justify-center hover:bg-pink-200 transition-colors shadow-cartoon-sm"
+                      title="Instagram Profile"
                     >
-                      <FaEnvelope className="w-3.5 h-3.5" />
-                    </a> */}
+                      <FaInstagram className="w-3.5 h-3.5" />
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Secretary Card - Preserving text: ଶ୍ରୀ. ଜୋଗେନ୍ଦ୍ର ସାହୁ, Secretary, 5+ years leadership */}
+            {/* Secretary Card - Preserving text: ଶ୍ରୀ. ଗୋବର୍ଦ୍ଧନ ଦଳେଇ, Secretary, 5+ years leadership */}
             <div className="card-cartoon bg-[#FFFDF7] p-4 sm:p-5 hover:-translate-y-1 hover:shadow-cartoon-lg transition-all">
               <div className="flex items-center space-x-4 sm:space-x-5">
-                {/* 2D Cartoon Photo Frame on Left */}
+                {/* 2D Cartoon Photo Frame on Left - Requirement 5: Keep comments intact, show clean empty placeholder */}
                 <div className="relative flex-shrink-0 w-24 h-28 sm:w-28 sm:h-32">
-                  <div className="w-full h-full rounded-2xl border-2.5 border-[#2B231D] overflow-hidden bg-sky-100 shadow-cartoon-sm">
+                  <div className="w-full h-full rounded-2xl border-2.5 border-[#2B231D] overflow-hidden bg-sky-100 shadow-cartoon-sm flex items-center justify-center">
                     {/* <img
                       src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop"
                       alt="Secretary"
                       className="w-full h-full object-cover"
                     /> */}
+                    {/* Clean 2D cartoon empty photo placeholder for Secretary */}
+                    <MemberPhotoPlaceholder role="Secretary" />
                   </div>
                   {/* Secretary Ribbon */}
                   <span className="absolute -bottom-2 -left-1 bg-sky-400 text-stone-900 text-[10px] sm:text-xs font-black px-2 py-0.5 rounded-md border-2 border-[#2B231D] shadow-cartoon-sm -rotate-2">
@@ -252,7 +268,7 @@ const Hero = () => {
                     <span className="font-bold">5+ years leadership</span>
                   </div>
 
-                  {/* Social & Contact Buttons */}
+                  {/* Requirement 6: Replace email with Instagram icon */}
                   <div className="flex items-center space-x-2 mt-3">
                     <a
                       href="tel:+919876543210"
@@ -271,7 +287,7 @@ const Hero = () => {
                       <FaWhatsapp className="w-3.5 h-3.5" />
                     </a>
                     <a
-                      href="https://facebook.com/kalia.nayak"
+                      href="https://facebook.com"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-8 h-8 rounded-xl bg-sky-100 text-sky-800 border-2 border-[#2B231D] flex items-center justify-center hover:bg-sky-200 transition-colors shadow-cartoon-sm"
@@ -279,13 +295,16 @@ const Hero = () => {
                     >
                       <FaFacebook className="w-3.5 h-3.5" />
                     </a>
-                    {/* <a
-                      href="mailto:kalia.nayak@example.com"
-                      className="w-8 h-8 rounded-xl bg-rose-100 text-rose-800 border-2 border-[#2B231D] flex items-center justify-center hover:bg-rose-200 transition-colors shadow-cartoon-sm"
-                      title="Email"
+                    {/* Requirement 6: Instagram profile link replacing email icon */}
+                    <a
+                      href="https://instagram.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-8 h-8 rounded-xl bg-pink-100 text-pink-700 border-2 border-[#2B231D] flex items-center justify-center hover:bg-pink-200 transition-colors shadow-cartoon-sm"
+                      title="Instagram Profile"
                     >
-                      <FaEnvelope className="w-3.5 h-3.5" />
-                    </a> */}
+                      <FaInstagram className="w-3.5 h-3.5" />
+                    </a>
                   </div>
                 </div>
               </div>

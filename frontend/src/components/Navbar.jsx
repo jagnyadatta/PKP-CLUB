@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, User, Home, Users, Heart, Trophy, Info, Sparkles, UserPlus } from 'lucide-react';
 import { Link, useLocation } from "react-router-dom";
 import { DiyaIcon, StickerBadge } from './Cartoon/CartoonDoodles';
+import { REGISTRATION_ENABLED } from '../utils/constant';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -95,14 +96,16 @@ const Navbar = () => {
 
           {/* Right Action Buttons - Desktop */}
           <div className="hidden sm:flex items-center space-x-2 sm:space-x-3">
-            {/* Join / Registration Button */}
-            <Link
-              to="/register"
-              className="bg-emerald-400 hover:bg-emerald-300 text-stone-900 text-xs sm:text-sm font-bold px-3.5 py-2 sm:px-4 sm:py-2 rounded-xl border-2 sm:border-2.5 border-[#2B231D] shadow-cartoon-sm hover:-translate-y-0.5 active:translate-x-0.5 active:translate-y-0.5 transition-all flex items-center space-x-1.5"
-            >
-              <UserPlus className="w-4 h-4" />
-              <span>ସଦସ୍ୟ ହୁଅନ୍ତୁ</span>
-            </Link>
+            {/* Requirement 1: Join / Registration Button - Conditionally displayed based on REGISTRATION_ENABLED */}
+            {REGISTRATION_ENABLED && (
+              <Link
+                to="/register"
+                className="bg-emerald-400 hover:bg-emerald-300 text-stone-900 text-xs sm:text-sm font-bold px-3.5 py-2 sm:px-4 sm:py-2 rounded-xl border-2 sm:border-2.5 border-[#2B231D] shadow-cartoon-sm hover:-translate-y-0.5 active:translate-x-0.5 active:translate-y-0.5 transition-all flex items-center space-x-1.5"
+              >
+                <UserPlus className="w-4 h-4" />
+                <span>ସଦସ୍ୟ ହୁଅନ୍ତୁ</span>
+              </Link>
+            )}
 
             {/* Admin / Login Button */}
             <Link
@@ -116,7 +119,7 @@ const Navbar = () => {
 
           {/* Mobile Menu Button with 2D Cartoon Push Button */}
           <button 
-            className="lg:hidden p-2 bg-white rounded-xl border-2 border-[#2B231D] shadow-cartoon-sm text-stone-900 hover:bg-amber-100 transition-colors"
+            className="lg:hidden p-2 bg-white rounded-xl border-2 border-[#2B231D] shadow-cartoon-sm text-stone-900 hover:bg-amber-100 transition-colors cursor-pointer"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle Navigation Menu"
           >
@@ -153,14 +156,17 @@ const Navbar = () => {
               })}
 
               <div className="pt-2 border-t border-stone-200 flex flex-col gap-2">
-                <Link
-                  to="/register"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="w-full bg-emerald-400 text-stone-900 text-center py-2.5 rounded-xl border-2 border-[#2B231D] shadow-cartoon-sm font-bold flex items-center justify-center space-x-2"
-                >
-                  <UserPlus className="w-4 h-4" />
-                  <span>ନୂତନ ସଦସ୍ୟ ପଞ୍ଜୀକରଣ (Register)</span>
-                </Link>
+                {/* Requirement 1: Registration Button in mobile drawer conditionally rendered */}
+                {REGISTRATION_ENABLED && (
+                  <Link
+                    to="/register"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="w-full bg-emerald-400 text-stone-900 text-center py-2.5 rounded-xl border-2 border-[#2B231D] shadow-cartoon-sm font-bold flex items-center justify-center space-x-2"
+                  >
+                    <UserPlus className="w-4 h-4" />
+                    <span>ନୂତନ ସଦସ୍ୟ ପଞ୍ଜୀକରଣ (Register)</span>
+                  </Link>
+                )}
 
                 <Link
                   to="/admin"

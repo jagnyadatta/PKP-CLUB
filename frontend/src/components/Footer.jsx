@@ -3,6 +3,7 @@ import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin, Link as Lin
 import { Link } from 'react-router-dom';
 import { DiyaIcon, JhotiCorner } from './Cartoon/CartoonDoodles';
 import MarigoldGarland from './Cartoon/MarigoldGarland';
+import { REGISTRATION_ENABLED } from '../utils/constant';
 
 const Footer = () => {
   const socialLinks = [
@@ -92,9 +93,9 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="#contact" className="hover:text-amber-300 transition-colors flex items-center gap-1.5">
-                  <span className="text-amber-400">✦</span> Contact (ସମ୍ପର୍କ କରନ୍ତୁ)
-                </a>
+                <Link to="/admin" className="hover:text-amber-300 transition-colors flex items-center gap-1.5">
+                  <span className="text-amber-400">✦</span> Admin Portal (ପରିଚାଳନା)
+                </Link>
               </li>
             </ul>
           </div>
@@ -126,18 +127,20 @@ const Footer = () => {
               Stay connected with our community and never miss an update!
             </p>
 
-            {/* Registration Callout */}
-            <div className="bg-[#3A3028] border-2 border-[#54463B] rounded-2xl p-4">
-              <p className="text-xs font-bold text-amber-300 mb-2">
-                କ୍ଲବ୍ ସହିତ ଯୋଡ଼ି ହେବାକୁ ଚାହାଁନ୍ତି କି?
-              </p>
-              <Link
-                to="/register"
-                className="w-full btn-cartoon-amber text-xs font-bold py-2"
-              >
-                + ସଦସ୍ୟ ଭାବେ ପଞ୍ଜୀକରଣ କରନ୍ତୁ
-              </Link>
-            </div>
+            {/* Registration Callout - Requirement 1: Only displayed when registration is enabled */}
+            {REGISTRATION_ENABLED && (
+              <div className="bg-[#3A3028] border-2 border-[#54463B] rounded-2xl p-4">
+                <p className="text-xs font-bold text-amber-300 mb-2">
+                  କ୍ଲବ୍ ସହିତ ଯୋଡ଼ି ହେବାକୁ ଚାହାଁନ୍ତି କି?
+                </p>
+                <Link
+                  to="/register"
+                  className="w-full btn-cartoon-amber text-xs font-bold py-2"
+                >
+                  + ସଦସ୍ୟ ଭାବେ ପଞ୍ଜୀକରଣ କରନ୍ତୁ
+                </Link>
+              </div>
+            )}
           </div>
         </div>
 
@@ -150,7 +153,7 @@ const Footer = () => {
               © ୨୦୨୪ ଗୋପବନ୍ଧୁ ପଠାଗାର ଯୁବକ ସଂଘ। ସମସ୍ତ ଅଧିକାର ସଂରକ୍ଷିତ।
             </p>
 
-            {/* Created by Instockly with cute link badge */}
+            {/* Created by Instockly with link badge */}
             <div className="flex items-center space-x-1.5 bg-stone-800 px-3 py-1.5 rounded-full border border-stone-700">
               <span className="text-stone-400">Created by</span>
               <a

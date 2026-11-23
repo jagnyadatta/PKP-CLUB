@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./components/Home/Home";
@@ -9,8 +9,11 @@ import AllSportsPage from "./components/Pages/AllSportsPage";
 import AboutUsPage from "./components/Pages/AboutUsPage";
 import Loader from "./components/Loader";
 import AdminLayout from "./components/Admin/AdminLayout";
+import AdminLogin from "./components/Admin/AdminLogin";
+import ProtectedRoute from "./components/Admin/ProtectedRoute";
 import MemberRegistrationPage from "./components/Pages/MemberRegistrationPage";
 import AdminPanel from "./components/Pages/AdminPanel";
+import { AuthProvider } from "./context/AuthContext";
 
 // ScrollToTop component to reset window scroll position on navigation
 function ScrollToTop() {
@@ -37,10 +40,23 @@ function App() {
   if (loading) return <Loader />;
 
   return (
-    <>
+    <AuthProvider>
       <ScrollToTop />
       <Routes>
-        {/* Routes with Navbar + Footer */}
+        {/* Dedicated Admin Login Route */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+
+        {/* Dedicated Admin Dashboard Route with Full Authentication & Authorization Protection */}
+        <Route
+          path="/admin/*"
+          element={
+            <ProtectedRoute>
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Public Routes with Navbar + Footer */}
         <Route
           path="/*"
           element={
@@ -55,17 +71,15 @@ function App() {
                   <Route path="/about" element={<AboutUsPage />} />
                   <Route path="/register" element={<MemberRegistrationPage />} />
                   <Route path="/admin-panel" element={<AdminPanel />} />
+                  <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
               </main>
               <Footer />
             </div>
           }
         />
-
-        {/* Dedicated Admin layout without public header/footer */}
-        <Route path="/admin" element={<AdminLayout />} />
       </Routes>
-    </>
+    </AuthProvider>
   );
 }
 
