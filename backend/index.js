@@ -21,10 +21,38 @@ if (NODE_ENV === "development") {
   console.log("Development DNS configured:", ["8.8.8.8", "8.8.4.4"]);
 }
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "http://localhost:8080",
+  "https://gopabandhuclubpkp.onrender.com"
+];
+
+if (process.env.FRONTEND_URL) {
+  process.env.FRONTEND_URL.split(",").forEach(origin => {
+    const trimmed = origin.trim();
+    if (trimmed && !allowedOrigins.includes(trimmed)) {
+      allowedOrigins.push(trimmed);
+    }
+  });
+}
+
 app.use(cors({
-  origin: ["http://localhost:5173", "http://localhost:3000", "http://localhost:8080", "https://gopabandhuclubpkp.onrender.com", "*"],
+  origin: (origin, callback) => {
+    // Allow requests with no origin (e.g. mobile apps, curl, server-to-server)
+    if (!origin) return callback(null, true);
+    // Allow explicitly listed origins or Vercel preview/production domains
+    if (
+      allowedOrigins.includes(origin) ||
+      /^https:\/\/.*\.vercel\.app$/.test(origin)
+    ) {
+      return callback(null, true);
+    }
+    return callback(null, true); // Fallback to allow if needed while preserving headers
+  },
   credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"]
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"]
 }));
 app.use(express.json({ limit: "20mb" }));
 app.use(express.urlencoded({ extended: true, limit: "20mb" }));

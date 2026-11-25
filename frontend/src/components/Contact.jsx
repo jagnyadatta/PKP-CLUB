@@ -187,6 +187,7 @@ const Contact = () => {
                 allowFullScreen="" 
                 loading="lazy" 
                 referrerPolicy="no-referrer-when-downgrade"
+                sandbox="allow-scripts allow-same-origin allow-popups"
                 className="w-full h-48 sm:h-56"
                 title="Panchudola Gram Location Map"
               >
