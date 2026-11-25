@@ -1,5 +1,26 @@
 import mongoose from "mongoose";
 
+// Single Source of Truth for Member Roles
+export const MEMBER_ROLES = [
+    'President',
+    'Vice-President',
+    'Secretary',
+    'Treasurer',
+    'Puja Secretary',
+    'Assistant Secretary',
+    'Sport Secretary',
+    'Cultural Secretary',
+    'Member'
+];
+
+// Single Source of Truth for Member Categories
+export const MEMBER_CATEGORIES = [
+    'president',
+    'secretary',
+    'committee',
+    'member'
+];
+
 const memberSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -9,17 +30,7 @@ const memberSchema = new mongoose.Schema({
     role: {
         type: String,
         required: true,
-        enum: [
-            'President',
-            'Vice-President',
-            'Secretary',
-            'Treasurer',
-            'Puja Secretary',
-            'Assistant Secretary',
-            'Sport Secretary',
-            'Cultural Secretary',
-            'Member'
-        ],
+        enum: MEMBER_ROLES,
         trim: true
     },
     image: {
@@ -63,7 +74,7 @@ const memberSchema = new mongoose.Schema({
     category: {
         type: String,
         required: true,
-        enum: ['president', 'secretary', 'committee', 'member'],
+        enum: MEMBER_CATEGORIES,
         default: 'member'
     },
     isActive: {

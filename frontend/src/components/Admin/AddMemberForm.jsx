@@ -1,8 +1,8 @@
 // components/Admin/AddMemberForm.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Upload, X, UserPlus, Save, Loader } from 'lucide-react';
 import { FaInstagram } from 'react-icons/fa';
-import { BASE_URL } from "../../utils/constant.js";
+import { BASE_URL, DEFAULT_MEMBER_ROLES, ROLE_ODIA_MAP, MEMBER_CATEGORIES } from "../../utils/constant.js";
 import { useAuth } from "../../context/AuthContext";
 import { StickerBadge, DiyaIcon } from '../Cartoon/CartoonDoodles';
 import { MemberPhotoPlaceholder } from '../Cartoon/EmptyPhotoPlaceholder';
@@ -24,25 +24,26 @@ const AddMemberForm = () => {
   const [imagePreview, setImagePreview] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
+  const [roles, setRoles] = useState(DEFAULT_MEMBER_ROLES);
 
-  const categories = [
-    { value: 'president', label: 'President (ସଭାପତି)' },
-    { value: 'secretary', label: 'Secretary (ସମ୍ପାଦକ)' },
-    { value: 'committee', label: 'Committee Member (କମିଟି ସଦସ୍ୟ)' },
-    { value: 'member', label: 'General Member (ସାଧାରଣ ସଦସ୍ୟ)' }
-  ];
+  const categories = MEMBER_CATEGORIES;
 
-  const roles = [
-    'President',
-    'Vice-President',
-    'Secretary',
-    'Treasurer',
-    'Puja Secretary',
-    'Assistant Secretary',
-    'Sport Secretary',
-    'Cultural Secretary',
-    'Member'
-  ];
+  useEffect(() => {
+    const fetchRoles = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/api/members/roles`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && Array.isArray(data.roles) && data.roles.length > 0) {
+            setRoles(data.roles);
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching roles for AddMemberForm:', err);
+      }
+    };
+    fetchRoles();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -230,7 +231,9 @@ const AddMemberForm = () => {
               >
                 <option value="">Select Role</option>
                 {roles.map(role => (
-                  <option key={role} value={role}>{role}</option>
+                  <option key={role} value={role}>
+                    {role} ({ROLE_ODIA_MAP[role] || role})
+                  </option>
                 ))}
               </select>
             </div>

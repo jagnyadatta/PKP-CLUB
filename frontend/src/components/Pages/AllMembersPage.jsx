@@ -3,7 +3,7 @@ import { Crown, Coins, BookOpen, UserPlus, Trophy, Music, ArrowLeft, Search, Fil
 import { FaPhone, FaWhatsapp, FaFacebook, FaInstagram } from 'react-icons/fa';
 import { PiSuitcaseSimpleBold } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
-import { BASE_URL } from '../../utils/constant';
+import { BASE_URL, ROLE_ODIA_MAP } from '../../utils/constant';
 import { StickerBadge, JhotiCorner, DiyaIcon } from '../Cartoon/CartoonDoodles';
 import { MemberPhotoPlaceholder } from '../Cartoon/EmptyPhotoPlaceholder';
 import MarigoldGarland from '../Cartoon/MarigoldGarland';
@@ -192,19 +192,21 @@ const AllMembersPage = () => {
         if (result?.data && result.data.length > 0) {
           const backendList = result.data.map(m => ({
             ...m,
-            roleOdia: m.roleOdia || (
+            roleOdia: m.roleOdia || ROLE_ODIA_MAP[m.role] || (
               m.role === 'President' ? 'ସଭାପତି' :
               m.role === 'Secretary' ? 'ସମ୍ପାଦକ' :
               m.role === 'Vice-President' ? 'ଉପ-ସଭାପତି' :
               m.role === 'Treasurer' ? 'କୋଷାଧ୍ୟକ୍ଷ' :
               m.role === 'Puja Secretary' ? 'ପୂଜା ସମ୍ପାଦକ' :
+              m.role === 'Assistant Secretary' ? 'ସହ-ସମ୍ପାଦକ' :
               m.role === 'Sport Secretary' ? 'କ୍ରୀଡ଼ା ସମ୍ପାଦକ' :
               m.role === 'Cultural Secretary' ? 'ସାଂସ୍କୃତିକ ସମ୍ପାଦକ' : 'ସଦସ୍ୟ'
             ),
             icon: m.role.toLowerCase().includes('president') ? Crown :
                   m.role.toLowerCase().includes('secretary') ? BookOpen :
                   m.role.toLowerCase().includes('treasurer') ? Coins :
-                  m.role.toLowerCase().includes('sport') ? Trophy : UserPlus
+                  m.role.toLowerCase().includes('sport') ? Trophy :
+                  m.role.toLowerCase().includes('culture') ? Music : UserPlus
           }));
           setMembers(backendList);
         }

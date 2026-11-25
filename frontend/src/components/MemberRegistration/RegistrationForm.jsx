@@ -1,5 +1,5 @@
 // components/MemberRegistration/RegistrationForm.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Upload, 
   X, 
@@ -15,7 +15,7 @@ import {
   Sparkles,
   Phone
 } from 'lucide-react';
-import { BASE_URL } from "../../utils/constant.js";
+import { BASE_URL, DEFAULT_MEMBER_ROLES, ROLE_ODIA_MAP, MEMBER_CATEGORIES } from "../../utils/constant.js";
 import { StickerBadge, DiyaIcon } from '../Cartoon/CartoonDoodles';
 
 const MemberRegistrationForm = () => {
@@ -35,25 +35,26 @@ const MemberRegistrationForm = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
   const [success, setSuccess] = useState(false);
+  const [roles, setRoles] = useState(DEFAULT_MEMBER_ROLES);
 
-  const categories = [
-    { value: 'president', label: 'President (ସଭାପତି)' },
-    { value: 'secretary', label: 'Secretary (ସମ୍ପାଦକ)' },
-    { value: 'committee', label: 'Committee Member (କମିଟି ସଦସ୍ୟ)' },
-    { value: 'member', label: 'General Member (ସାଧାରଣ ସଦସ୍ୟ)' }
-  ];
+  const categories = MEMBER_CATEGORIES;
 
-  const roles = [
-    'President',
-    'Vice-President',
-    'Secretary',
-    'Treasurer',
-    'Puja Secretary',
-    'Assistant Secretary',
-    'Sport Secretary',
-    'Cultural Secretary',
-    'Member'
-  ];
+  useEffect(() => {
+    const fetchRoles = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/api/members/roles`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && Array.isArray(data.roles) && data.roles.length > 0) {
+            setRoles(data.roles);
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching roles for RegistrationForm:', err);
+      }
+    };
+    fetchRoles();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -329,7 +330,9 @@ const MemberRegistrationForm = () => {
               >
                 <option value="">Select your role</option>
                 {roles.map(role => (
-                  <option key={role} value={role}>{role}</option>
+                  <option key={role} value={role}>
+                    {role} ({ROLE_ODIA_MAP[role] || role})
+                  </option>
                 ))}
               </select>
             </div>

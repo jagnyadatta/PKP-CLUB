@@ -1,7 +1,25 @@
-import { Member } from "../models/member.model.js";
+import { Member, MEMBER_ROLES, MEMBER_CATEGORIES } from "../models/member.model.js";
 import mongoose from "mongoose";
 import cloudinary from "../config/cloudinary.js";
 import streamifier from "streamifier";
+
+// Expose valid roles and categories dynamically
+const getMemberRoles = async (req, res) => {
+  try {
+    return res.status(200).json({
+      success: true,
+      roles: MEMBER_ROLES,
+      categories: MEMBER_CATEGORIES
+    });
+  } catch (error) {
+    console.error("Error fetching member roles:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching member roles",
+      error: error.message
+    });
+  }
+};
 
 const uploadStream = (buffer) => {
   return new Promise((resolve, reject) => {
@@ -248,4 +266,4 @@ const deleteMember = async (req, res) => {
   }
 };
 
-export { addMember, getAllMembers, getMemberById, updateMember, deleteMember };
+export { addMember, getAllMembers, getMemberById, updateMember, deleteMember, getMemberRoles };

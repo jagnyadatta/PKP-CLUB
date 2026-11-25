@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronRight, Crown, Coins, BookOpen, UserPlus, Trophy, Music } from 'lucide-react';
 import { FaPhone, FaWhatsapp, FaFacebook, FaInstagram } from 'react-icons/fa';
 import { PiSuitcaseSimpleBold } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL, ROLE_ODIA_MAP } from '../utils/constant';
 import { StickerBadge, JhotiCorner } from './Cartoon/CartoonDoodles';
 import { MemberPhotoPlaceholder } from './Cartoon/EmptyPhotoPlaceholder';
 
@@ -10,7 +11,7 @@ const Members = () => {
   const navigate = useNavigate();
   
   // Requirement 6: Updated members data with Instagram profile field and replaced email
-  const members = [
+  const defaultMembers = [
     {
       id: 1,
       name: "ଶ୍ରୀ. ରୂପକ ଦଳେଇ",
@@ -102,6 +103,34 @@ const Members = () => {
       instagram: "prakash.dalei"
     }
   ];
+
+  const [members, setMembers] = useState(defaultMembers);
+
+  useEffect(() => {
+    fetch(`${BASE_URL}/api/members/all`)
+      .then(res => res.json())
+      .then(result => {
+        if (result?.data && result.data.length > 0) {
+          const liveMembers = result.data.map((m, index) => ({
+            ...m,
+            id: m._id || index + 1,
+            roleOdia: m.roleOdia || ROLE_ODIA_MAP[m.role] || m.role,
+            icon: m.role.toLowerCase().includes('president') ? Crown :
+                  m.role.toLowerCase().includes('secretary') ? BookOpen :
+                  m.role.toLowerCase().includes('treasurer') ? Coins :
+                  m.role.toLowerCase().includes('sport') ? Trophy :
+                  m.role.toLowerCase().includes('culture') ? Music : UserPlus,
+            badgeColor: m.role.toLowerCase().includes('president') ? "bg-amber-400 text-stone-900" :
+                        m.role.toLowerCase().includes('treasurer') ? "bg-emerald-400 text-stone-900" :
+                        m.role.toLowerCase().includes('puja') ? "bg-rose-400 text-white" :
+                        m.role.toLowerCase().includes('culture') ? "bg-purple-400 text-white" :
+                        "bg-sky-400 text-stone-900"
+          }));
+          setMembers(liveMembers.slice(0, 6));
+        }
+      })
+      .catch(err => console.log('Using default members list for home section'));
+  }, []);
 
   const formatInstagramUrl = (handle) => {
     if (!handle) return '';

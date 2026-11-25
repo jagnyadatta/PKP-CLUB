@@ -1,11 +1,12 @@
 import express from "express";
 import upload from "../middlewares/multer.js";
-import { addMember, deleteMember, getAllMembers, getMemberById, updateMember } from "../controllers/member.controller.js";
+import { addMember, deleteMember, getAllMembers, getMemberById, updateMember, getMemberRoles } from "../controllers/member.controller.js";
 import { verifyAdmin } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
 // Public routes for visitors
+router.route("/roles").get(getMemberRoles);
 router.route("/all").get(getAllMembers);
 router.route("/:id").get(getMemberById);
 

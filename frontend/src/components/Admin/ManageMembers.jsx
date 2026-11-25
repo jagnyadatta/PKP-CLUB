@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Edit, Trash2, Search, Filter, Eye, User, Phone, CheckCircle, ExternalLink, X } from 'lucide-react';
 import { FaPhone, FaWhatsapp, FaFacebook, FaInstagram } from 'react-icons/fa';
-import { BASE_URL } from '../../utils/constant';
+import { BASE_URL, DEFAULT_MEMBER_ROLES, ROLE_ODIA_MAP, MEMBER_CATEGORIES } from '../../utils/constant';
 import { useAuth } from '../../context/AuthContext';
 import { StickerBadge, DiyaIcon } from '../Cartoon/CartoonDoodles';
 import { MemberPhotoPlaceholder } from '../Cartoon/EmptyPhotoPlaceholder';
@@ -17,14 +17,25 @@ const ManageMembers = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
+  const [availableRoles, setAvailableRoles] = useState(DEFAULT_MEMBER_ROLES);
 
-  // Fetch members from backend
+  // Fetch members and dynamic roles from backend
   const fetchMembers = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${BASE_URL}/api/members/all`);
-      const result = await response.json();
+      const [membersRes, rolesRes] = await Promise.all([
+        fetch(`${BASE_URL}/api/members/all`),
+        fetch(`${BASE_URL}/api/members/roles`).catch(() => null)
+      ]);
+      const result = await membersRes.json();
       setMembers(result?.data || []);
+
+      if (rolesRes && rolesRes.ok) {
+        const rolesData = await rolesRes.json();
+        if (rolesData.success && Array.isArray(rolesData.roles) && rolesData.roles.length > 0) {
+          setAvailableRoles(rolesData.roles);
+        }
+      }
     } catch (error) {
       console.error('Error fetching members:', error);
     } finally {
@@ -36,18 +47,7 @@ const ManageMembers = () => {
     fetchMembers();
   }, []);
 
-  const roles = [
-    'all',
-    'President',
-    'Vice-President',
-    'Secretary',
-    'Treasurer',
-    'Puja Secretary',
-    'Assistant Secretary',
-    'Sport Secretary',
-    'Cultural Secretary',
-    'Member'
-  ];
+  const roles = ['all', ...availableRoles];
 
   const filteredMembers = members.filter(member => {
     const nameMatch = member.name?.toLowerCase().includes(searchTerm.toLowerCase());
@@ -201,7 +201,9 @@ const ManageMembers = () => {
             >
               {roles.map(role => (
                 <option key={role} value={role}>
-                  {role === 'all' ? 'All Roles (ସମସ୍ତ ପଦବୀ)' : role}
+                  {role === 'all'
+                    ? 'All Roles (ସମସ୍ତ ପଦବୀ)'
+                    : `${role} (${ROLE_ODIA_MAP[role] || role})`}
                 </option>
               ))}
             </select>
@@ -248,7 +250,7 @@ const ManageMembers = () => {
                     {member.name}
                   </h3>
                   <p className="text-amber-800 text-xs font-bold mt-0.5">
-                    {member.role}
+                    {member.role} {ROLE_ODIA_MAP[member.role] ? `(${ROLE_ODIA_MAP[member.role]})` : ''}
                   </p>
                   <p className="text-stone-600 text-xs mt-1 truncate">
                     {member.experience || 'Community Member'}
@@ -386,7 +388,9 @@ const ManageMembers = () => {
                     className="w-full px-3 py-2 border-2 border-[#2B231D] rounded-xl text-sm font-bold bg-white"
                   >
                     {roles.filter(r => r !== 'all').map(r => (
-                      <option key={r} value={r}>{r}</option>
+                      <option key={r} value={r}>
+                        {r} ({ROLE_ODIA_MAP[r] || r})
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -507,7 +511,7 @@ const ManageMembers = () => {
               {selectedMember.name}
             </h3>
             <span className="bg-amber-300 text-stone-900 text-xs font-bold px-3 py-1 rounded-full border border-[#2B231D] inline-block mb-4">
-              {selectedMember.role}
+              {selectedMember.role} {ROLE_ODIA_MAP[selectedMember.role] ? `(${ROLE_ODIA_MAP[selectedMember.role]})` : ''}
             </span>
 
             <div className="space-y-2 text-left bg-white p-4 rounded-xl border-2 border-[#2B231D] text-xs sm:text-sm font-bold text-stone-700 mb-6 shadow-xs">
