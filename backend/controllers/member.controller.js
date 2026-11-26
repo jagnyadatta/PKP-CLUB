@@ -39,7 +39,7 @@ const uploadStream = (buffer) => {
 
 const addMember = async (req, res) => {
   try {
-    const { name, role, experience, phone, whatsapp, facebook, instagram, email, category } = req.body;
+    const { name, odiaName, role, experience, phone, whatsapp, facebook, instagram, email, category } = req.body;
 
     if (!name || !role || !phone) {
       return res.status(400).json({ success: false, message: "Name, role, and phone are required fields" });
@@ -59,6 +59,7 @@ const addMember = async (req, res) => {
 
     const newMember = new Member({
       name,
+      odiaName: odiaName ? odiaName.trim() : "",
       role,
       image: imageUrl,
       experience: experience || "",

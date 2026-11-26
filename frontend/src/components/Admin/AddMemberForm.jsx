@@ -11,6 +11,7 @@ const AddMemberForm = () => {
   const { token } = useAuth();
   const [formData, setFormData] = useState({
     name: '',
+    odiaName: '',
     role: '',
     experience: '',
     phone: '',
@@ -115,6 +116,7 @@ const AddMemberForm = () => {
         setMessage({ type: 'success', text: 'Member added successfully! (ସଦସ୍ୟ ସଫଳତାର ସହ ଯୋଡ଼ାଗଲା)' });
         setFormData({
           name: '',
+          odiaName: '',
           role: '',
           experience: '',
           phone: '',
@@ -201,10 +203,10 @@ const AddMemberForm = () => {
           {/* Form Fields */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 font-cartoon">
             
-            {/* Name */}
+            {/* Name in English */}
             <div>
               <label className="block text-sm font-bold text-stone-800 mb-1.5">
-                Full Name (ନାମ) *
+                Full Name (English) *
               </label>
               <input
                 type="text"
@@ -212,8 +214,24 @@ const AddMemberForm = () => {
                 value={formData.name}
                 onChange={handleInputChange}
                 className="w-full px-4 py-2.5 border-2 border-[#2B231D] rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 bg-[#FAF7F0] shadow-cartoon-sm"
-                placeholder="e.g. ଶ୍ରୀ. ଅଜୟ ଦଳେଇ"
+                placeholder="e.g. Ajay Dalei"
                 required
+              />
+            </div>
+
+            {/* Name in Odia (Optional) */}
+            <div>
+              <label className="block text-sm font-bold text-stone-800 mb-1.5 flex items-center justify-between">
+                <span>ନାମ (ଓଡ଼ିଆରେ)</span>
+                <span className="text-xs font-normal text-stone-500">(Optional)</span>
+              </label>
+              <input
+                type="text"
+                name="odiaName"
+                value={formData.odiaName}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2.5 border-2 border-[#2B231D] rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 bg-[#FAF7F0] shadow-cartoon-sm"
+                placeholder="ଯଥା: ଶ୍ରୀ. ଅଜୟ ଦଳେଇ"
               />
             </div>
 

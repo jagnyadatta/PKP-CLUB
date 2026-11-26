@@ -21,6 +21,7 @@ import { StickerBadge, DiyaIcon } from '../Cartoon/CartoonDoodles';
 const MemberRegistrationForm = () => {
   const [formData, setFormData] = useState({
     name: '',
+    odiaName: '',
     role: '',
     experience: '',
     phone: '',
@@ -298,11 +299,11 @@ const MemberRegistrationForm = () => {
           {/* Form Fields Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 font-cartoon">
             
-            {/* Full Name */}
-            <div className="md:col-span-2">
+            {/* Full Name (English) */}
+            <div>
               <label className="flex items-center text-sm font-bold text-[#2B231D] mb-1.5">
                 <User className="w-4 h-4 mr-1.5 text-amber-700" />
-                Full Name (ପୂରା ନାମ) *
+                Full Name (English) *
               </label>
               <input
                 type="text"
@@ -310,8 +311,27 @@ const MemberRegistrationForm = () => {
                 value={formData.name}
                 onChange={handleInputChange}
                 className="w-full px-4 py-2.5 border-2 border-[#2B231D] rounded-xl text-sm sm:text-base font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 bg-[#FAF7F0] shadow-cartoon-sm"
-                placeholder="Enter your full name"
+                placeholder="e.g. Ajay Dalei"
                 required
+              />
+            </div>
+
+            {/* Odia Name (Optional) */}
+            <div>
+              <label className="flex items-center justify-between text-sm font-bold text-[#2B231D] mb-1.5">
+                <span className="flex items-center">
+                  <User className="w-4 h-4 mr-1.5 text-amber-700" />
+                  ନାମ (ଓଡ଼ିଆରେ)
+                </span>
+                <span className="text-xs font-normal text-stone-500">(Optional)</span>
+              </label>
+              <input
+                type="text"
+                name="odiaName"
+                value={formData.odiaName}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2.5 border-2 border-[#2B231D] rounded-xl text-sm sm:text-base font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 bg-[#FAF7F0] shadow-cartoon-sm"
+                placeholder="ଯଥା: ଶ୍ରୀ. ଅଜୟ ଦଳେଇ"
               />
             </div>
 

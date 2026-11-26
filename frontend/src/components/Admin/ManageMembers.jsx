@@ -50,10 +50,12 @@ const ManageMembers = () => {
   const roles = ['all', ...availableRoles];
 
   const filteredMembers = members.filter(member => {
-    const nameMatch = member.name?.toLowerCase().includes(searchTerm.toLowerCase());
-    const roleMatch = member.role?.toLowerCase().includes(searchTerm.toLowerCase());
+    const term = searchTerm.toLowerCase();
+    const nameMatch = member.name?.toLowerCase().includes(term);
+    const odiaNameMatch = member.odiaName?.toLowerCase().includes(term);
+    const roleMatch = member.role?.toLowerCase().includes(term);
     const phoneMatch = member.phone?.includes(searchTerm);
-    const matchesSearch = nameMatch || roleMatch || phoneMatch;
+    const matchesSearch = nameMatch || odiaNameMatch || roleMatch || phoneMatch;
     const matchesRole = filterRole === 'all' || member.role === filterRole;
     return matchesSearch && matchesRole;
   });
@@ -247,8 +249,13 @@ const ManageMembers = () => {
 
                 <div className="flex-1 min-w-0">
                   <h3 className="heading-font text-lg font-black text-stone-900 truncate">
-                    {member.name}
+                    {member.odiaName && member.odiaName.trim() !== '' ? member.odiaName : member.name}
                   </h3>
+                  {member.odiaName && member.odiaName.trim() !== '' && (
+                    <p className="text-stone-500 text-xs font-semibold truncate">
+                      EN: {member.name}
+                    </p>
+                  )}
                   <p className="text-amber-800 text-xs font-bold mt-0.5">
                     {member.role} {ROLE_ODIA_MAP[member.role] ? `(${ROLE_ODIA_MAP[member.role]})` : ''}
                   </p>
@@ -368,15 +375,30 @@ const ManageMembers = () => {
               handleUpdateMember(selectedMember);
             }} className="space-y-4 font-cartoon">
               
-              <div>
-                <label className="block text-xs font-bold text-stone-800 mb-1">Name</label>
-                <input
-                  type="text"
-                  value={selectedMember.name || ''}
-                  onChange={(e) => setSelectedMember({ ...selectedMember, name: e.target.value })}
-                  className="w-full px-3 py-2 border-2 border-[#2B231D] rounded-xl text-sm font-semibold bg-white"
-                  required
-                />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-bold text-stone-800 mb-1">Name (English) *</label>
+                  <input
+                    type="text"
+                    value={selectedMember.name || ''}
+                    onChange={(e) => setSelectedMember({ ...selectedMember, name: e.target.value })}
+                    className="w-full px-3 py-2 border-2 border-[#2B231D] rounded-xl text-sm font-semibold bg-white"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-stone-800 mb-1 flex items-center justify-between">
+                    <span>ନାମ (ଓଡ଼ିଆରେ)</span>
+                    <span className="text-[10px] text-stone-500 font-normal">(Optional)</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={selectedMember.odiaName || ''}
+                    onChange={(e) => setSelectedMember({ ...selectedMember, odiaName: e.target.value })}
+                    placeholder="ଓଡ଼ିଆ ନାମ"
+                    className="w-full px-3 py-2 border-2 border-[#2B231D] rounded-xl text-sm font-semibold bg-white"
+                  />
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
@@ -508,8 +530,13 @@ const ManageMembers = () => {
             </div>
             
             <h3 className="heading-font text-2xl font-black text-stone-900 mb-1">
-              {selectedMember.name}
+              {selectedMember.odiaName && selectedMember.odiaName.trim() !== '' ? selectedMember.odiaName : selectedMember.name}
             </h3>
+            {selectedMember.odiaName && selectedMember.odiaName.trim() !== '' && (
+              <p className="text-stone-500 text-xs font-semibold mb-2">
+                Name (English): {selectedMember.name}
+              </p>
+            )}
             <span className="bg-amber-300 text-stone-900 text-xs font-bold px-3 py-1 rounded-full border border-[#2B231D] inline-block mb-4">
               {selectedMember.role} {ROLE_ODIA_MAP[selectedMember.role] ? `(${ROLE_ODIA_MAP[selectedMember.role]})` : ''}
             </span>

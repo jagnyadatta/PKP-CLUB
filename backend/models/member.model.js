@@ -27,6 +27,12 @@ const memberSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    odiaName: {
+        type: String,
+        required: false,
+        default: "",
+        trim: true
+    },
     role: {
         type: String,
         required: true,

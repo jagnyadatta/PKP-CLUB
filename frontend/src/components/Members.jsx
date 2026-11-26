@@ -204,7 +204,7 @@ const Members = () => {
                   {/* Member Details */}
                   <div className="flex-1 min-w-0 pr-6">
                     <h3 className="heading-font text-base sm:text-xl font-bold text-[#2B231D] truncate leading-tight">
-                      {member.name}
+                      {member.odiaName && member.odiaName.trim() !== '' ? member.odiaName : member.name}
                     </h3>
 
                     {/* Role Stamp */}

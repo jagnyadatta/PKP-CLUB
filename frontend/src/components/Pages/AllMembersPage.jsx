@@ -221,10 +221,16 @@ const AllMembersPage = () => {
   };
 
   // Filter members by search and category
+  // Requirement 4 & 5: Bilingual search by English name & Odia name (case-insensitive)
   const filtered = members.filter(member => {
-    const matchesSearch = member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          member.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          member.phone.includes(searchTerm);
+    const term = searchTerm.toLowerCase().trim();
+    const matchesEnglishName = member.name ? member.name.toLowerCase().includes(term) : false;
+    const matchesOdiaName = member.odiaName ? member.odiaName.toLowerCase().includes(term) : false;
+    const matchesRole = member.role ? member.role.toLowerCase().includes(term) : false;
+    const matchesRoleOdia = member.roleOdia ? member.roleOdia.toLowerCase().includes(term) : false;
+    const matchesPhone = member.phone ? member.phone.includes(searchTerm.trim()) : false;
+
+    const matchesSearch = term === '' || matchesEnglishName || matchesOdiaName || matchesRole || matchesRoleOdia || matchesPhone;
     const matchesCat = selectedCategory === 'all' || member.category === selectedCategory;
     return matchesSearch && matchesCat;
   });
@@ -339,7 +345,7 @@ const AllMembersPage = () => {
                   {/* Details */}
                   <div className="flex-1 min-w-0">
                     <h3 className="heading-font text-base sm:text-xl font-bold text-[#2B231D] truncate leading-tight">
-                      {member.name}
+                      {member.odiaName && member.odiaName.trim() !== '' ? member.odiaName : member.name}
                     </h3>
 
                     <div className="inline-block mt-1">

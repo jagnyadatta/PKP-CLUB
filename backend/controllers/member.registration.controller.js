@@ -43,6 +43,7 @@ const registerMember = async (req, res) => {
   try {
     const { 
       name, 
+      odiaName,
       role, 
       experience, 
       phone, 
@@ -104,6 +105,7 @@ const registerMember = async (req, res) => {
     // Create new member
     const newMember = new Member({
       name,
+      odiaName: odiaName ? odiaName.trim() : "",
       role,
       image: imageUrl,
       experience: experience || "",
@@ -124,6 +126,7 @@ const registerMember = async (req, res) => {
       data: {
         id: savedMember._id,
         name: savedMember.name,
+        odiaName: savedMember.odiaName || "",
         role: savedMember.role,
         phone: savedMember.phone,
         category: savedMember.category,
